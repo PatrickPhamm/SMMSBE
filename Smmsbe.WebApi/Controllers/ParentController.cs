@@ -1,0 +1,99 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Smmsbe.Services;
+using Smmsbe.Services.Interfaces;
+using Smmsbe.Services.Models;
+
+namespace Smmsbe.WebApi.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ParentController : ControllerBase
+    {
+        private readonly IParentService _parentService;
+
+        public ParentController(IParentService parentService)
+        {
+            _parentService = parentService;
+        }
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] LoginParentRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var acc = await _parentService.AuthorizeAsync(request.Email, request.Password);
+
+            return Ok(new
+            {
+                Success = true,
+                User = new
+                {
+                    Id = acc.ParentId,
+                    acc.Email,
+                    acc.FullName
+                }
+            });
+        }
+
+        [HttpGet("GetById")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var getById = await _parentService.GetById(id);
+            return Ok(getById);
+        }
+
+        /*[HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _parentService.GetAllAsync();
+            return Ok(result);
+        }*/
+
+        [HttpPost("Add")]
+        public async Task<IActionResult> AddAccount([FromBody] AddParentRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var account = await _parentService.AddParentAsync(request);
+
+            return Ok(new
+            {
+                account.ParentId,
+                account.FullName,
+                account.PhoneNumber,
+                account.Email
+            });
+        }
+
+        [HttpPut("Update")]
+        public async Task<IActionResult> UpdateAccount(UpdateParentRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var acc = await _parentService.UpdateParentAsync(request);
+
+            return Ok(acc);
+        }
+
+
+        [HttpPost("Search")]
+        public async Task<IActionResult> Search(SearchParentRequest request)
+        {
+            var result = await _parentService.SearchParentAsync(request);
+
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAccount(int id)
+        {
+            var result = await _parentService.DeleteParentAsync(id);
+
+            return Ok();
+        }
+    }
+}
