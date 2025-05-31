@@ -36,6 +36,10 @@ builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IBlogRepository, BlogRepository>();
 builder.Services.AddScoped<IBlogService, BlogService>();
+builder.Services.AddScoped<IMedicalInventoryRepository, MedicalInventoryRepository>();
+builder.Services.AddScoped<IMedicalInventoryService, MedicalInventoryService>();
+builder.Services.AddScoped<IVaccinationScheduleRepository, VaccinationScheduleRepository>();
+builder.Services.AddScoped<IVaccinationScheduleService, VaccinationScheduleService>();
 
 var app = builder.Build();
 
