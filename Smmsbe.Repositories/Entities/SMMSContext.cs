@@ -21,6 +21,12 @@ public partial class SMMSContext : DbContext
 
     public virtual DbSet<ConsentForm> ConsentForms { get; set; }
 
+    public virtual DbSet<ConsultationForm> ConsultationForms { get; set; }
+
+    public virtual DbSet<ConsultationSchedule> ConsultationSchedules { get; set; }
+
+    public virtual DbSet<Form> Forms { get; set; }
+
     public virtual DbSet<HealthCheckResult> HealthCheckResults { get; set; }
 
     public virtual DbSet<HealthCheckSchedule> HealthCheckSchedules { get; set; }
@@ -49,294 +55,312 @@ public partial class SMMSContext : DbContext
 
     /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=MATCHASNOOPY\\MATCHA;Initial Catalog=SMMS;Persist Security Info=True;User ID=sa;Password=12345;Encrypt=False");*/
+        => optionsBuilder.UseSqlServer("Data Source=MATCHASNOOPY\\MATCHA;Initial Catalog=SMMSV4;Persist Security Info=True;User ID=sa;Password=12345;Encrypt=False");*/
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Blog>(entity =>
         {
-            entity.HasKey(e => e.BlogId).HasName("PK__Blog__54379E5099DB7A8F");
+            entity.HasKey(e => e.BlogId).HasName("PK__Blog__54379E308184DDA7");
 
             entity.ToTable("Blog");
 
-            entity.Property(e => e.BlogId).HasColumnName("BlogID");
-            entity.Property(e => e.Description).HasMaxLength(2000);
-            entity.Property(e => e.ManagerId).HasColumnName("ManagerID");
             entity.Property(e => e.Title).HasMaxLength(200);
 
             entity.HasOne(d => d.Manager).WithMany(p => p.Blogs)
                 .HasForeignKey(d => d.ManagerId)
-                .HasConstraintName("FK__Blog__ManagerID__52593CB8");
+                .HasConstraintName("FK__Blog__ManagerId__5DCAEF64");
         });
 
         modelBuilder.Entity<ConsentForm>(entity =>
         {
-            entity.HasKey(e => e.ConsentFormId).HasName("PK__ConsentF__D6F184E04D076C8A");
+            entity.HasKey(e => e.ConsentFormId).HasName("PK__ConsentF__D6F184C09D44C04B");
 
             entity.ToTable("ConsentForm");
 
-            entity.Property(e => e.ConsentFormId).HasColumnName("ConsentFormID");
-            entity.Property(e => e.ConfirmDateTime).HasColumnType("datetime");
-            entity.Property(e => e.ManagerId).HasColumnName("ManagerID");
-            entity.Property(e => e.ParentId).HasColumnName("ParentID");
+            entity.Property(e => e.ConfirmDate).HasColumnType("datetime");
 
-            entity.HasOne(d => d.Manager).WithMany(p => p.ConsentForms)
-                .HasForeignKey(d => d.ManagerId)
-                .HasConstraintName("FK__ConsentFo__Manag__534D60F1");
+            entity.HasOne(d => d.Form).WithMany(p => p.ConsentForms)
+                .HasForeignKey(d => d.FormId)
+                .HasConstraintName("FK__ConsentFo__FormI__693CA210");
 
             entity.HasOne(d => d.Parent).WithMany(p => p.ConsentForms)
                 .HasForeignKey(d => d.ParentId)
-                .HasConstraintName("FK__ConsentFo__Paren__5441852A");
+                .HasConstraintName("FK__ConsentFo__Paren__6A30C649");
+        });
+
+        modelBuilder.Entity<ConsultationForm>(entity =>
+        {
+            entity.HasKey(e => e.ConsultationFormId).HasName("PK__Consulta__1F1216443F6D6B22");
+
+            entity.ToTable("ConsultationForm");
+
+            entity.Property(e => e.Content).HasMaxLength(250);
+            entity.Property(e => e.Title).HasMaxLength(200);
+
+            entity.HasOne(d => d.Parent).WithMany(p => p.ConsultationForms)
+                .HasForeignKey(d => d.ParentId)
+                .HasConstraintName("FK__Consultat__Paren__6D0D32F4");
+        });
+
+        modelBuilder.Entity<ConsultationSchedule>(entity =>
+        {
+            entity.HasKey(e => e.ConsultationScheduleId).HasName("PK__Consulta__E128EB7758793544");
+
+            entity.ToTable("ConsultationSchedule");
+
+            entity.Property(e => e.ConsultDate).HasColumnType("datetime");
+            entity.Property(e => e.IsConfirmed).HasDefaultValue(false);
+            entity.Property(e => e.Location).HasMaxLength(250);
+
+            entity.HasOne(d => d.ConsultationForm).WithMany(p => p.ConsultationSchedules)
+                .HasForeignKey(d => d.ConsultationFormId)
+                .HasConstraintName("FK__Consultat__Consu__6FE99F9F");
+
+            entity.HasOne(d => d.Nurse).WithMany(p => p.ConsultationSchedules)
+                .HasForeignKey(d => d.NurseId)
+                .HasConstraintName("FK__Consultat__Nurse__70DDC3D8");
+        });
+
+        modelBuilder.Entity<Form>(entity =>
+        {
+            entity.HasKey(e => e.FormId).HasName("PK__Form__FB05B7DDF1589932");
+
+            entity.ToTable("Form");
+
+            entity.Property(e => e.ClassName).HasMaxLength(50);
+            entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+            entity.Property(e => e.SentDate).HasColumnType("datetime");
+            entity.Property(e => e.Title).HasMaxLength(200);
+            entity.Property(e => e.Type).HasMaxLength(50);
+
+            entity.HasOne(d => d.Manager).WithMany(p => p.Forms)
+                .HasForeignKey(d => d.ManagerId)
+                .HasConstraintName("FK__Form__ManagerId__66603565");
         });
 
         modelBuilder.Entity<HealthCheckResult>(entity =>
         {
-            entity.HasKey(e => e.HealthCheckResultId).HasName("PK__HealthCh__BF979A4088EB8588");
+            entity.HasKey(e => e.HealthCheckupRecordId).HasName("PK__HealthCh__96C62766A8F1A226");
 
             entity.ToTable("HealthCheckResult");
 
-            entity.Property(e => e.HealthCheckResultId).HasColumnName("HealthCheckResultID");
-            entity.Property(e => e.HealthCheckScheduleId).HasColumnName("HealthCheckScheduleID");
-            entity.Property(e => e.HealthProfileId).HasColumnName("HealthProfileID");
-            entity.Property(e => e.LeftEyeVision).HasMaxLength(50);
-            entity.Property(e => e.Note).HasMaxLength(255);
-            entity.Property(e => e.NurseId).HasColumnName("NurseID");
-            entity.Property(e => e.RightEyeVision).HasMaxLength(50);
+            entity.Property(e => e.LeftVision).HasMaxLength(10);
+            entity.Property(e => e.Note).HasMaxLength(250);
+            entity.Property(e => e.Result).HasMaxLength(150);
+            entity.Property(e => e.RightVision).HasMaxLength(10);
 
             entity.HasOne(d => d.HealthCheckSchedule).WithMany(p => p.HealthCheckResults)
                 .HasForeignKey(d => d.HealthCheckScheduleId)
-                .HasConstraintName("FK__HealthChe__Healt__5535A963");
+                .HasConstraintName("FK__HealthChe__Healt__787EE5A0");
 
             entity.HasOne(d => d.HealthProfile).WithMany(p => p.HealthCheckResults)
                 .HasForeignKey(d => d.HealthProfileId)
-                .HasConstraintName("FK__HealthChe__Healt__5629CD9C");
+                .HasConstraintName("FK__HealthChe__Healt__7A672E12");
 
             entity.HasOne(d => d.Nurse).WithMany(p => p.HealthCheckResults)
                 .HasForeignKey(d => d.NurseId)
-                .HasConstraintName("FK__HealthChe__Nurse__571DF1D5");
+                .HasConstraintName("FK__HealthChe__Nurse__797309D9");
         });
 
         modelBuilder.Entity<HealthCheckSchedule>(entity =>
         {
-            entity.HasKey(e => e.HealthCheckScheduleId).HasName("PK__HealthCh__C109A801C7E6A023");
+            entity.HasKey(e => e.HealthCheckScheduleId).HasName("PK__HealthCh__C109A8214722CD39");
 
             entity.ToTable("HealthCheckSchedule");
 
-            entity.Property(e => e.HealthCheckScheduleId).HasColumnName("HealthCheckScheduleID");
-            entity.Property(e => e.CheckDateTime).HasColumnType("datetime");
-            entity.Property(e => e.Location).HasMaxLength(255);
-            entity.Property(e => e.ManagerId).HasColumnName("ManagerID");
-            entity.Property(e => e.Note).HasMaxLength(255);
+            entity.Property(e => e.CheckDate).HasColumnType("datetime");
+            entity.Property(e => e.Location).HasMaxLength(100);
+            entity.Property(e => e.Name).HasMaxLength(100);
+            entity.Property(e => e.Note).HasMaxLength(250);
+
+            entity.HasOne(d => d.Form).WithMany(p => p.HealthCheckSchedules)
+                .HasForeignKey(d => d.FormId)
+                .HasConstraintName("FK__HealthChe__FormI__74AE54BC");
 
             entity.HasOne(d => d.Manager).WithMany(p => p.HealthCheckSchedules)
                 .HasForeignKey(d => d.ManagerId)
-                .HasConstraintName("FK__HealthChe__Manag__5812160E");
+                .HasConstraintName("FK__HealthChe__Manag__75A278F5");
         });
 
         modelBuilder.Entity<HealthProfile>(entity =>
         {
-            entity.HasKey(e => e.HealthProfileId).HasName("PK__HealthPr__73C2C2B5697E8737");
+            entity.HasKey(e => e.HealthProfileId).HasName("PK__HealthPr__73C2C2D51071464D");
 
             entity.ToTable("HealthProfile");
 
-            entity.Property(e => e.HealthProfileId).HasColumnName("HealthProfileID");
-            entity.Property(e => e.Allergies).HasMaxLength(255);
-            entity.Property(e => e.Status).HasMaxLength(50);
-            entity.Property(e => e.StudentId).HasColumnName("StudentID");
+            entity.Property(e => e.Allergies).HasMaxLength(200);
+            entity.Property(e => e.BloodType).HasMaxLength(5);
 
             entity.HasOne(d => d.Student).WithMany(p => p.HealthProfiles)
                 .HasForeignKey(d => d.StudentId)
-                .HasConstraintName("FK__HealthPro__Stude__59063A47");
+                .HasConstraintName("FK__HealthPro__Stude__6383C8BA");
         });
 
         modelBuilder.Entity<Manager>(entity =>
         {
-            entity.HasKey(e => e.ManagerId).HasName("PK__Manager__3BA2AA81A202A204");
+            entity.HasKey(e => e.ManagerId).HasName("PK__Manager__3BA2AAE11DE3C1AC");
 
             entity.ToTable("Manager");
 
-            entity.Property(e => e.ManagerId).HasColumnName("ManagerID");
             entity.Property(e => e.Email).HasMaxLength(100);
             entity.Property(e => e.FullName).HasMaxLength(100);
-            entity.Property(e => e.PasswordHash).HasMaxLength(255);
+            entity.Property(e => e.PasswordHash).HasMaxLength(256);
             entity.Property(e => e.PhoneNumber).HasMaxLength(15);
         });
 
         modelBuilder.Entity<MedicalEvent>(entity =>
         {
-            entity.HasKey(e => e.EventId).HasName("PK__MedicalE__7944C87070860D9B");
+            entity.HasKey(e => e.EventId).HasName("PK__MedicalE__7944C8109CBC271F");
 
             entity.ToTable("MedicalEvent");
 
-            entity.Property(e => e.EventId).HasColumnName("EventID");
-            entity.Property(e => e.ActionTaken).HasMaxLength(255);
-            entity.Property(e => e.EventDateTime).HasColumnType("datetime");
-            entity.Property(e => e.Note).HasMaxLength(255);
-            entity.Property(e => e.NurseId).HasColumnName("NurseID");
-            entity.Property(e => e.StudentId).HasColumnName("StudentID");
-            entity.Property(e => e.Symptom).HasMaxLength(100);
+            entity.Property(e => e.ActionTaken).HasMaxLength(100);
+            entity.Property(e => e.EventDate).HasColumnType("datetime");
+            entity.Property(e => e.Note).HasMaxLength(250);
+            entity.Property(e => e.Symptoms).HasMaxLength(100);
 
             entity.HasOne(d => d.Nurse).WithMany(p => p.MedicalEvents)
                 .HasForeignKey(d => d.NurseId)
-                .HasConstraintName("FK__MedicalEv__Nurse__59FA5E80");
+                .HasConstraintName("FK__MedicalEv__Nurse__5AEE82B9");
 
             entity.HasOne(d => d.Student).WithMany(p => p.MedicalEvents)
                 .HasForeignKey(d => d.StudentId)
-                .HasConstraintName("FK__MedicalEv__Stude__5AEE82B9");
+                .HasConstraintName("FK__MedicalEv__Stude__59FA5E80");
         });
 
         modelBuilder.Entity<MedicalInventory>(entity =>
         {
-            entity.HasKey(e => e.MedicalInventoryId).HasName("PK__MedicalI__63F722597401A97C");
+            entity.HasKey(e => e.MedicalInventoryId).HasName("PK__MedicalI__63F7223983426A53");
 
             entity.ToTable("MedicalInventory");
 
-            entity.Property(e => e.MedicalInventoryId).HasColumnName("MedicalInventoryID");
-            entity.Property(e => e.FullName).HasMaxLength(100);
-            entity.Property(e => e.ManagerId).HasColumnName("ManagerID");
-            entity.Property(e => e.Type).HasMaxLength(100);
-            entity.Property(e => e.Unit).HasMaxLength(50);
+            entity.Property(e => e.MedicalName).HasMaxLength(50);
+            entity.Property(e => e.Unit).HasMaxLength(20);
 
             entity.HasOne(d => d.Manager).WithMany(p => p.MedicalInventories)
                 .HasForeignKey(d => d.ManagerId)
-                .HasConstraintName("FK__MedicalIn__Manag__5BE2A6F2");
+                .HasConstraintName("FK__MedicalIn__Manag__60A75C0F");
         });
 
         modelBuilder.Entity<Medication>(entity =>
         {
-            entity.HasKey(e => e.MedicationId).HasName("PK__Medicati__62EC1ADACE48B271");
+            entity.HasKey(e => e.MedicationId).HasName("PK__Medicati__62EC1AFA777C8E03");
 
-            entity.Property(e => e.MedicationId).HasColumnName("MedicationID");
             entity.Property(e => e.Dosage).HasMaxLength(50);
-            entity.Property(e => e.MedicineName).HasMaxLength(100);
-            entity.Property(e => e.PrescriptionId).HasColumnName("PrescriptionID");
-            entity.Property(e => e.StudentId).HasColumnName("StudentID");
-
-            entity.HasOne(d => d.Prescription).WithMany(p => p.Medications)
-                .HasForeignKey(d => d.PrescriptionId)
-                .HasConstraintName("FK__Medicatio__Presc__5CD6CB2B");
+            entity.Property(e => e.MedicationName).HasMaxLength(100);
 
             entity.HasOne(d => d.Student).WithMany(p => p.Medications)
                 .HasForeignKey(d => d.StudentId)
-                .HasConstraintName("FK__Medicatio__Stude__5DCAEF64");
+                .HasConstraintName("FK__Medicatio__Stude__52593CB8");
         });
 
         modelBuilder.Entity<Nurse>(entity =>
         {
-            entity.HasKey(e => e.NurseId).HasName("PK__Nurse__438478693850138D");
+            entity.HasKey(e => e.NurseId).HasName("PK__Nurse__43847849AB73D12D");
 
             entity.ToTable("Nurse");
 
-            entity.Property(e => e.NurseId).HasColumnName("NurseID");
-            entity.Property(e => e.Address).HasMaxLength(255);
             entity.Property(e => e.Email).HasMaxLength(100);
             entity.Property(e => e.FullName).HasMaxLength(100);
-            entity.Property(e => e.PasswordHash).HasMaxLength(255);
-            entity.Property(e => e.PhoneNumber).HasMaxLength(15);
+            entity.Property(e => e.PasswordHash).HasMaxLength(256);
+            entity.Property(e => e.Username).HasMaxLength(100);
         });
 
         modelBuilder.Entity<Parent>(entity =>
         {
-            entity.HasKey(e => e.ParentId).HasName("PK__Parent__D339510F0D5272A7");
+            entity.HasKey(e => e.ParentId).HasName("PK__Parent__D339516F86E01335");
 
             entity.ToTable("Parent");
 
-            entity.Property(e => e.ParentId).HasColumnName("ParentID");
-            entity.Property(e => e.Address).HasMaxLength(255);
+            entity.Property(e => e.Address).HasMaxLength(250);
             entity.Property(e => e.Email).HasMaxLength(100);
             entity.Property(e => e.FullName).HasMaxLength(100);
-            entity.Property(e => e.PasswordHash).HasMaxLength(255);
+            entity.Property(e => e.PasswordHash).HasMaxLength(256);
             entity.Property(e => e.PhoneNumber).HasMaxLength(15);
         });
 
         modelBuilder.Entity<ParentPrescription>(entity =>
         {
-            entity.HasKey(e => e.PrescriptionId).HasName("PK__ParentPr__4013081243758FB8");
+            entity.HasKey(e => e.PrescriptionId).HasName("PK__ParentPr__40130832F700D5D1");
 
             entity.ToTable("ParentPrescription");
 
-            entity.Property(e => e.PrescriptionId).HasColumnName("PrescriptionID");
-            entity.Property(e => e.Medication).HasMaxLength(100);
-            entity.Property(e => e.NurseId).HasColumnName("NurseID");
-            entity.Property(e => e.ParentId).HasColumnName("ParentID");
-            entity.Property(e => e.ParentNote).HasMaxLength(255);
+            entity.Property(e => e.ParentNote).HasMaxLength(100);
+            entity.Property(e => e.PrescriptionFile)
+                .HasMaxLength(255)
+                .IsUnicode(false);
             entity.Property(e => e.Schedule).HasMaxLength(100);
+
+            entity.HasOne(d => d.Medication).WithMany(p => p.ParentPrescriptions)
+                .HasForeignKey(d => d.MedicationId)
+                .HasConstraintName("FK__ParentPre__Medic__5629CD9C");
 
             entity.HasOne(d => d.Nurse).WithMany(p => p.ParentPrescriptions)
                 .HasForeignKey(d => d.NurseId)
-                .HasConstraintName("FK__ParentPre__Nurse__5EBF139D");
+                .HasConstraintName("FK__ParentPre__Nurse__5535A963");
 
             entity.HasOne(d => d.Parent).WithMany(p => p.ParentPrescriptions)
                 .HasForeignKey(d => d.ParentId)
-                .HasConstraintName("FK__ParentPre__Paren__5FB337D6");
+                .HasConstraintName("FK__ParentPre__Paren__571DF1D5");
         });
 
         modelBuilder.Entity<Student>(entity =>
         {
-            entity.HasKey(e => e.StudentId).HasName("PK__Student__32C52A79655E931D");
+            entity.HasKey(e => e.StudentId).HasName("PK__Student__32C52B99EC604026");
 
             entity.ToTable("Student");
 
-            entity.Property(e => e.StudentId).HasColumnName("StudentID");
-            entity.Property(e => e.ClassName).HasMaxLength(50);
+            entity.Property(e => e.ClassName).HasMaxLength(100);
             entity.Property(e => e.FullName).HasMaxLength(100);
             entity.Property(e => e.Gender).HasMaxLength(10);
-            entity.Property(e => e.ParentId).HasColumnName("ParentID");
-            entity.Property(e => e.PasswordHash).HasMaxLength(50);
-            entity.Property(e => e.StudentNumber).HasMaxLength(50);
+            entity.Property(e => e.PasswordHash).HasMaxLength(256);
+            entity.Property(e => e.StudentNumber).HasMaxLength(100);
 
             entity.HasOne(d => d.Parent).WithMany(p => p.Students)
                 .HasForeignKey(d => d.ParentId)
-                .HasConstraintName("FK__Student__ParentI__60A75C0F");
+                .HasConstraintName("FK__Student__ParentI__4D94879B");
         });
 
         modelBuilder.Entity<VaccinationResult>(entity =>
         {
-            entity.HasKey(e => e.VaccinationResultId).HasName("PK__Vaccinat__12DE8FD941F0FDF2");
+            entity.HasKey(e => e.VaccinationResultId).HasName("PK__Vaccinat__12DE8FF9596BDB35");
 
             entity.ToTable("VaccinationResult");
 
-            entity.Property(e => e.VaccinationResultId).HasColumnName("VaccinationResultID");
-            entity.Property(e => e.DateTime).HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(255);
-            entity.Property(e => e.HealthProfileId).HasColumnName("HealthProfileID");
-            entity.Property(e => e.Location).HasMaxLength(255);
-            entity.Property(e => e.Note).HasMaxLength(255);
-            entity.Property(e => e.NurseId).HasColumnName("NurseID");
-            entity.Property(e => e.VaccinationScheduleId).HasColumnName("VaccinationScheduleID");
-            entity.Property(e => e.VaccineName).HasMaxLength(100);
+            entity.Property(e => e.Note).HasMaxLength(150);
 
             entity.HasOne(d => d.HealthProfile).WithMany(p => p.VaccinationResults)
                 .HasForeignKey(d => d.HealthProfileId)
-                .HasConstraintName("FK__Vaccinati__Healt__619B8048");
+                .HasConstraintName("FK__Vaccinati__Healt__02084FDA");
 
             entity.HasOne(d => d.Nurse).WithMany(p => p.VaccinationResults)
                 .HasForeignKey(d => d.NurseId)
-                .HasConstraintName("FK__Vaccinati__Nurse__628FA481");
+                .HasConstraintName("FK__Vaccinati__Nurse__02FC7413");
 
             entity.HasOne(d => d.VaccinationSchedule).WithMany(p => p.VaccinationResults)
                 .HasForeignKey(d => d.VaccinationScheduleId)
-                .HasConstraintName("FK__Vaccinati__Vacci__6383C8BA");
+                .HasConstraintName("FK__Vaccinati__Vacci__01142BA1");
         });
 
         modelBuilder.Entity<VaccinationSchedule>(entity =>
         {
-            entity.HasKey(e => e.VaccinationScheduleId).HasName("PK__Vaccinat__DC54ECB0263DEC0C");
+            entity.HasKey(e => e.VaccinationScheduleId).HasName("PK__Vaccinat__DC54EC50CAFEE228");
 
             entity.ToTable("VaccinationSchedule");
 
-            entity.Property(e => e.VaccinationScheduleId).HasColumnName("VaccinationScheduleID");
-            entity.Property(e => e.DateTime).HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(255);
-            entity.Property(e => e.Location).HasMaxLength(255);
-            entity.Property(e => e.ManagerId).HasColumnName("ManagerID");
-            entity.Property(e => e.NurseId).HasColumnName("NurseID");
-            entity.Property(e => e.ScheduleDateTime).HasColumnType("datetime");
-            entity.Property(e => e.VaccineName).HasMaxLength(100);
+            entity.Property(e => e.Location).HasMaxLength(100);
+            entity.Property(e => e.Name).HasMaxLength(100);
+            entity.Property(e => e.Note).HasMaxLength(250);
+            entity.Property(e => e.ScheduleDate).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Form).WithMany(p => p.VaccinationSchedules)
+                .HasForeignKey(d => d.FormId)
+                .HasConstraintName("FK__Vaccinati__FormI__7D439ABD");
 
             entity.HasOne(d => d.Manager).WithMany(p => p.VaccinationSchedules)
                 .HasForeignKey(d => d.ManagerId)
-                .HasConstraintName("FK__Vaccinati__Manag__6477ECF3");
+                .HasConstraintName("FK__Vaccinati__Manag__7E37BEF6");
         });
 
         OnModelCreatingPartial(modelBuilder);

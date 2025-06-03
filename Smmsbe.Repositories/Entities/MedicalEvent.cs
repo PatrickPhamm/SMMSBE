@@ -7,20 +7,20 @@ using System.Collections.Generic;
 namespace Smmsbe.Repositories.Entities;
 
 public partial class MedicalEvent : IEntityBase
-{
+{ 
     public int EventId { get; set; }
 
     public int? StudentId { get; set; }
 
     public int? NurseId { get; set; }
 
-    public DateTime? EventDateTime { get; set; }
+    public DateTime? EventDate { get; set; }
 
-    public string Symptom { get; set; }
+    public string Symptoms { get; set; }
 
     public string ActionTaken { get; set; }
 
-    public bool? FollowUpRequired { get; set; }
+    public bool? FollowUpNeeded { get; set; }
 
     public string Note { get; set; }
 

@@ -12,15 +12,13 @@ namespace Smmsbe.Services.Models
 
         public int? ManagerId { get; set; }
 
-        public string FullName { get; set; }
-
         public int? Quantity { get; set; }
+
+        public string MedicalName { get; set; }
 
         public string Unit { get; set; }
 
         public DateOnly? ExpiryDate { get; set; }
-
-        public string Type { get; set; }
 
         public DateOnly? DateAdded { get; set; }
     }

@@ -10,19 +10,19 @@ public partial class VaccinationSchedule : IEntityBase
 {
     public int VaccinationScheduleId { get; set; }
 
+    public int? FormId { get; set; }
+
     public int? ManagerId { get; set; }
 
-    public int? NurseId { get; set; }
+    public string Name { get; set; }
 
-    public string VaccineName { get; set; }
-
-    public DateTime? DateTime { get; set; }
+    public DateTime? ScheduleDate { get; set; }
 
     public string Location { get; set; }
 
-    public string Description { get; set; }
+    public string Note { get; set; }
 
-    public DateTime? ScheduleDateTime { get; set; }
+    public virtual Form Form { get; set; }
 
     public virtual Manager Manager { get; set; }
 

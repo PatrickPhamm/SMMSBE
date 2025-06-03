@@ -22,6 +22,8 @@ public partial class Parent : IEntityBase
 
     public virtual ICollection<ConsentForm> ConsentForms { get; set; } = new List<ConsentForm>();
 
+    public virtual ICollection<ConsultationForm> ConsultationForms { get; set; } = new List<ConsultationForm>();
+
     public virtual ICollection<ParentPrescription> ParentPrescriptions { get; set; } = new List<ParentPrescription>();
 
     public virtual ICollection<Student> Students { get; set; } = new List<Student>();

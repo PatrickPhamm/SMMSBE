@@ -6,17 +6,17 @@ using System.Collections.Generic;
 
 namespace Smmsbe.Repositories.Entities;
 
-public partial class Blog : IEntityBase
+public partial class ConsultationForm : IEntityBase
 {
-    public int BlogId { get; set; }
+    public int ConsultationFormId { get; set; }
 
-    public int? ManagerId { get; set; }
+    public int? ParentId { get; set; }
 
     public string Title { get; set; }
 
     public string Content { get; set; }
 
-    public DateOnly? DatePosted { get; set; }
+    public virtual ICollection<ConsultationSchedule> ConsultationSchedules { get; set; } = new List<ConsultationSchedule>();
 
-    public virtual Manager Manager { get; set; }
+    public virtual Parent Parent { get; set; }
 }

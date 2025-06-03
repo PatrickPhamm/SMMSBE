@@ -53,10 +53,9 @@ namespace Smmsbe.Services
             var newNurseAcc = new Nurse
             {
                 FullName = request.FullName,
+                Username = request.Username,
                 PasswordHash = _hashHelper.HashPassword(request.PasswordHash),
-                PhoneNumber = request.PhoneNumber,
-                Email = request.Email,
-                Address = request.Address
+                Email = request.Email
             };
 
             return await _nurseRepository.Insert(newNurseAcc);
@@ -84,9 +83,8 @@ namespace Smmsbe.Services
 
             
             updateNurse.FullName = request.FullName;
-            updateNurse.PhoneNumber = request.PhoneNumber;
+            updateNurse.Username = request.Username;
             updateNurse.Email = request.Email;
-            updateNurse.Address = request.Address;
             
             await _nurseRepository.Update(updateNurse);    
             return updateNurse;
@@ -100,15 +98,14 @@ namespace Smmsbe.Services
                 query = query.Where(
                             s => s.NurseId.ToString().Contains(request.Keyword) ||
                             (!string.IsNullOrEmpty(s.FullName) && s.FullName.Contains(request.Keyword)) ||
-                            (!string.IsNullOrEmpty(s.PhoneNumber) && s.PhoneNumber.Contains(request.Keyword)));
+                            (!string.IsNullOrEmpty(s.Username) && s.Username.Contains(request.Keyword)));
 
             var nurses = await query.Select(n => new NurseResponse
             {
                 NurseId = n.NurseId,
                 FullName = n.FullName,
-                PhoneNumber = n.PhoneNumber,
-                Email = n.Email,
-                Address = n.Address
+                Username = n.Username,
+                Email = n.Email
             }).ToListAsync();
 
             return nurses;

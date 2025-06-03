@@ -12,9 +12,7 @@ public partial class Medication : IEntityBase
 
     public int? StudentId { get; set; }
 
-    public int? PrescriptionId { get; set; }
-
-    public string MedicineName { get; set; }
+    public string MedicationName { get; set; }
 
     public string Dosage { get; set; }
 
@@ -22,7 +20,7 @@ public partial class Medication : IEntityBase
 
     public int? RemainingQuantity { get; set; }
 
-    public virtual ParentPrescription Prescription { get; set; }
+    public virtual ICollection<ParentPrescription> ParentPrescriptions { get; set; } = new List<ParentPrescription>();
 
     public virtual Student Student { get; set; }
 }

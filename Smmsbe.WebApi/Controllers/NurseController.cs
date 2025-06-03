@@ -62,9 +62,8 @@ namespace Smmsbe.WebApi.Controllers
             {
                 account.NurseId,
                 account.FullName,
-                account.PhoneNumber,
-                account.Email,
-                account.Address
+                account.Username,
+                account.Email
             });
         }
 

@@ -12,8 +12,8 @@ namespace Smmsbe.Services.Models
 
         public string Title { get; set; }
 
-        public string Description { get; set; }
+        public string Content { get; set; }
 
-        public DateOnly? DateAdded { get; set; }
+        public DateOnly? DatePosted { get; set; }
     }
 }

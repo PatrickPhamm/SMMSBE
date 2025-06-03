@@ -12,13 +12,13 @@ public partial class Nurse : IEntityBase
 
     public string FullName { get; set; }
 
-    public string PhoneNumber { get; set; }
+    public string Username { get; set; }
 
     public string Email { get; set; }
 
-    public string Address { get; set; }
-
     public string PasswordHash { get; set; }
+
+    public virtual ICollection<ConsultationSchedule> ConsultationSchedules { get; set; } = new List<ConsultationSchedule>();
 
     public virtual ICollection<HealthCheckResult> HealthCheckResults { get; set; } = new List<HealthCheckResult>();
 

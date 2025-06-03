@@ -10,15 +10,15 @@ public partial class ConsentForm : IEntityBase
 {
     public int ConsentFormId { get; set; }
 
+    public int? FormId { get; set; }
+
     public int? ParentId { get; set; }
 
-    public int? ManagerId { get; set; }
+    public DateTime? ConfirmDate { get; set; }
 
-    public DateTime? ConfirmDateTime { get; set; }
+    public bool? Status { get; set; }
 
-    public bool? IsConfirmed { get; set; }
-
-    public virtual Manager Manager { get; set; }
+    public virtual Form Form { get; set; }
 
     public virtual Parent Parent { get; set; }
 }

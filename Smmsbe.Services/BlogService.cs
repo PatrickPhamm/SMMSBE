@@ -1,15 +1,8 @@
-﻿using Azure.Core;
-using Smmsbe.Repositories.Entities;
+﻿using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Interfaces;
 using Smmsbe.Services.Exceptions;
-using Smmsbe.Services.Helpers;
 using Smmsbe.Services.Interfaces;
 using Smmsbe.Services.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Smmsbe.Services
 {
@@ -36,8 +29,8 @@ namespace Smmsbe.Services
             {
                 ManagerId = request.ManagerId,
                 Title = request.Title,
-                Description = request.Description,
-                DateAdded = request.DateAdded
+                Content = request.Content,
+                DatePosted = request.DatePosted
             };
 
             return await _blogRepository.Insert(newBlog);
@@ -50,8 +43,8 @@ namespace Smmsbe.Services
 
             //updateBlog.ManagerId = request.ManagerId;
             updateBlog.Title = request.Title;
-            updateBlog.Description = request.Description;
-            updateBlog.DateAdded = request.DateAdded;
+            updateBlog.Content = request.Content;
+            updateBlog.DatePosted = request.DatePosted;
 
             await _blogRepository.Update(updateBlog);
             return updateBlog;

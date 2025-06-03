@@ -20,7 +20,7 @@ public partial class Manager : IEntityBase
 
     public virtual ICollection<Blog> Blogs { get; set; } = new List<Blog>();
 
-    public virtual ICollection<ConsentForm> ConsentForms { get; set; } = new List<ConsentForm>();
+    public virtual ICollection<Form> Forms { get; set; } = new List<Form>();
 
     public virtual ICollection<HealthCheckSchedule> HealthCheckSchedules { get; set; } = new List<HealthCheckSchedule>();
 

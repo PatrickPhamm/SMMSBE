@@ -23,6 +23,18 @@
          "ObjectType": 0
       },
       {
+         "Name": "[dbo].[ConsultationForm]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ConsultationSchedule]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Form]",
+         "ObjectType": 0
+      },
+      {
          "Name": "[dbo].[HealthCheckResult]",
          "ObjectType": 0
       },

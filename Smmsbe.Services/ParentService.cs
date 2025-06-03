@@ -16,11 +16,13 @@ namespace Smmsbe.Services
     public class ParentService : IParentService
     {
         private readonly IParentRepository _parentRepository;
+        private readonly IStudentRepository _studentRepository;
         private readonly IHashHelper _hashHelper;
 
-        public ParentService(IParentRepository parentRepository, IHashHelper hashHelper)
+        public ParentService(IParentRepository parentRepository, IStudentRepository studentRepository, IHashHelper hashHelper)
         {
             _parentRepository = parentRepository;
+            _studentRepository = studentRepository;
             _hashHelper = hashHelper;
         }
 
@@ -30,6 +32,8 @@ namespace Smmsbe.Services
 
             return parent;
         }
+
+        
 
         /*public async Task<List<ParentResponse>> GetAllAsync()
         {

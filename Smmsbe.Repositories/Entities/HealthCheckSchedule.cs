@@ -10,13 +10,19 @@ public partial class HealthCheckSchedule : IEntityBase
 {
     public int HealthCheckScheduleId { get; set; }
 
+    public int? FormId { get; set; }
+
     public int? ManagerId { get; set; }
 
-    public DateTime? CheckDateTime { get; set; }
+    public string Name { get; set; }
+
+    public DateTime? CheckDate { get; set; }
 
     public string Location { get; set; }
 
     public string Note { get; set; }
+
+    public virtual Form Form { get; set; }
 
     public virtual ICollection<HealthCheckResult> HealthCheckResults { get; set; } = new List<HealthCheckResult>();
 

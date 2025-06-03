@@ -32,18 +32,17 @@ namespace Smmsbe.Services
             if (!string.IsNullOrEmpty(request.Keyword))
             {
                 query = query.Where(x => x.MedicalInventoryId.ToString().Contains(request.Keyword) ||
-                                   (!string.IsNullOrEmpty(x.FullName) && x.FullName.Contains(request.Keyword)));
+                                   (!string.IsNullOrEmpty(x.MedicalName) && x.MedicalName.Contains(request.Keyword)));
             }
 
             var medicals = await query.Select(x => new MedicalInventoryResponse
             {
                 MedicalInventoryId = x.MedicalInventoryId,
                 ManagerId = x.ManagerId,
-                FullName = x.FullName,
+                MedicalName = x.MedicalName,
                 Quantity = x.Quantity,
                 Unit = x.Unit,
                 ExpiryDate = x.ExpiryDate,
-                Type = x.Type,
                 DateAdded = x.DateAdded
             }).ToListAsync();
 
@@ -55,11 +54,10 @@ namespace Smmsbe.Services
             var newMedical = new MedicalInventory
             {
                 ManagerId = request.ManagerId,
-                FullName = request.FullName,
+                MedicalName = request.MedicalName,
                 Quantity = request.Quantity,
                 Unit = request.Unit,
                 ExpiryDate = request.ExpiryDate,
-                Type = request.Type,
                 DateAdded = request.DateAdded
             };
 
@@ -71,11 +69,10 @@ namespace Smmsbe.Services
             var updateMedical = await _medicalInventoryRepository.GetById(request.MedicalInventoryId);
             if (updateMedical == null) throw AppExceptions.NotFoundAccount();
 
-            updateMedical.FullName = request.FullName;
+            updateMedical.MedicalName = request.MedicalName;
             updateMedical.Quantity = request.Quantity;
             updateMedical.Unit = request.Unit;
             updateMedical.ExpiryDate = request.ExpiryDate;
-            updateMedical.Type = request.Type;
             updateMedical.DateAdded = request.DateAdded;
 
             await _medicalInventoryRepository.Update(updateMedical);

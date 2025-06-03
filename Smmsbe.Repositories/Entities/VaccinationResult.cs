@@ -10,21 +10,15 @@ public partial class VaccinationResult : IEntityBase
 {
     public int VaccinationResultId { get; set; }
 
-    public int? HealthProfileId { get; set; }
-
     public int? VaccinationScheduleId { get; set; }
+
+    public int? HealthProfileId { get; set; }
 
     public int? NurseId { get; set; }
 
-    public string VaccineName { get; set; }
-
-    public DateTime? DateTime { get; set; }
-
-    public string Location { get; set; }
-
-    public string Description { get; set; }
-
     public bool? Status { get; set; }
+
+    public int? DoseNumber { get; set; }
 
     public string Note { get; set; }
 

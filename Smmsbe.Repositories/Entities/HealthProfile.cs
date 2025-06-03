@@ -7,14 +7,14 @@ using System.Collections.Generic;
 namespace Smmsbe.Repositories.Entities;
 
 public partial class HealthProfile : IEntityBase
-{
+{ 
     public int HealthProfileId { get; set; }
 
     public int? StudentId { get; set; }
 
-    public string Allergies { get; set; }
+    public string BloodType { get; set; }
 
-    public string Status { get; set; }
+    public string Allergies { get; set; }
 
     public virtual ICollection<HealthCheckResult> HealthCheckResults { get; set; } = new List<HealthCheckResult>();
 
