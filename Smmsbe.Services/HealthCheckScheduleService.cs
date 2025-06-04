@@ -1,6 +1,7 @@
 ﻿using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Interfaces;
 using Smmsbe.Services.Interfaces;
+using Smmsbe.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,29 @@ namespace Smmsbe.Services
             _healthCheckupScheduleRepository = healthCheckupScheduleRepository;
         }
 
+        public Task<HealthCheckScheduleResponse> GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
 
+        public Task<HealthCheckScheduleResponse> AddHealthCheckScheduleAsync(AddHealthCheckScheduleRequest request)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public Task<List<HealthCheckScheduleResponse>> SearchHealthCheckScheduleAsync(SearchHealthCheckScheduleRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<HealthCheckScheduleResponse> UpdateHealthCheckScheduleAsync(UpdateHealthCheckScheduleRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> DeleteHealthCheckScheduleAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

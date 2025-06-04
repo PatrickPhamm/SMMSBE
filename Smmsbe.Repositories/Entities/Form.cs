@@ -22,7 +22,7 @@ public partial class Form : IEntityBase
 
     public DateTime? CreatedAt { get; set; }
 
-    public string Type { get; set; }
+    public int Type { get; set; }
 
     public virtual ICollection<ConsentForm> ConsentForms { get; set; } = new List<ConsentForm>();
 

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace Smmsbe.Repositories.Entities;
 
 public partial class MedicalEvent : IEntityBase
-{ 
+{
     public int EventId { get; set; }
 
     public int? StudentId { get; set; }

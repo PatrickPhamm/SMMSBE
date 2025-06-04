@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace Smmsbe.Repositories.Entities;
 
 public partial class HealthProfile : IEntityBase
-{ 
+{
     public int HealthProfileId { get; set; }
 
     public int? StudentId { get; set; }

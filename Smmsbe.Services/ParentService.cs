@@ -33,8 +33,6 @@ namespace Smmsbe.Services
             return parent;
         }
 
-        
-
         /*public async Task<List<ParentResponse>> GetAllAsync()
         {
             var parents = await _parentRepository.GetAll()

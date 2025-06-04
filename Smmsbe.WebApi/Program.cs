@@ -40,6 +40,8 @@ builder.Services.AddScoped<IMedicalInventoryRepository, MedicalInventoryReposito
 builder.Services.AddScoped<IMedicalInventoryService, MedicalInventoryService>();
 builder.Services.AddScoped<IVaccinationScheduleRepository, VaccinationScheduleRepository>();
 builder.Services.AddScoped<IVaccinationScheduleService, VaccinationScheduleService>();
+builder.Services.AddScoped<IFormRepository, FormRepository>();
+builder.Services.AddScoped<IFormService, FormService>();
 
 var app = builder.Build();
 

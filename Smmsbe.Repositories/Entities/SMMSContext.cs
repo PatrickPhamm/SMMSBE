@@ -53,9 +53,9 @@ public partial class SMMSContext : DbContext
 
     public virtual DbSet<VaccinationSchedule> VaccinationSchedules { get; set; }
 
-    /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=MATCHASNOOPY\\MATCHA;Initial Catalog=SMMSV4;Persist Security Info=True;User ID=sa;Password=12345;Encrypt=False");*/
+        => optionsBuilder.UseSqlServer("Data Source=MATCHASNOOPY\\MATCHA;Initial Catalog=SMMSV4;Persist Security Info=True;User ID=sa;Password=12345;Encrypt=False");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -82,7 +82,7 @@ public partial class SMMSContext : DbContext
 
             entity.HasOne(d => d.Form).WithMany(p => p.ConsentForms)
                 .HasForeignKey(d => d.FormId)
-                .HasConstraintName("FK__ConsentFo__FormI__693CA210");
+                .HasConstraintName("FK_ConsentForm_Form");
 
             entity.HasOne(d => d.Parent).WithMany(p => p.ConsentForms)
                 .HasForeignKey(d => d.ParentId)
@@ -132,7 +132,6 @@ public partial class SMMSContext : DbContext
             entity.Property(e => e.CreatedAt).HasColumnType("datetime");
             entity.Property(e => e.SentDate).HasColumnType("datetime");
             entity.Property(e => e.Title).HasMaxLength(200);
-            entity.Property(e => e.Type).HasMaxLength(50);
 
             entity.HasOne(d => d.Manager).WithMany(p => p.Forms)
                 .HasForeignKey(d => d.ManagerId)

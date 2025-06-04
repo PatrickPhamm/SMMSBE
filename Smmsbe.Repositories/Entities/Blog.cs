@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace Smmsbe.Repositories.Entities;
 
 public partial class Blog : IEntityBase
-{
+{ 
     public int BlogId { get; set; }
 
     public int? ManagerId { get; set; }
