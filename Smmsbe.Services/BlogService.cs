@@ -1,5 +1,6 @@
 ﻿using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Interfaces;
+using Smmsbe.Services.Common;
 using Smmsbe.Services.Exceptions;
 using Smmsbe.Services.Interfaces;
 using Smmsbe.Services.Models;
@@ -9,10 +10,12 @@ namespace Smmsbe.Services
     public class BlogService : IBlogService
     {
         private readonly IBlogRepository _blogRepository;
+        private readonly AppSettings _appSettings;
 
-        public BlogService(IBlogRepository blogRepository)
+        public BlogService(IBlogRepository blogRepository, AppSettings appSettings)
         {
             _blogRepository = blogRepository;
+            _appSettings = appSettings;
         }
 
         public async Task<Blog> GetById(int id)
@@ -30,10 +33,20 @@ namespace Smmsbe.Services
                 ManagerId = request.ManagerId,
                 Title = request.Title,
                 Content = request.Content,
-                DatePosted = request.DatePosted
+                DatePosted = request.DatePosted,
+                Thumbnail = request.Thumbnail
             };
 
-            return await _blogRepository.Insert(newBlog);
+            var added = await _blogRepository.Insert(newBlog);
+
+            return new Blog
+            {
+                ManagerId = added.ManagerId,
+                Title = added.Title,
+                Content = added.Content,
+                DatePosted = added.DatePosted,
+                Thumbnail = GetBlogImageUrl(added.Thumbnail)
+            };
         }
 
         public async Task<Blog> UpdateBlogAsync(UpdateBlogRequest request)
@@ -45,9 +58,17 @@ namespace Smmsbe.Services
             updateBlog.Title = request.Title;
             updateBlog.Content = request.Content;
             updateBlog.DatePosted = request.DatePosted;
+            updateBlog.Thumbnail = request.Thumbnail;
 
             await _blogRepository.Update(updateBlog);
-            return updateBlog;
+
+            return new Blog
+            {
+                Title = updateBlog.Title,
+                Content = updateBlog.Content,
+                DatePosted = updateBlog.DatePosted,
+                Thumbnail = GetBlogImageUrl(updateBlog.Thumbnail)
+            };
         }
 
         public async Task<bool> DeleteBlogAsync(int id)
@@ -66,6 +87,22 @@ namespace Smmsbe.Services
             }
         }
 
-        
+        const string ImageFolder = "files/blogs/";
+
+        public string GetImageFolder()
+        {
+            return ImageFolder;
+        }
+
+        private string GetBlogImageUrl(string thumbnail)
+        {
+            if (string.IsNullOrEmpty(thumbnail)) return "";
+
+            if (thumbnail.StartsWith("http://") || thumbnail.StartsWith("https://"))
+                return thumbnail;
+
+            // Assuming _appSettings.ApplicationUrl is the base URL of your application
+            return $"{_appSettings.ApplicationUrl}/{ImageFolder}/{thumbnail}";
+        }
     }
 }

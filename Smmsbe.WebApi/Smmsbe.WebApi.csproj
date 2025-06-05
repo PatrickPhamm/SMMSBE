@@ -21,4 +21,8 @@
     <ProjectReference Include="..\Smmsbe.Services\Smmsbe.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\files\blogs\" />
+  </ItemGroup>
+
 </Project>

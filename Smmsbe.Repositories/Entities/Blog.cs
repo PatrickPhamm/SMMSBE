@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace Smmsbe.Repositories.Entities;
 
 public partial class Blog : IEntityBase
-{ 
+{
     public int BlogId { get; set; }
 
     public int? ManagerId { get; set; }
@@ -17,6 +17,8 @@ public partial class Blog : IEntityBase
     public string Content { get; set; }
 
     public DateOnly? DatePosted { get; set; }
+
+    public string Thumbnail { get; set; }
 
     public virtual Manager Manager { get; set; }
 }

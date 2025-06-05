@@ -19,6 +19,15 @@ builder.Services.AddSwaggerGen();
 // Start DI
 builder.Services.AddSingleton<IHashHelper, HashHelper>();
 
+// AppSettings
+var appSettings = new AppSettings
+{
+    ApplicationUrl = builder.Configuration["AppSettings:ApplicationUrl"]
+};
+
+
+builder.Services.AddSingleton(appSettings);
+
 var cnnString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<SMMSContext>((optionBuilder) =>
@@ -43,16 +52,23 @@ builder.Services.AddScoped<IVaccinationScheduleService, VaccinationScheduleServi
 builder.Services.AddScoped<IFormRepository, FormRepository>();
 builder.Services.AddScoped<IFormService, FormService>();
 
+builder.Services.AddScoped<IImageService, ImageService>();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseStaticFiles();
 
-app.UseHttpsRedirection();
+// Configure the HTTP request pipeline.
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
+
+//app.UseHttpsRedirection();
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseAuthorization();
 
@@ -60,4 +76,6 @@ app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.MapControllers();
 
-app.Run();
+//app.Run();
+await app.RunAsync();
+

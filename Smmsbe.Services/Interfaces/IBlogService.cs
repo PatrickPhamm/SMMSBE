@@ -17,6 +17,8 @@ namespace Smmsbe.Services.Interfaces
         Task<Blog> UpdateBlogAsync(UpdateBlogRequest request);
 
         Task<bool> DeleteBlogAsync(int id);
-        
+
+        string GetImageFolder();
+
     }
 }
