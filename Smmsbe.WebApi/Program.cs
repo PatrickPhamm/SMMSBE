@@ -50,7 +50,24 @@ builder.Services.AddScoped<IMedicalInventoryService, MedicalInventoryService>();
 builder.Services.AddScoped<IVaccinationScheduleRepository, VaccinationScheduleRepository>();
 builder.Services.AddScoped<IVaccinationScheduleService, VaccinationScheduleService>();
 builder.Services.AddScoped<IFormRepository, FormRepository>();
-builder.Services.AddScoped<IFormService, FormService>();
+builder.Services.AddScoped<IConsentFormRepository, ConsentFormRepository>();
+builder.Services.AddScoped<IConsentFormService, ConsentFormService>();
+builder.Services.AddScoped<IConsultationFormRepository, ConsultationFormRepository>();
+builder.Services.AddScoped<IConsultationFormService, ConsultationFormService>();
+builder.Services.AddScoped<IConsultationScheduleRepository, ConsultationScheduleRepository>();
+builder.Services.AddScoped<IConsultationScheduleService, ConsultationScheduleService>();
+builder.Services.AddScoped<IParentPrescriptionRepository, ParentPrescriptionRepository>();
+builder.Services.AddScoped<IParentPrescriptionService, ParentPrescriptionService>();
+builder.Services.AddScoped<IMedicationRepository, MedicationRepository>();
+builder.Services.AddScoped<IMedicationService, MedicationService>();
+builder.Services.AddScoped<IMedicalEventRepository, MedicalEventRepository>();
+builder.Services.AddScoped<IMedicalEventService, MedicalEventService>();
+builder.Services.AddScoped<IVaccinationResultRepository, VaccinationResultRepository>();
+builder.Services.AddScoped<IVaccinationResultService, VaccinationResultService>();
+builder.Services.AddScoped<IHealthCheckResultRepository, HealthCheckResultRepository>();
+builder.Services.AddScoped<IHealthCheckResultService, HealthCheckResultService>();
+builder.Services.AddScoped<IHealthProfileRepository, HealthProfileRepository>();
+builder.Services.AddScoped<IHealthProfileService, HealthProfileService>();
 
 builder.Services.AddScoped<IImageService, ImageService>();
 

@@ -1,4 +1,6 @@
-﻿using Smmsbe.Repositories.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Smmsbe.Repositories;
+using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Interfaces;
 using Smmsbe.Services.Common;
 using Smmsbe.Services.Exceptions;
@@ -47,6 +49,28 @@ namespace Smmsbe.Services
                 DatePosted = added.DatePosted,
                 Thumbnail = GetBlogImageUrl(added.Thumbnail)
             };
+        }
+
+        public async Task<List<BlogResponse>> SearchBlogAsync(SearchBlogRequest request)
+        {
+            var query = _blogRepository.GetAll();
+
+            if (!string.IsNullOrEmpty(request.Keyword))
+                query = query.Where(
+                            s => s.BlogId.ToString().Contains(request.Keyword) ||
+                            (!string.IsNullOrEmpty(s.Title) && s.Title.Contains(request.Keyword)));
+
+            var Blogs = await query.Select(n => new BlogResponse
+            {
+                BlogId = n.BlogId,
+                ManagerId = n.ManagerId,
+                Title = n.Title,
+                Content = n.Content,
+                DatePosted = n.DatePosted,
+                Thumbnail = n.Thumbnail
+            }).ToListAsync();
+
+            return Blogs;
         }
 
         public async Task<Blog> UpdateBlogAsync(UpdateBlogRequest request)
@@ -104,5 +128,7 @@ namespace Smmsbe.Services
             // Assuming _appSettings.ApplicationUrl is the base URL of your application
             return $"{_appSettings.ApplicationUrl}/{ImageFolder}/{thumbnail}";
         }
+
+        
     }
 }

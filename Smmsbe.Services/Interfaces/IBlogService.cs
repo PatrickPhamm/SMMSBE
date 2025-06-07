@@ -14,6 +14,8 @@ namespace Smmsbe.Services.Interfaces
 
         Task<Blog> AddBlogAsync(AddBlogRequest request);
 
+        Task<List<BlogResponse>> SearchBlogAsync(SearchBlogRequest request);
+
         Task<Blog> UpdateBlogAsync(UpdateBlogRequest request);
 
         Task<bool> DeleteBlogAsync(int id);

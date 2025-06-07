@@ -36,6 +36,14 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(addBlog);
         }
 
+        [HttpPost("Search")]
+        public async Task<IActionResult> Search(SearchBlogRequest request)
+        {
+            var result = await _blogService.SearchBlogAsync(request);
+
+            return Ok(result);
+        }
+
         [HttpPut("UpdateBlog")]
         public async Task<IActionResult> UpdateBlog(UpdateBlogRequest request)
         {
