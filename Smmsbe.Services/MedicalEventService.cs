@@ -1,5 +1,7 @@
-﻿using Smmsbe.Repositories.Entities;
+﻿using Smmsbe.Repositories;
+using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Interfaces;
+using Smmsbe.Services.Exceptions;
 using Smmsbe.Services.Interfaces;
 using Smmsbe.Services.Models;
 using System;
@@ -18,27 +20,30 @@ namespace Smmsbe.Services
             _medicalEventRepository = medicalEventRepository;
         }
 
-        public Task<MedicalEvent> GetById(int id)
+        public async Task<MedicalEvent> GetById(int id)
+        {
+            var entity = await _medicalEventRepository.GetById(id);
+            if (entity == null) throw AppExceptions.NotFoundId();
+
+            return entity;
+        }
+
+        public async Task<MedicalEvent> AddMedicalEventAsync(AddMedicalEventRequest request)
         {
             throw new NotImplementedException();
         }
 
-        public Task<MedicalEvent> AddMedicalEventAsync(AddMedicalEventRequest request)
+        public async Task<List<MedicalEventResponse>> SearchMedicalEventAsync(SearchMedicalEventRequest request)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<MedicalEventResponse>> SearchMedicalEventAsync(SearchMedicalEventRequest request)
+        public async Task<MedicalEvent> UpdateMedicalEventAsync(UpdateMedicalEventRequest request)
         {
             throw new NotImplementedException();
         }
 
-        public Task<MedicalEvent> UpdateMedicalEventAsync(UpdateMedicalEventRequest request)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> DeleteMedicalEventAsync(int id)
+        public async Task<bool> DeleteMedicalEventAsync(int id)
         {
             throw new NotImplementedException();
         }

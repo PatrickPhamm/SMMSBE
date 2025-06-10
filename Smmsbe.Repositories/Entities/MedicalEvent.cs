@@ -20,8 +20,6 @@ public partial class MedicalEvent : IEntityBase
 
     public string ActionTaken { get; set; }
 
-    public bool? FollowUpNeeded { get; set; }
-
     public string Note { get; set; }
 
     public virtual Nurse Nurse { get; set; }
