@@ -1,4 +1,6 @@
-﻿using Microsoft.SqlServer.Server;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.SqlServer.Server;
+using Smmsbe.Repositories;
 using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Interfaces;
 using Smmsbe.Services.Enum;
@@ -70,10 +72,31 @@ namespace Smmsbe.Services
             {
                 FormId = updateForm.FormId,
                 Title = updateForm.Title,
-                Content= updateForm.Content,
                 ClassName = updateForm.ClassName,
+                Content = updateForm.Content, 
                 Type = ((FormType)updateForm.Type).ToString()
             };
+        }
+
+        public async Task<List<FormResponse>> SearchFormAsync(SearchFormRequest request)
+        {
+            var query = _formRepository.GetAll();
+
+            if (!string.IsNullOrEmpty(request.Keyword))
+                query = query.Where(
+                            s => s.FormId.ToString().Contains(request.Keyword) ||
+                            (!string.IsNullOrEmpty(s.ClassName) && s.ClassName.Contains(request.Keyword)));
+
+            var forms = await query.Select(n => new FormResponse
+            {
+                FormId = n.FormId,
+                Title = n.Title,
+                Content = n.Content,
+                ClassName = n.ClassName,
+                Type = ((FormType)n.Type).ToString()
+            }).ToListAsync();
+
+            return forms;
         }
 
         public async Task<bool> DeleteFormAsync(int id)
@@ -93,5 +116,7 @@ namespace Smmsbe.Services
                 throw new Exception(ex.Message);
             }
         }
+
+        
     }
 }

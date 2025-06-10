@@ -14,13 +14,15 @@ public partial class Medication : IEntityBase
 
     public string MedicationName { get; set; }
 
+    public int? PrescriptionId { get; set; }
+
     public string Dosage { get; set; }
 
     public int? Quantity { get; set; }
 
     public int? RemainingQuantity { get; set; }
 
-    public virtual ICollection<ParentPrescription> ParentPrescriptions { get; set; } = new List<ParentPrescription>();
+    public virtual ParentPrescription Prescription { get; set; }
 
     public virtual Student Student { get; set; }
 }

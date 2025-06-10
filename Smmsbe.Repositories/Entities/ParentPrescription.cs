@@ -14,8 +14,6 @@ public partial class ParentPrescription : IEntityBase
 
     public DateOnly? SubmittedDate { get; set; }
 
-    public int? MedicationId { get; set; }
-
     public string Schedule { get; set; }
 
     public string ParentNote { get; set; }
@@ -24,7 +22,7 @@ public partial class ParentPrescription : IEntityBase
 
     public string PrescriptionFile { get; set; }
 
-    public virtual Medication Medication { get; set; }
+    public virtual ICollection<Medication> Medications { get; set; } = new List<Medication>();
 
     public virtual Nurse Nurse { get; set; }
 

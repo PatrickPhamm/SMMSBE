@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Smmsbe.Repositories.Entities;
+using Smmsbe.Services.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,16 @@ namespace Smmsbe.Services.Interfaces
 {
     public interface IMedicationService
     {
+        Task<Medication> GetById(int id);
+
+        Task<MedicationResponse> GetByIdAync(int id);
+
+        Task<Medication> AddMedicationAsync(AddMedicationRequest request);
+
+        Task<List<MedicationResponse>> SearchMedicationAsync(SearchMedicationRequest request);
+
+        Task<Medication> UpdateMedicationAsync(UpdateMedicationRequest request);
+
+        Task<bool> DeleteMedicationAsync(int id);
     }
 }

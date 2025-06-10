@@ -8,10 +8,6 @@ namespace Smmsbe.Repositories.Entities;
 
 public partial class SMMSContext : DbContext
 {
-    public SMMSContext()
-    {
-    }
-
     public SMMSContext(DbContextOptions<SMMSContext> options)
         : base(options)
     {
@@ -53,15 +49,11 @@ public partial class SMMSContext : DbContext
 
     public virtual DbSet<VaccinationSchedule> VaccinationSchedules { get; set; }
 
-    /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=MATCHASNOOPY\\MATCHA;Initial Catalog=SMMSV4;Persist Security Info=True;User ID=sa;Password=12345;Encrypt=False");*/
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Blog>(entity =>
         {
-            entity.HasKey(e => e.BlogId).HasName("PK__Blog__54379E308184DDA7");
+            entity.HasKey(e => e.BlogId).HasName("PK__Blog__54379E30CB7A40D6");
 
             entity.ToTable("Blog");
 
@@ -70,12 +62,12 @@ public partial class SMMSContext : DbContext
 
             entity.HasOne(d => d.Manager).WithMany(p => p.Blogs)
                 .HasForeignKey(d => d.ManagerId)
-                .HasConstraintName("FK__Blog__ManagerId__5DCAEF64");
+                .HasConstraintName("FK__Blog__ManagerId__6C190EBB");
         });
 
         modelBuilder.Entity<ConsentForm>(entity =>
         {
-            entity.HasKey(e => e.ConsentFormId).HasName("PK__ConsentF__D6F184C09D44C04B");
+            entity.HasKey(e => e.ConsentFormId).HasName("PK__ConsentF__D6F184C05D279FB1");
 
             entity.ToTable("ConsentForm");
 
@@ -87,12 +79,12 @@ public partial class SMMSContext : DbContext
 
             entity.HasOne(d => d.Parent).WithMany(p => p.ConsentForms)
                 .HasForeignKey(d => d.ParentId)
-                .HasConstraintName("FK__ConsentFo__Paren__6A30C649");
+                .HasConstraintName("FK__ConsentFo__Paren__6D0D32F4");
         });
 
         modelBuilder.Entity<ConsultationForm>(entity =>
         {
-            entity.HasKey(e => e.ConsultationFormId).HasName("PK__Consulta__1F1216443F6D6B22");
+            entity.HasKey(e => e.ConsultationFormId).HasName("PK__Consulta__1F12164408C9A26A");
 
             entity.ToTable("ConsultationForm");
 
@@ -101,12 +93,12 @@ public partial class SMMSContext : DbContext
 
             entity.HasOne(d => d.Parent).WithMany(p => p.ConsultationForms)
                 .HasForeignKey(d => d.ParentId)
-                .HasConstraintName("FK__Consultat__Paren__6D0D32F4");
+                .HasConstraintName("FK__Consultat__Paren__6EF57B66");
         });
 
         modelBuilder.Entity<ConsultationSchedule>(entity =>
         {
-            entity.HasKey(e => e.ConsultationScheduleId).HasName("PK__Consulta__E128EB7758793544");
+            entity.HasKey(e => e.ConsultationScheduleId).HasName("PK__Consulta__E128EB77987609A5");
 
             entity.ToTable("ConsultationSchedule");
 
@@ -141,7 +133,7 @@ public partial class SMMSContext : DbContext
 
         modelBuilder.Entity<HealthCheckResult>(entity =>
         {
-            entity.HasKey(e => e.HealthCheckupRecordId).HasName("PK__HealthCh__96C62766A8F1A226");
+            entity.HasKey(e => e.HealthCheckupRecordId).HasName("PK__HealthCh__96C627663748BE55");
 
             entity.ToTable("HealthCheckResult");
 
@@ -152,20 +144,20 @@ public partial class SMMSContext : DbContext
 
             entity.HasOne(d => d.HealthCheckSchedule).WithMany(p => p.HealthCheckResults)
                 .HasForeignKey(d => d.HealthCheckScheduleId)
-                .HasConstraintName("FK__HealthChe__Healt__787EE5A0");
+                .HasConstraintName("FK__HealthChe__Healt__72C60C4A");
 
             entity.HasOne(d => d.HealthProfile).WithMany(p => p.HealthCheckResults)
                 .HasForeignKey(d => d.HealthProfileId)
-                .HasConstraintName("FK__HealthChe__Healt__7A672E12");
+                .HasConstraintName("FK__HealthChe__Healt__73BA3083");
 
             entity.HasOne(d => d.Nurse).WithMany(p => p.HealthCheckResults)
                 .HasForeignKey(d => d.NurseId)
-                .HasConstraintName("FK__HealthChe__Nurse__797309D9");
+                .HasConstraintName("FK__HealthChe__Nurse__74AE54BC");
         });
 
         modelBuilder.Entity<HealthCheckSchedule>(entity =>
         {
-            entity.HasKey(e => e.HealthCheckScheduleId).HasName("PK__HealthCh__C109A8214722CD39");
+            entity.HasKey(e => e.HealthCheckScheduleId).HasName("PK__HealthCh__C109A821C626BCBB");
 
             entity.ToTable("HealthCheckSchedule");
 
@@ -180,12 +172,12 @@ public partial class SMMSContext : DbContext
 
             entity.HasOne(d => d.Manager).WithMany(p => p.HealthCheckSchedules)
                 .HasForeignKey(d => d.ManagerId)
-                .HasConstraintName("FK__HealthChe__Manag__75A278F5");
+                .HasConstraintName("FK__HealthChe__Manag__76969D2E");
         });
 
         modelBuilder.Entity<HealthProfile>(entity =>
         {
-            entity.HasKey(e => e.HealthProfileId).HasName("PK__HealthPr__73C2C2D51071464D");
+            entity.HasKey(e => e.HealthProfileId).HasName("PK__HealthPr__73C2C2D53475FB4E");
 
             entity.ToTable("HealthProfile");
 
@@ -199,7 +191,7 @@ public partial class SMMSContext : DbContext
 
         modelBuilder.Entity<Manager>(entity =>
         {
-            entity.HasKey(e => e.ManagerId).HasName("PK__Manager__3BA2AAE11DE3C1AC");
+            entity.HasKey(e => e.ManagerId).HasName("PK__Manager__3BA2AAE12FE82E96");
 
             entity.ToTable("Manager");
 
@@ -211,7 +203,7 @@ public partial class SMMSContext : DbContext
 
         modelBuilder.Entity<MedicalEvent>(entity =>
         {
-            entity.HasKey(e => e.EventId).HasName("PK__MedicalE__7944C8109CBC271F");
+            entity.HasKey(e => e.EventId).HasName("PK__MedicalE__7944C810172200E4");
 
             entity.ToTable("MedicalEvent");
 
@@ -222,7 +214,7 @@ public partial class SMMSContext : DbContext
 
             entity.HasOne(d => d.Nurse).WithMany(p => p.MedicalEvents)
                 .HasForeignKey(d => d.NurseId)
-                .HasConstraintName("FK__MedicalEv__Nurse__5AEE82B9");
+                .HasConstraintName("FK__MedicalEv__Nurse__787EE5A0");
 
             entity.HasOne(d => d.Student).WithMany(p => p.MedicalEvents)
                 .HasForeignKey(d => d.StudentId)
@@ -231,7 +223,7 @@ public partial class SMMSContext : DbContext
 
         modelBuilder.Entity<MedicalInventory>(entity =>
         {
-            entity.HasKey(e => e.MedicalInventoryId).HasName("PK__MedicalI__63F7223983426A53");
+            entity.HasKey(e => e.MedicalInventoryId).HasName("PK__MedicalI__63F72239EA6D20CD");
 
             entity.ToTable("MedicalInventory");
 
@@ -240,15 +232,19 @@ public partial class SMMSContext : DbContext
 
             entity.HasOne(d => d.Manager).WithMany(p => p.MedicalInventories)
                 .HasForeignKey(d => d.ManagerId)
-                .HasConstraintName("FK__MedicalIn__Manag__60A75C0F");
+                .HasConstraintName("FK__MedicalIn__Manag__7A672E12");
         });
 
         modelBuilder.Entity<Medication>(entity =>
         {
-            entity.HasKey(e => e.MedicationId).HasName("PK__Medicati__62EC1AFA777C8E03");
+            entity.HasKey(e => e.MedicationId).HasName("PK__Medicati__62EC1AFAA0D7BF21");
 
             entity.Property(e => e.Dosage).HasMaxLength(50);
             entity.Property(e => e.MedicationName).HasMaxLength(100);
+
+            entity.HasOne(d => d.Prescription).WithMany(p => p.Medications)
+                .HasForeignKey(d => d.PrescriptionId)
+                .HasConstraintName("FK_Medications_Prescription");
 
             entity.HasOne(d => d.Student).WithMany(p => p.Medications)
                 .HasForeignKey(d => d.StudentId)
@@ -257,7 +253,7 @@ public partial class SMMSContext : DbContext
 
         modelBuilder.Entity<Nurse>(entity =>
         {
-            entity.HasKey(e => e.NurseId).HasName("PK__Nurse__43847849AB73D12D");
+            entity.HasKey(e => e.NurseId).HasName("PK__Nurse__43847849446E63B3");
 
             entity.ToTable("Nurse");
 
@@ -269,7 +265,7 @@ public partial class SMMSContext : DbContext
 
         modelBuilder.Entity<Parent>(entity =>
         {
-            entity.HasKey(e => e.ParentId).HasName("PK__Parent__D339516F86E01335");
+            entity.HasKey(e => e.ParentId).HasName("PK__Parent__D339516F4CE31658");
 
             entity.ToTable("Parent");
 
@@ -282,7 +278,7 @@ public partial class SMMSContext : DbContext
 
         modelBuilder.Entity<ParentPrescription>(entity =>
         {
-            entity.HasKey(e => e.PrescriptionId).HasName("PK__ParentPr__40130832F700D5D1");
+            entity.HasKey(e => e.PrescriptionId).HasName("PK__ParentPr__4013083278A7E324");
 
             entity.ToTable("ParentPrescription");
 
@@ -292,17 +288,13 @@ public partial class SMMSContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.Schedule).HasMaxLength(100);
 
-            entity.HasOne(d => d.Medication).WithMany(p => p.ParentPrescriptions)
-                .HasForeignKey(d => d.MedicationId)
-                .HasConstraintName("FK__ParentPre__Medic__5629CD9C");
-
             entity.HasOne(d => d.Nurse).WithMany(p => p.ParentPrescriptions)
                 .HasForeignKey(d => d.NurseId)
-                .HasConstraintName("FK__ParentPre__Nurse__5535A963");
+                .HasConstraintName("FK__ParentPre__Nurse__7C4F7684");
 
             entity.HasOne(d => d.Parent).WithMany(p => p.ParentPrescriptions)
                 .HasForeignKey(d => d.ParentId)
-                .HasConstraintName("FK__ParentPre__Paren__571DF1D5");
+                .HasConstraintName("FK__ParentPre__Paren__7D439ABD");
         });
 
         modelBuilder.Entity<Student>(entity =>
@@ -324,7 +316,7 @@ public partial class SMMSContext : DbContext
 
         modelBuilder.Entity<VaccinationResult>(entity =>
         {
-            entity.HasKey(e => e.VaccinationResultId).HasName("PK__Vaccinat__12DE8FF9596BDB35");
+            entity.HasKey(e => e.VaccinationResultId).HasName("PK__Vaccinat__12DE8FF986ABA0AD");
 
             entity.ToTable("VaccinationResult");
 
@@ -332,11 +324,11 @@ public partial class SMMSContext : DbContext
 
             entity.HasOne(d => d.HealthProfile).WithMany(p => p.VaccinationResults)
                 .HasForeignKey(d => d.HealthProfileId)
-                .HasConstraintName("FK__Vaccinati__Healt__02084FDA");
+                .HasConstraintName("FK__Vaccinati__Healt__7F2BE32F");
 
             entity.HasOne(d => d.Nurse).WithMany(p => p.VaccinationResults)
                 .HasForeignKey(d => d.NurseId)
-                .HasConstraintName("FK__Vaccinati__Nurse__02FC7413");
+                .HasConstraintName("FK__Vaccinati__Nurse__00200768");
 
             entity.HasOne(d => d.VaccinationSchedule).WithMany(p => p.VaccinationResults)
                 .HasForeignKey(d => d.VaccinationScheduleId)
@@ -345,7 +337,7 @@ public partial class SMMSContext : DbContext
 
         modelBuilder.Entity<VaccinationSchedule>(entity =>
         {
-            entity.HasKey(e => e.VaccinationScheduleId).HasName("PK__Vaccinat__DC54EC50CAFEE228");
+            entity.HasKey(e => e.VaccinationScheduleId).HasName("PK__Vaccinat__DC54EC50B02F1D52");
 
             entity.ToTable("VaccinationSchedule");
 
@@ -360,7 +352,7 @@ public partial class SMMSContext : DbContext
 
             entity.HasOne(d => d.Manager).WithMany(p => p.VaccinationSchedules)
                 .HasForeignKey(d => d.ManagerId)
-                .HasConstraintName("FK__Vaccinati__Manag__7E37BEF6");
+                .HasConstraintName("FK__Vaccinati__Manag__02FC7413");
         });
 
         OnModelCreatingPartial(modelBuilder);

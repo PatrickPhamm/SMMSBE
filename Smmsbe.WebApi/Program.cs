@@ -50,6 +50,7 @@ builder.Services.AddScoped<IMedicalInventoryService, MedicalInventoryService>();
 builder.Services.AddScoped<IVaccinationScheduleRepository, VaccinationScheduleRepository>();
 builder.Services.AddScoped<IVaccinationScheduleService, VaccinationScheduleService>();
 builder.Services.AddScoped<IFormRepository, FormRepository>();
+builder.Services.AddScoped<IFormService, FormService>();
 builder.Services.AddScoped<IConsentFormRepository, ConsentFormRepository>();
 builder.Services.AddScoped<IConsentFormService, ConsentFormService>();
 builder.Services.AddScoped<IConsultationFormRepository, ConsultationFormRepository>();

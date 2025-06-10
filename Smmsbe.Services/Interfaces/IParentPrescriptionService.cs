@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Smmsbe.Repositories.Entities;
+using Smmsbe.Services.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,11 @@ namespace Smmsbe.Services.Interfaces
 {
     public interface IParentPrescriptionService 
     {
+        Task<ParentPrescription> GetById(int id);
+        Task<ParentPrescription> AddParentPrescriptionAsync(AddParentPrescriptionRequest request);
+        Task<List<ParentPrescriptionResponse>> SearchParentPrescriptionAsync(SearchParentPrescriptionRequest request);
+        Task<ParentPrescription> UpdateParentPrescriptionAsync(UpdateParentPrescriptionRequest request);
+        Task<bool> DeleteParentPrescriptionAsync(int id);
+        string GetImageFolder();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Smmsbe.Services;
 using Smmsbe.Services.Interfaces;
 using Smmsbe.Services.Models;
 
@@ -41,6 +42,14 @@ namespace Smmsbe.WebApi.Controllers
             var entity = await _formService.UpdateFormAsync(request);
 
             return Ok(entity);
+        }
+
+        [HttpPost("Search")]
+        public async Task<IActionResult> Search(SearchFormRequest request)
+        {
+            var result = await _formService.SearchFormAsync(request);
+
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]

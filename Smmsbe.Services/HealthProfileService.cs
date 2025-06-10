@@ -67,8 +67,7 @@ namespace Smmsbe.Services
             var updateHealthProfile = await _healthProfileRepository.GetById(request.HealthProfileId);
             if (updateHealthProfile == null) throw AppExceptions.NotFoundId();
 
-            updateHealthProfile.HealthProfileId = request.HealthProfileId;
-            updateHealthProfile.StudentId = request.StudentId;  
+            updateHealthProfile.HealthProfileId = request.HealthProfileId; 
             updateHealthProfile.BloodType = request.BloodType;
             updateHealthProfile.Allergies = request.Allergies;
 
