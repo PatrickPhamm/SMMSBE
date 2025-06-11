@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Smmsbe.Services.Models
 {
-    public class UpdateHealthCheckScheduleRequest
+    public class UpdateVaccinationScheduleRequest
     {
-        public int HealthCheckScheduleId { get; set; }
+        public int VaccinationScheduleId { get; set; }
 
         public string Name { get; set; }
 
-        public DateTime? CheckDate { get; set; }
+        public DateTime? ScheduleDate { get; set; }
 
         public string Location { get; set; }
 

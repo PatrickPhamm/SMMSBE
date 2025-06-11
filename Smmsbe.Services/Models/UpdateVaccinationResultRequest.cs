@@ -6,13 +6,9 @@ using System.Threading.Tasks;
 
 namespace Smmsbe.Services.Models
 {
-    public class VaccinationResultResponse
+    public class UpdateVaccinationResultRequest
     {
         public int VaccinationResultId { get; set; }
-
-        public int? VaccinationScheduleId { get; set; }
-
-        public int? HealthProfileId { get; set; }
 
         public int? NurseId { get; set; }
 

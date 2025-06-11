@@ -9,15 +9,11 @@ namespace Smmsbe.Services.Models
     public class AddMedicalEventRequest
     {
         public int? StudentId { get; set; }
-
         public int? NurseId { get; set; }
-
+        public string EventName { get; set; }
         public DateTime? EventDate { get; set; }
-
         public string Symptoms { get; set; }
-
         public string ActionTaken { get; set; }
-
         public string Note { get; set; }
     }
 }

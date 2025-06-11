@@ -1,12 +1,11 @@
-﻿using Smmsbe.Repositories.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.SqlServer.Server;
+using Smmsbe.Repositories;
+using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Interfaces;
+using Smmsbe.Services.Exceptions;
 using Smmsbe.Services.Interfaces;
 using Smmsbe.Services.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Smmsbe.Services
 {
@@ -19,29 +18,80 @@ namespace Smmsbe.Services
             _healthCheckupScheduleRepository = healthCheckupScheduleRepository;
         }
 
-        public Task<HealthCheckScheduleResponse> GetById(int id)
+        public async Task<HealthCheckSchedule> GetById(int id)
         {
-            throw new NotImplementedException();
+            var entity = await _healthCheckupScheduleRepository.GetById(id);
+            if (entity == null) throw AppExceptions.NotFoundId();
+
+            return entity;
         }
 
-        public Task<HealthCheckScheduleResponse> AddHealthCheckScheduleAsync(AddHealthCheckScheduleRequest request)
+        public async Task<HealthCheckSchedule> AddHealthCheckScheduleAsync(AddHealthCheckScheduleRequest request)
         {
-            throw new NotImplementedException();
+            var added = new HealthCheckSchedule
+            {
+                FormId = request.FormId,
+                ManagerId = request.ManagerId,
+                Name = request.Name,
+                CheckDate = request.CheckDate,
+                Location = request.Location,
+                Note = request.Note
+            };
+
+            return await _healthCheckupScheduleRepository.Insert(added);
         }
         
-        public Task<List<HealthCheckScheduleResponse>> SearchHealthCheckScheduleAsync(SearchHealthCheckScheduleRequest request)
+        public async Task<List<HealthCheckScheduleResponse>> SearchHealthCheckScheduleAsync(SearchHealthCheckScheduleRequest request)
         {
-            throw new NotImplementedException();
+            var query = _healthCheckupScheduleRepository.GetAll();
+
+            if (!string.IsNullOrEmpty(request.Keyword))
+                query = query.Where(
+                            s => s.HealthCheckScheduleId.ToString().Contains(request.Keyword) ||
+                            (!string.IsNullOrEmpty(s.Name.ToString()) && s.Name.ToString().Contains(request.Keyword)));
+
+            var searchHea = await query.Select(h => new HealthCheckScheduleResponse
+            {
+                HealthCheckScheduleId = h.HealthCheckScheduleId,
+                FormId = h.FormId,
+                ManagerId = h.ManagerId,
+                Name = h.Name,
+                CheckDate = h.CheckDate,
+                Location = h.Location,
+                Note = h.Note
+            }).ToListAsync();
+
+            return searchHea;
         }
 
-        public Task<HealthCheckScheduleResponse> UpdateHealthCheckScheduleAsync(UpdateHealthCheckScheduleRequest request)
+        public async Task<HealthCheckSchedule> UpdateHealthCheckScheduleAsync(UpdateHealthCheckScheduleRequest request)
         {
-            throw new NotImplementedException();
+            var updateHealthCheckSchedule = await _healthCheckupScheduleRepository.GetById(request.HealthCheckScheduleId);
+            if (updateHealthCheckSchedule == null) throw AppExceptions.NotFoundId();
+
+            updateHealthCheckSchedule.Name = request.Name;
+            updateHealthCheckSchedule.CheckDate = request.CheckDate;
+            updateHealthCheckSchedule.Location = request.Location;
+            updateHealthCheckSchedule.Note = request.Note;
+
+            await _healthCheckupScheduleRepository.Update(updateHealthCheckSchedule);
+            return updateHealthCheckSchedule;
         }
 
-        public Task<bool> DeleteHealthCheckScheduleAsync(int id)
+        public async Task<bool> DeleteHealthCheckScheduleAsync(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var deleted = await _healthCheckupScheduleRepository.GetById(id);
+                if (deleted == null) throw AppExceptions.NotFoundId();
+
+                await _healthCheckupScheduleRepository.Delete(id);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

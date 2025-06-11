@@ -14,6 +14,8 @@ public partial class MedicalEvent : IEntityBase
 
     public int? NurseId { get; set; }
 
+    public string EventName { get; set; }
+
     public DateTime? EventDate { get; set; }
 
     public string Symptoms { get; set; }

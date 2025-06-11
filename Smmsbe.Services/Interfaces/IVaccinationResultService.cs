@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Smmsbe.Repositories.Entities;
+using Smmsbe.Services.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,10 @@ namespace Smmsbe.Services.Interfaces
 {
     public interface IVaccinationResultService
     {
+        Task<VaccinationResult> GetById(int id);
+        Task<VaccinationResult> AddVaccinationResultAsync(AddVaccinationResultRequest request);
+        Task<List<VaccinationResultResponse>> SearchVaccinationResultAsync(SearchVaccinationResultRequest request);
+        Task<VaccinationResult> UpdateVaccinationResultAsync(UpdateVaccinationResultRequest request);
+        Task<bool> DeleteVaccinationResultAsync(int id);
     }
 }

@@ -208,6 +208,7 @@ public partial class SMMSContext : DbContext
             entity.ToTable("MedicalEvent");
 
             entity.Property(e => e.ActionTaken).HasMaxLength(100);
+            entity.Property(e => e.EventName).HasMaxLength(100);
             entity.Property(e => e.EventDate).HasColumnType("datetime");
             entity.Property(e => e.Note).HasMaxLength(250);
             entity.Property(e => e.Symptoms).HasMaxLength(100);

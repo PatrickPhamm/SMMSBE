@@ -13,8 +13,8 @@ namespace Smmsbe.Services.Models
         public string ClassName { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
-        public DateTime? CreatedAt { get; set; }
         public DateTime? SentDate { get; set; }
+        public DateTime? CreatedAt { get; set; }
         public FormType Type { get; set; }
     }
 }

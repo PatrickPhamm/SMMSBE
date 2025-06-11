@@ -30,6 +30,8 @@ namespace Smmsbe.Services
                 Title = entity.Title,
                 ClassName = entity.ClassName,
                 Content = entity.Content,
+                SentDate = entity.SentDate,
+                CreatedAt = entity.CreatedAt,
                 Type = ((FormType)entity.Type).ToString()
             };
         }
@@ -41,6 +43,8 @@ namespace Smmsbe.Services
                 ClassName = request.ClassName,
                 Title = request.Title,
                 Content = request.Content,
+                SentDate = request.SentDate,
+                CreatedAt = request.CreatedAt,
                 Type = (int)request.Type
             };
 
@@ -52,6 +56,8 @@ namespace Smmsbe.Services
                 Title = newForm.Title,
                 ClassName = newForm.ClassName,
                 Content = newForm.Content,
+                SentDate = newForm.SentDate,
+                CreatedAt = newForm.CreatedAt,
                 Type = ((FormType)newForm.Type).ToString()
             };
         }
@@ -73,7 +79,9 @@ namespace Smmsbe.Services
                 FormId = updateForm.FormId,
                 Title = updateForm.Title,
                 ClassName = updateForm.ClassName,
-                Content = updateForm.Content, 
+                Content = updateForm.Content,
+                SentDate = updateForm.SentDate,
+                CreatedAt= request.CreatedAt,
                 Type = ((FormType)updateForm.Type).ToString()
             };
         }
@@ -93,6 +101,8 @@ namespace Smmsbe.Services
                 Title = n.Title,
                 Content = n.Content,
                 ClassName = n.ClassName,
+                SentDate= n.SentDate,
+                CreatedAt = n.CreatedAt,
                 Type = ((FormType)n.Type).ToString()
             }).ToListAsync();
 

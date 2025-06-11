@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Smmsbe.Services.Models
 {
-    public class HealthCheckResultResponse
+    public class AddHealthCheckResultRequest
     {
-        public int HealthCheckupRecordId { get; set; }
 
         public int? HealthCheckScheduleId { get; set; }
 

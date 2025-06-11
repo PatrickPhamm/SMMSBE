@@ -1,4 +1,6 @@
-﻿using Smmsbe.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Smmsbe.Repositories;
 using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Interfaces;
 using Smmsbe.Services.Exceptions;
@@ -30,22 +32,73 @@ namespace Smmsbe.Services
 
         public async Task<MedicalEvent> AddMedicalEventAsync(AddMedicalEventRequest request)
         {
-            throw new NotImplementedException();
+            var added = new MedicalEvent
+            {
+                StudentId = request.StudentId,
+                NurseId = request.NurseId,
+                EventName = request.EventName,
+                EventDate = request.EventDate,
+                Symptoms = request.Symptoms,
+                ActionTaken = request.ActionTaken,
+                Note = request.Note
+            };
+
+            return await _medicalEventRepository.Insert(added);
         }
 
         public async Task<List<MedicalEventResponse>> SearchMedicalEventAsync(SearchMedicalEventRequest request)
         {
-            throw new NotImplementedException();
+            var query = _medicalEventRepository.GetAll();
+
+            if (!string.IsNullOrEmpty(request.Keyword))
+                query = query.Where(
+                            s => s.EventId.ToString().Contains(request.Keyword) ||
+                            (!string.IsNullOrEmpty(s.EventName.ToString()) && s.EventName.ToString().Contains(request.Keyword)));
+
+            var searchVa = await query.Select(h => new MedicalEventResponse
+            {
+                EventId = h.EventId,
+                StudentId = h.StudentId,
+                NurseId = h.NurseId,
+                EventName = h.EventName,
+                EventDate = h.EventDate,
+                Symptoms = h.Symptoms,
+                ActionTaken = h.ActionTaken,
+                Note = h.Note
+            }).ToListAsync();
+
+            return searchVa;
         }
 
         public async Task<MedicalEvent> UpdateMedicalEventAsync(UpdateMedicalEventRequest request)
         {
-            throw new NotImplementedException();
+            var updateEvent = await _medicalEventRepository.GetById(request.EventId);
+            if (updateEvent == null) throw AppExceptions.NotFoundId();
+
+            updateEvent.NurseId = request.NurseId;
+            updateEvent.EventDate = request.EventDate;
+            updateEvent.Symptoms = request.Symptoms;
+            updateEvent.ActionTaken = request.ActionTaken;
+            updateEvent.Note = request.Note;
+
+            await _medicalEventRepository.Update(updateEvent);
+            return updateEvent;
         }
 
         public async Task<bool> DeleteMedicalEventAsync(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var deleted = await _medicalEventRepository.GetById(id);
+                if (deleted == null) throw AppExceptions.NotFoundId();
+
+                await _medicalEventRepository.Delete(id);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

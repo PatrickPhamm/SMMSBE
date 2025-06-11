@@ -1,4 +1,5 @@
-﻿using Smmsbe.Services.Models;
+﻿using Smmsbe.Repositories.Entities;
+using Smmsbe.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,13 @@ namespace Smmsbe.Services.Interfaces
 {
     public interface IHealthCheckScheduleService
     {
-        Task<HealthCheckScheduleResponse> GetById(int id);
+        Task<HealthCheckSchedule> GetById(int id);
 
         Task<List<HealthCheckScheduleResponse>> SearchHealthCheckScheduleAsync(SearchHealthCheckScheduleRequest request);
 
-        Task<HealthCheckScheduleResponse> AddHealthCheckScheduleAsync(AddHealthCheckScheduleRequest request);
+        Task<HealthCheckSchedule> AddHealthCheckScheduleAsync(AddHealthCheckScheduleRequest request);
 
-        Task<HealthCheckScheduleResponse> UpdateHealthCheckScheduleAsync(UpdateHealthCheckScheduleRequest request);
+        Task<HealthCheckSchedule> UpdateHealthCheckScheduleAsync(UpdateHealthCheckScheduleRequest request);
 
         Task<bool> DeleteHealthCheckScheduleAsync(int id);
     }

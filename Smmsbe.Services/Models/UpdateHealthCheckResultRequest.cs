@@ -6,15 +6,11 @@ using System.Threading.Tasks;
 
 namespace Smmsbe.Services.Models
 {
-    public class HealthCheckResultResponse
+    public class UpdateHealthCheckResultRequest
     {
         public int HealthCheckupRecordId { get; set; }
 
-        public int? HealthCheckScheduleId { get; set; }
-
         public int? NurseId { get; set; }
-
-        public int? HealthProfileId { get; set; }
 
         public bool? Status { get; set; }
 

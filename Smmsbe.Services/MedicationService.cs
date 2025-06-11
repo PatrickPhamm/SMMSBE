@@ -27,7 +27,7 @@ namespace Smmsbe.Services
             return entity;
         }
 
-        public async Task<MedicationResponse> GetByIdAync(int id)
+        public async Task<MedicationResponse> GetByIdAsync(int id)
         {
             var entity = await _medicationRepository.GetAll()
                                                         .Include(x => x.Prescription)
