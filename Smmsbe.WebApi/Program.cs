@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Smmsbe.Repositories;
 using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Interfaces;
@@ -72,6 +72,17 @@ builder.Services.AddScoped<IHealthProfileService, HealthProfileService>();
 
 builder.Services.AddScoped<IImageService, ImageService>();
 
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", builder =>
+    {
+        builder.WithOrigins("http://localhost:5173")
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 app.UseStaticFiles();
@@ -91,6 +102,9 @@ app.UseSwaggerUI();
 app.UseAuthorization();
 
 app.UseMiddleware<ErrorHandlerMiddleware>();
+
+// Use CORS
+app.UseCors("AllowFrontend");
 
 app.MapControllers();
 
