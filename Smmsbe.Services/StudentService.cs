@@ -119,7 +119,8 @@ namespace Smmsbe.Services
                 query = query.Where(
                             s => s.StudentId.ToString().Contains(request.Keyword) ||
                             (!string.IsNullOrEmpty(s.FullName) && s.FullName.Contains(request.Keyword)) ||
-                            (!string.IsNullOrEmpty(s.StudentNumber) && s.StudentNumber.Contains(request.Keyword)));
+                            (!string.IsNullOrEmpty(s.StudentNumber) && s.StudentNumber.Contains(request.Keyword)) ||
+                            (!string.IsNullOrEmpty(s.ClassName) && s.ClassName.Contains(request.Keyword)));
 
             var Students = await query.Select(n => new StudentResponse
             {

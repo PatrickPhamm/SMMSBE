@@ -3,7 +3,7 @@ namespace Smmsbe.Services.Enum
 {
     public enum FormType
     {
-        VaccineSchedule = 1,
-        HealthCheckSchedule = 2 
+        Vaccine = 1,
+        HealthCheck = 2 
     }
 }
