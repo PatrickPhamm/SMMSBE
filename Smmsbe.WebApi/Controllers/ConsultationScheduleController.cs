@@ -19,7 +19,7 @@ namespace Smmsbe.WebApi.Controllers
         [HttpGet("GetById")]
         public async Task<IActionResult> GetById(int id)
         {
-            var getById = await _consultationScheduleService.GetById(id);
+            var getById = await _consultationScheduleService.GetByIdAsync(id);
             return Ok(getById);
         }
 
@@ -46,6 +46,22 @@ namespace Smmsbe.WebApi.Controllers
 
             var updateConsultationSchedule = await _consultationScheduleService.UpdateConsultationScheduleAsync(request);
             return Ok(updateConsultationSchedule);
+        }
+
+        [HttpPost("Accept/{consultationId}")]
+        public async Task<IActionResult> Approve(int consultationId)
+        {
+            var result = await _consultationScheduleService.AcceptConsultation(consultationId);
+
+            return Ok(result);
+        }
+
+        [HttpPost("Reject/{consultationId}")]
+        public async Task<IActionResult> Reject(int consultationId)
+        {
+            var result = await _consultationScheduleService.RejectConsultation(consultationId);
+
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]

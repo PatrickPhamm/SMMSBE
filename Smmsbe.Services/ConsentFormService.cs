@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.SqlServer.Server;
 using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Interfaces;
 using Smmsbe.Services.Enum;
 using Smmsbe.Services.Exceptions;
+using Smmsbe.Services.Helpers;
 using Smmsbe.Services.Interfaces;
 using Smmsbe.Services.Models;
 
@@ -37,7 +39,7 @@ namespace Smmsbe.Services
                                                             ConsentFormId = x.ConsentFormId,
                                                             ParentId = x.ParentId,
                                                             ConfirmDate = x.ConfirmDate,
-                                                            Status = x.Status,
+                                                            Status = ((ConsentFormStatus)x.Status).ToString(),
                                                             Form = new FormResponse
                                                             {
                                                                 FormId = x.Form.FormId,
@@ -61,11 +63,20 @@ namespace Smmsbe.Services
             {
                 FormId = request.FormId,
                 ParentId = request.ParentId,
-                ConfirmDate = request.ConfirmDate,
-                Status = request.Status,
+                ConfirmDate = DateTime.Now.ToVNTime(),
+                Status = (int)ConsentFormStatus.Pending
             };
 
             return await _consentFormRepository.Insert(newConsent);
+
+            /*var newEntity = _consentFormRepository.Insert(newConsent);
+
+            return new ConsentFormResponse
+            {
+                ParentId = newConsent.ParentId,
+                ConfirmDate = newConsent.ConfirmDate,
+                Status = (int)ConsentFormStatus.Pending
+            };*/
         }
 
         public async Task<List<ConsentFormResponse>> SearchConsentFormAsync(SearchConsentFormRequest request)
@@ -79,11 +90,10 @@ namespace Smmsbe.Services
 
             var searchCo = await query.Select(x => new ConsentFormResponse
             {
-                ConsentFormId = x.ConsentFormId,
-                FormId = x.FormId,
+                ConsentFormId = x.ConsentFormId, 
                 ParentId = x.ParentId,
                 ConfirmDate = x.ConfirmDate,
-                Status = x.Status,
+                Status = ((ConsentFormStatus)x.Status).ToString(),
                 Form = new FormResponse
                 {
                     FormId = x.Form.FormId,
@@ -112,6 +122,30 @@ namespace Smmsbe.Services
             return updateConsentForm;
         }
 
+        public async Task<bool> AcceptConsentForm(int consentFormId)
+        {
+            var consent = await _consentFormRepository.GetById(consentFormId);
+            if(consent == null) return false;
+
+            consent.Status = (int)ConsentFormStatus.Accepted;
+
+            await _consentFormRepository.Update(consent);
+
+            return true;
+        }
+
+        public async Task<bool> RejectConsentForm(int consentFormId)
+        {
+            var consent = await _consentFormRepository.GetById(consentFormId);
+            if (consent == null) return false;
+
+            consent.Status = (int)ConsentFormStatus.Rejected;
+
+            await _consentFormRepository.Update(consent);
+
+            return true;
+        }
+
         public async Task<bool> DeleteConsentFormAsync(int id)
         {
             try
@@ -126,6 +160,8 @@ namespace Smmsbe.Services
             {
                 throw new Exception(ex.Message);
             }
-        }     
+        }
+
+        
     }
 }

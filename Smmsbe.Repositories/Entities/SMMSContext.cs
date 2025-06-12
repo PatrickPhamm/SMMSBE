@@ -103,8 +103,8 @@ public partial class SMMSContext : DbContext
             entity.ToTable("ConsultationSchedule");
 
             entity.Property(e => e.ConsultDate).HasColumnType("datetime");
-            entity.Property(e => e.IsConfirmed).HasDefaultValue(false);
             entity.Property(e => e.Location).HasMaxLength(250);
+            entity.Property(e => e.Status).HasDefaultValue(0);
 
             entity.HasOne(d => d.ConsultationForm).WithMany(p => p.ConsultationSchedules)
                 .HasForeignKey(d => d.ConsultationFormId)
@@ -208,8 +208,8 @@ public partial class SMMSContext : DbContext
             entity.ToTable("MedicalEvent");
 
             entity.Property(e => e.ActionTaken).HasMaxLength(100);
-            entity.Property(e => e.EventName).HasMaxLength(100);
             entity.Property(e => e.EventDate).HasColumnType("datetime");
+            entity.Property(e => e.EventName).HasMaxLength(100);
             entity.Property(e => e.Note).HasMaxLength(250);
             entity.Property(e => e.Symptoms).HasMaxLength(100);
 

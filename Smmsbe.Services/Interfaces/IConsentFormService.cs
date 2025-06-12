@@ -15,6 +15,8 @@ namespace Smmsbe.Services.Interfaces
         Task<ConsentForm> AddConsentFormAsync(AddConsentFormRequest request);
         Task<List<ConsentFormResponse>> SearchConsentFormAsync(SearchConsentFormRequest request);
         Task<ConsentForm> UpdateConsentFormAsync(UpdateConsentFormRequest request);
+        Task<bool> AcceptConsentForm(int consentFormId);
+        Task<bool> RejectConsentForm(int consentFormId);
         Task<bool> DeleteConsentFormAsync(int id);
     }
 }

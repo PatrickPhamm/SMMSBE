@@ -42,6 +42,15 @@ namespace Smmsbe.Services.Exceptions
         {
             return new NotFoundException("MSG06", "Không tìm thấy tài khoản.");
         }
-       
+
+        public static AppException AcceptedConsentForm()
+        {
+            return new NotFoundException("MSG07", "Đơn đã được đồng ý.");
+        }
+
+        public static AppException RejectedConsentForm()
+        {
+            return new NotFoundException("MSG08", "Đơn đã được từ chối.");
+        }
     }
 }

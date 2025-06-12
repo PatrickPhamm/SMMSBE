@@ -14,7 +14,7 @@ namespace Smmsbe.Services.Models
 
         public int? NurseId { get; set; }
 
-        public bool? IsConfirmed { get; set; }
+        public string? Status { get; set; }
 
         public string Location { get; set; }
 

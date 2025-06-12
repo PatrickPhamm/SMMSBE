@@ -16,7 +16,7 @@ public partial class ConsentForm : IEntityBase
 
     public DateTime? ConfirmDate { get; set; }
 
-    public bool? Status { get; set; }
+    public int? Status { get; set; }
 
     public virtual Form Form { get; set; }
 

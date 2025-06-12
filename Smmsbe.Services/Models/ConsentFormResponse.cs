@@ -11,13 +11,11 @@ namespace Smmsbe.Services.Models
     {
         public int ConsentFormId { get; set; }
 
-        public int? FormId { get; set; }
-
         public int? ParentId { get; set; }
 
         public DateTime? ConfirmDate { get; set; }
 
-        public bool? Status { get; set; }
+        public string? Status { get; set; }
 
         public FormResponse Form { get; set; }
     }

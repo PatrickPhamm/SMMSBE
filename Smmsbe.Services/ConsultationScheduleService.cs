@@ -2,6 +2,7 @@
 using Smmsbe.Repositories;
 using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Interfaces;
+using Smmsbe.Services.Enum;
 using Smmsbe.Services.Exceptions;
 using Smmsbe.Services.Interfaces;
 using Smmsbe.Services.Models;
@@ -24,13 +25,31 @@ namespace Smmsbe.Services
             return entity;
         }
 
+        public async Task<ConsultationScheduleResponse> GetByIdAsync(int id)
+        {
+            var entity = await _consultationScheduleRepository.GetAll()
+                                                                    .Where(x => x.ConsultationScheduleId == id)
+                                                                    .Select(x => new ConsultationScheduleResponse
+                                                                    {
+                                                                        ConsultationScheduleId = x.ConsultationScheduleId,
+                                                                        ConsultationFormId = x.ConsultationFormId,
+                                                                        NurseId = x.NurseId,
+                                                                        ConsultDate = x.ConsultDate,
+                                                                        Location = x.Location,
+                                                                        Status = ((ConsultationScheduleStatus)x.Status).ToString()
+                                                                    }).FirstOrDefaultAsync();
+
+            if (entity == null) throw AppExceptions.NotFoundId();
+            return entity;
+        }
+
         public async Task<ConsultationSchedule> AddConsultationScheduleAsync(AddConsultationScheduleRequest request)
         {
             var newCon = new ConsultationSchedule
             {
                 ConsultationFormId = request.ConsultationFormId,
                 NurseId = request.NurseId,
-                IsConfirmed = request.IsConfirmed,
+                Status = (int)ConsultationScheduleStatus.Pending,
                 Location = request.Location,
                 ConsultDate = request.ConsultDate
             };
@@ -52,7 +71,7 @@ namespace Smmsbe.Services
                 ConsultationScheduleId = x.ConsultationScheduleId,
                 ConsultationFormId = x.ConsultationFormId,
                 NurseId = x.NurseId,
-                IsConfirmed = x.IsConfirmed,
+                Status = ((ConsultationScheduleStatus)x.Status).ToString(),
                 Location = x.Location,
                 ConsultDate = x.ConsultDate
             }).ToListAsync();
@@ -72,6 +91,30 @@ namespace Smmsbe.Services
 
             await _consultationScheduleRepository.Update(updateConsentForm);
             return updateConsentForm;
+        }
+
+        public async Task<bool> AcceptConsultation(int consultationId)
+        {
+            var consultation = await _consultationScheduleRepository.GetById(consultationId);
+            if (consultation == null) return false;
+
+            consultation.Status = (int)ConsultationScheduleStatus.Accepted;
+
+            await _consultationScheduleRepository.Update(consultation);
+
+            return true;
+        }
+
+        public async Task<bool> RejectConsultation(int consultationId)
+        {
+            var consultation = await _consultationScheduleRepository.GetById(consultationId);
+            if (consultation == null) return false;
+
+            consultation.Status = (int)ConsultationScheduleStatus.Rejected;
+
+            await _consultationScheduleRepository.Update(consultation);
+
+            return true;
         }
 
         public async Task<bool> DeleteConsultationScheduleAsync(int id)

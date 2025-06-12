@@ -80,8 +80,8 @@ namespace Smmsbe.Services
                 Title = updateForm.Title,
                 ClassName = updateForm.ClassName,
                 Content = updateForm.Content,
-                SentDate = updateForm.SentDate,
-                CreatedAt= request.CreatedAt,
+                //SentDate = updateForm.SentDate,
+                //CreatedAt= request.CreatedAt,
                 Type = ((FormType)updateForm.Type).ToString()
             };
         }

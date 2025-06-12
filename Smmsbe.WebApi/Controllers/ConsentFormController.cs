@@ -48,6 +48,22 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(updateConsentForm);
         }
 
+        [HttpPost("Accept/{consentFormId}")]
+        public async Task<IActionResult> Approve(int consentFormId)
+        {
+            var result = await _consentFormService.AcceptConsentForm(consentFormId);
+
+            return Ok(result);
+        }
+
+        [HttpPost("Reject/{consentFormId}")]
+        public async Task<IActionResult> Reject(int consentFormId)
+        {
+            var result = await _consentFormService.RejectConsentForm(consentFormId);
+
+            return Ok(result);
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteConsentForm(int id)
         {
