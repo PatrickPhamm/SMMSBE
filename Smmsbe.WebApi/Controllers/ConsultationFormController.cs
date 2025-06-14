@@ -8,29 +8,29 @@ namespace Smmsbe.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ConsultationFormController : ControllerBase
+    public class consultationFormController : ControllerBase
     {
         private readonly IConsultationFormService _consultationFormService;
-        public ConsultationFormController(IConsultationFormService consultationFormService)
+        public consultationFormController(IConsultationFormService consultationFormService)
         {
             _consultationFormService = consultationFormService;
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var getById = await _consultationFormService.GetById(id);
             return Ok(getById);
         }
 
-        [HttpPost("AddConsultationForm")]
+        [HttpPost("addConsultationForm")]
         public async Task<IActionResult> AddConsultationForm(AddConsultationFormRequest request)
         {
             var addConsultationForm = await _consultationFormService.AddConsultationFormAsync(request);
             return Ok(addConsultationForm);
         }
 
-        [HttpPost("Search")]
+        [HttpPost("search")]
         public async Task<IActionResult> Search(SearchConsultationFormRequest request)
         {
             var result = await _consultationFormService.SearchConsultationFormAsync(request);
@@ -38,7 +38,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut("UpdateConsultationForm")]
+        [HttpPut("updateConsultationForm")]
         public async Task<IActionResult> UpdateConsultationForm(UpdateConsultationFormRequest request)
         {
             if (!ModelState.IsValid)

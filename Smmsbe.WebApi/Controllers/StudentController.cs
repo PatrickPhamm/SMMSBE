@@ -8,15 +8,15 @@ namespace Smmsbe.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StudentController : ControllerBase
+    public class studentController : ControllerBase
     {
         private readonly IStudentService _studentService;
-        public StudentController(IStudentService studentService)
+        public studentController(IStudentService studentService)
         {
             _studentService = studentService;
         }
 
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginStudentRequest request)
         {
             if (!ModelState.IsValid)
@@ -37,7 +37,7 @@ namespace Smmsbe.WebApi.Controllers
             });
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             //var getById = await _studentService.GetById(id);
@@ -52,7 +52,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }*/
 
-        [HttpPost("Add")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddAccount([FromBody] AddStudentRequest request)
         {
             if (!ModelState.IsValid)
@@ -71,7 +71,7 @@ namespace Smmsbe.WebApi.Controllers
             });
         }
 
-        [HttpPut("Update")]
+        [HttpPut("update")]
         public async Task<IActionResult> UpdateAccount(UpdateStudentRequest request)
         {
             if (!ModelState.IsValid)
@@ -82,7 +82,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(acc);
         }
 
-        [HttpPost("Search")]
+        [HttpPost("search")]
         public async Task<IActionResult> Search(SearchStudentRequest request)
         {
             var result = await _studentService.SearchStudentAsync(request);

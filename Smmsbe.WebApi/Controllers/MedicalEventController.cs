@@ -8,29 +8,29 @@ namespace Smmsbe.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MedicalEventController : ControllerBase
+    public class medicalEventController : ControllerBase
     {
         private readonly IMedicalEventService _medicalEventService;
-        public MedicalEventController(IMedicalEventService medicalEventService)
+        public medicalEventController(IMedicalEventService medicalEventService)
         {
             _medicalEventService = medicalEventService;
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var getById = await _medicalEventService.GetById(id);
             return Ok(getById);
         }
 
-        [HttpPost("AddMedicalEvent")]
+        [HttpPost("addMedicalEvent")]
         public async Task<IActionResult> AddMedicalEvent(AddMedicalEventRequest request)
         {
             var addMedicalEvent = await _medicalEventService.AddMedicalEventAsync(request);
             return Ok(addMedicalEvent);
         }
 
-        [HttpPost("Search")]
+        [HttpPost("search")]
         public async Task<IActionResult> Search(SearchMedicalEventRequest request)
         {
             var result = await _medicalEventService.SearchMedicalEventAsync(request);
@@ -38,7 +38,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut("UpdateMedicalEvent")]
+        [HttpPut("updateMedicalEvent")]
         public async Task<IActionResult> UpdateMedicalEvent(UpdateMedicalEventRequest request)
         {
             if (!ModelState.IsValid)

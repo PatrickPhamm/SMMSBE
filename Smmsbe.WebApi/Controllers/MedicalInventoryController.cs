@@ -7,16 +7,16 @@ namespace Smmsbe.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MedicalInventoryController : ControllerBase
+    public class medicalInventoryController : ControllerBase
     {
         private readonly IMedicalInventoryService _medicalInventoryService;
 
-        public MedicalInventoryController(IMedicalInventoryService medicalInventoryService)
+        public medicalInventoryController(IMedicalInventoryService medicalInventoryService)
         {
             _medicalInventoryService = medicalInventoryService;
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var entity = await _medicalInventoryService.GetById(id);
@@ -24,7 +24,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(entity);
         }
 
-        [HttpPost("Add")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddMedicalInventory([FromBody] AddMedicalInventoryRequest request)
         {
             var entity = await _medicalInventoryService.AddMedicalInventoryAsync(request);
@@ -32,7 +32,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(entity);
         }
 
-        [HttpPut("Update")]
+        [HttpPut("update")]
         public async Task<IActionResult> UpdateMedicalInventory(UpdateMedicalInventoryRequest request)
         {
             if (!ModelState.IsValid)
@@ -42,20 +42,20 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(entity);
         }
 
+        [HttpPost("search")]
+        public async Task<IActionResult> Search(SearchMedicalInventoryRequest request)
+        {
+            var result = await _medicalInventoryService.SearchMedicalInventorysAsync(request);
+
+            return Ok(result);
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMedicalInventory(int id)
         {
             var result = await _medicalInventoryService.DeleteMedicalInventoryAsync(id);
 
             return Ok();
-        }
-
-        [HttpPost("Search")]
-        public async Task<IActionResult> Search(SearchMedicalInventoryRequest request)
-        {
-            var result = await _medicalInventoryService.SearchMedicalInventorysAsync(request);
-
-            return Ok(result);
         }
     }
 }

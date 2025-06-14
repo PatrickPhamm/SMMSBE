@@ -8,29 +8,29 @@ namespace Smmsbe.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ConsultationScheduleController : ControllerBase
+    public class consultationScheduleController : ControllerBase
     {
         private readonly IConsultationScheduleService _consultationScheduleService;
-        public ConsultationScheduleController(IConsultationScheduleService consultationScheduleService)
+        public consultationScheduleController(IConsultationScheduleService consultationScheduleService)
         {
             _consultationScheduleService = consultationScheduleService;
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var getById = await _consultationScheduleService.GetByIdAsync(id);
             return Ok(getById);
         }
 
-        [HttpPost("AddConsultationSchedule")]
+        [HttpPost("createConsultationSchedule")]
         public async Task<IActionResult> AddConsultationSchedule(AddConsultationScheduleRequest request)
         {
             var addConsultationSchedule = await _consultationScheduleService.AddConsultationScheduleAsync(request);
             return Ok(addConsultationSchedule);
         }
 
-        [HttpPost("Search")]
+        [HttpPost("search")]
         public async Task<IActionResult> Search(SearchConsultationScheduleRequest request)
         {
             var result = await _consultationScheduleService.SearchConsultationScheduleAsync(request);
@@ -38,7 +38,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut("UpdateConsultationSchedule")]
+        [HttpPut("updateConsultationSchedule")]
         public async Task<IActionResult> UpdateConsultationSchedule(UpdateConsultationScheduleRequest request)
         {
             if (!ModelState.IsValid)
@@ -48,7 +48,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(updateConsultationSchedule);
         }
 
-        [HttpPost("Accept/{consultationId}")]
+        [HttpPost("accept/{consultationId}")]
         public async Task<IActionResult> Approve(int consultationId)
         {
             var result = await _consultationScheduleService.AcceptConsultation(consultationId);
@@ -56,7 +56,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPost("Reject/{consultationId}")]
+        [HttpPost("reject/{consultationId}")]
         public async Task<IActionResult> Reject(int consultationId)
         {
             var result = await _consultationScheduleService.RejectConsultation(consultationId);

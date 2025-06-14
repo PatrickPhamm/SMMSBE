@@ -8,29 +8,29 @@ namespace Smmsbe.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VaccinationScheduleController : ControllerBase
+    public class vaccinationScheduleController : ControllerBase
     {
         private readonly IVaccinationScheduleService _vaccinationScheduleService;
-        public VaccinationScheduleController(IVaccinationScheduleService vaccinationScheduleService)
+        public vaccinationScheduleController(IVaccinationScheduleService vaccinationScheduleService)
         {
             _vaccinationScheduleService = vaccinationScheduleService;
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var getById = await _vaccinationScheduleService.GetById(id);
             return Ok(getById);
         }
 
-        [HttpPost("AddVaccinationSchedule")]
+        [HttpPost("createVaccinationSchedule")]
         public async Task<IActionResult> AddVaccinationSchedule(AddVaccinationScheduleRequest request)
         {
             var addVaccinationSchedule = await _vaccinationScheduleService.AddVaccinationScheduleAsync(request);
             return Ok(addVaccinationSchedule);
         }
 
-        [HttpPost("Search")]
+        [HttpPost("search")]
         public async Task<IActionResult> Search(SearchVaccinationScheduleRequest request)
         {
             var result = await _vaccinationScheduleService.SearchVaccinationScheduleAsync(request);
@@ -38,7 +38,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut("UpdateVaccinationSchedule")]
+        [HttpPut("updateVaccinationSchedule")]
         public async Task<IActionResult> UpdateVaccinationSchedule(UpdateVaccinationScheduleRequest request)
         {
             if (!ModelState.IsValid)

@@ -8,29 +8,29 @@ namespace Smmsbe.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ConsentFormController : ControllerBase
+    public class consentFormController : ControllerBase
     {
         private readonly IConsentFormService _consentFormService;
-        public ConsentFormController(IConsentFormService consentFormService)
+        public consentFormController(IConsentFormService consentFormService)
         {
             _consentFormService = consentFormService;
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var getById = await _consentFormService.GetByIdAsync(id);
             return Ok(getById);
         }
 
-        [HttpPost("AddConsentForm")]
+        [HttpPost("addConsentForm")]
         public async Task<IActionResult> AddConsentForm(AddConsentFormRequest request)
         {
             var addConsentForm = await _consentFormService.AddConsentFormAsync(request);
             return Ok(addConsentForm);
         }
 
-        [HttpPost("Search")]
+        [HttpPost("search")]
         public async Task<IActionResult> Search(SearchConsentFormRequest request)
         {
             var result = await _consentFormService.SearchConsentFormAsync(request);
@@ -38,7 +38,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut("UpdateConsentForm")]
+        [HttpPut("updateConsentForm")]
         public async Task<IActionResult> UpdateConsentForm(UpdateConsentFormRequest request)
         {
             if (!ModelState.IsValid)
@@ -48,7 +48,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(updateConsentForm);
         }
 
-        [HttpPost("Accept/{consentFormId}")]
+        [HttpPost("accept/{consentFormId}")]
         public async Task<IActionResult> Approve(int consentFormId)
         {
             var result = await _consentFormService.AcceptConsentForm(consentFormId);
@@ -56,7 +56,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPost("Reject/{consentFormId}")]
+        [HttpPost("reject/{consentFormId}")]
         public async Task<IActionResult> Reject(int consentFormId)
         {
             var result = await _consentFormService.RejectConsentForm(consentFormId);

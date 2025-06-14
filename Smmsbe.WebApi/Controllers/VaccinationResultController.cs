@@ -8,29 +8,29 @@ namespace Smmsbe.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VaccinationResultController : ControllerBase
+    public class vaccinationResultController : ControllerBase
     {
         private readonly IVaccinationResultService _vaccinationResultService;
-        public VaccinationResultController(IVaccinationResultService vaccinationResultService)
+        public vaccinationResultController(IVaccinationResultService vaccinationResultService)
         {
             _vaccinationResultService = vaccinationResultService;
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var getById = await _vaccinationResultService.GetById(id);
             return Ok(getById);
         }
 
-        [HttpPost("AddVaccinationResult")]
+        [HttpPost("addVaccinationResult")]
         public async Task<IActionResult> AddVaccinationResult(AddVaccinationResultRequest request)
         {
             var addVaccinationResult = await _vaccinationResultService.AddVaccinationResultAsync(request);
             return Ok(addVaccinationResult);
         }
 
-        [HttpPost("Search")]
+        [HttpPost("search")]
         public async Task<IActionResult> Search(SearchVaccinationResultRequest request)
         {
             var result = await _vaccinationResultService.SearchVaccinationResultAsync(request);
@@ -38,7 +38,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut("UpdateVaccinationResult")]
+        [HttpPut("updateVaccinationResult")]
         public async Task<IActionResult> UpdateVaccinationResult(UpdateVaccinationResultRequest request)
         {
             if (!ModelState.IsValid)

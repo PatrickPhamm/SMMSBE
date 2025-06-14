@@ -8,30 +8,30 @@ namespace Smmsbe.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MedicationController : ControllerBase
+    public class medicationController : ControllerBase
     {
         private readonly IMedicationService _medicationService;
 
-        public MedicationController(IMedicationService medicationService)
+        public medicationController(IMedicationService medicationService)
         {
             _medicationService = medicationService;
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var getById = await _medicationService.GetByIdAsync(id);
             return Ok(getById);
         }
 
-        [HttpPost("AddMedication")]
+        [HttpPost("addMedication")]
         public async Task<IActionResult> AddMedication(AddMedicationRequest request)
         {
             var addMedication = await _medicationService.AddMedicationAsync(request);
             return Ok(addMedication);
         }
 
-        [HttpPost("Search")]
+        [HttpPost("search")]
         public async Task<IActionResult> Search(SearchMedicationRequest request)
         {
             var result = await _medicationService.SearchMedicationAsync(request);
@@ -39,7 +39,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut("UpdateMedication")]
+        [HttpPut("updateMedication")]
         public async Task<IActionResult> UpdateMedication(UpdateMedicationRequest request)
         {
             if (!ModelState.IsValid)

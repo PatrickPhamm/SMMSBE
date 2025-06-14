@@ -9,11 +9,11 @@ namespace Smmsbe.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ManagerController : ControllerBase
+    public class managerController : ControllerBase
     {
         private readonly IManagerService _managerService;
 
-        public ManagerController(IManagerService managerService)
+        public managerController(IManagerService managerService)
         {
             _managerService = managerService;   
         }
@@ -35,7 +35,7 @@ namespace Smmsbe.WebApi.Controllers
             });
         }*/
 
-        [HttpPost("Authorize")]
+        [HttpPost("authorize")]
         public async Task<IActionResult> Authorize([FromBody] LoginManagerRequest request)
         {
             if (!ModelState.IsValid)
@@ -52,14 +52,14 @@ namespace Smmsbe.WebApi.Controllers
             });
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var getId = await _managerService.GetById(id);
             return Ok(getId);
         }
 
-        [HttpPut("Update")]
+        [HttpPut("update")]
         public async Task<IActionResult> UpdateAccount([FromBody] UpdateManagerRequest request)
         {
             if (!ModelState.IsValid)

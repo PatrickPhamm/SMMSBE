@@ -9,34 +9,34 @@ namespace Smmsbe.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BlogController : ControllerBase
+    public class blogController : ControllerBase
     {
         public readonly IBlogService _blogService;
         private readonly IImageService _imageService;
         private readonly AppSettings _appSettings;
 
-        public BlogController(IBlogService blogService, IImageService imageService, AppSettings appSettings)
+        public blogController(IBlogService blogService, IImageService imageService, AppSettings appSettings)
         {
             _blogService = blogService;
             _imageService = imageService;
             _appSettings = appSettings;
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var getById = await _blogService.GetById(id);
             return Ok(getById);
         }
 
-        [HttpPost("AddBlog")]
+        [HttpPost("addBlog")]
         public async Task<IActionResult> AddBlog(AddBlogRequest request)
         {
             var addBlog = await _blogService.AddBlogAsync(request);
             return Ok(addBlog);
         }
 
-        [HttpPost("Search")]
+        [HttpPost("search")]
         public async Task<IActionResult> Search(SearchBlogRequest request)
         {
             var result = await _blogService.SearchBlogAsync(request);
@@ -44,7 +44,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut("UpdateBlog")]
+        [HttpPut("updateBlog")]
         public async Task<IActionResult> UpdateBlog(UpdateBlogRequest request)
         {
             if (!ModelState.IsValid)
@@ -67,7 +67,7 @@ namespace Smmsbe.WebApi.Controllers
         /// </summary>
         /// <param name="imageFile"></param>
         /// <returns></returns>
-        [HttpPost("UploadImage")]
+        [HttpPost("uploadImage")]
         public async Task<IActionResult> UploadBlogImage(IFormFile imageFile)
         {
             if (imageFile == null || imageFile.Length == 0)

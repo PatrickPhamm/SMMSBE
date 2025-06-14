@@ -8,29 +8,29 @@ namespace Smmsbe.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class HealthCheckScheduleController : ControllerBase
+    public class healthCheckScheduleController : ControllerBase
     {
         private readonly IHealthCheckScheduleService _healthCheckScheduleService;
-        public HealthCheckScheduleController(IHealthCheckScheduleService healthCheckScheduleService)
+        public healthCheckScheduleController(IHealthCheckScheduleService healthCheckScheduleService)
         {
             _healthCheckScheduleService = healthCheckScheduleService;
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var getById = await _healthCheckScheduleService.GetById(id);
             return Ok(getById);
         }
 
-        [HttpPost("AddHealthCheckSchedule")]
+        [HttpPost("createHealthCheckSchedule")]
         public async Task<IActionResult> AddHealthCheckSchedule(AddHealthCheckScheduleRequest request)
         {
             var addHealthCheckSchedule = await _healthCheckScheduleService.AddHealthCheckScheduleAsync(request);
             return Ok(addHealthCheckSchedule);
         }
 
-        [HttpPost("Search")]
+        [HttpPost("search")]
         public async Task<IActionResult> Search(SearchHealthCheckScheduleRequest request)
         {
             var result = await _healthCheckScheduleService.SearchHealthCheckScheduleAsync(request);
@@ -38,7 +38,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut("UpdateHealthCheckSchedule")]
+        [HttpPut("updateHealthCheckSchedule")]
         public async Task<IActionResult> UpdateHealthCheckSchedule(UpdateHealthCheckScheduleRequest request)
         {
             if (!ModelState.IsValid)

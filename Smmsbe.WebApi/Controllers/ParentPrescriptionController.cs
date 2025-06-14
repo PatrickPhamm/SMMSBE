@@ -9,13 +9,13 @@ namespace Smmsbe.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ParentPrescriptionController : ControllerBase
+    public class parentPrescriptionController : ControllerBase
     {
         private readonly IParentPrescriptionService _parentPrescriptionService;
         private readonly IImageService _imageService;
         private readonly AppSettings _appSettings;
 
-        public ParentPrescriptionController(IParentPrescriptionService parentPrescriptionService, IImageService imageService,
+        public parentPrescriptionController(IParentPrescriptionService parentPrescriptionService, IImageService imageService,
             AppSettings appSettings)
         {
             _parentPrescriptionService = parentPrescriptionService;
@@ -23,21 +23,21 @@ namespace Smmsbe.WebApi.Controllers
             _appSettings = appSettings;
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var getById = await _parentPrescriptionService.GetById(id);
             return Ok(getById);
         }
 
-        [HttpPost("AddParentPrescription")]
+        [HttpPost("addParentPrescription")]
         public async Task<IActionResult> AddParentPrescription(AddParentPrescriptionRequest request)
         {
             var addParentPrescription = await _parentPrescriptionService.AddParentPrescriptionAsync(request);
             return Ok(addParentPrescription);
         }
 
-        [HttpPost("Search")]
+        [HttpPost("search")]
         public async Task<IActionResult> Search(SearchParentPrescriptionRequest request)
         {
             var result = await _parentPrescriptionService.SearchParentPrescriptionAsync(request);
@@ -45,7 +45,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut("UpdateParentPrescription")]
+        [HttpPut("updateParentPrescription")]
         public async Task<IActionResult> UpdateParentPrescription(UpdateParentPrescriptionRequest request)
         {
             if (!ModelState.IsValid)
@@ -67,7 +67,7 @@ namespace Smmsbe.WebApi.Controllers
         /// </summary>
         /// <param name="imageFile"></param>
         /// <returns></returns>
-        [HttpPost("UploadImage")]
+        [HttpPost("uploadImage")]
         public async Task<IActionResult> UploadParentPreImage(IFormFile imageFile)
         {
             if (imageFile == null || imageFile.Length == 0)

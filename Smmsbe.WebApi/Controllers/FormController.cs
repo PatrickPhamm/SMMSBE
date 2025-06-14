@@ -8,16 +8,16 @@ namespace Smmsbe.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FormController : ControllerBase
+    public class formController : ControllerBase
     {
         private readonly IFormService _formService;
 
-        public FormController(IFormService formService)
+        public formController(IFormService formService)
         {
             _formService = formService;
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var entity = await _formService.GetById(id);

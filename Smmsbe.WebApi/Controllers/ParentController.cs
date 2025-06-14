@@ -8,16 +8,16 @@ namespace Smmsbe.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ParentController : ControllerBase
+    public class parentController : ControllerBase
     {
         private readonly IParentService _parentService;
 
-        public ParentController(IParentService parentService)
+        public parentController(IParentService parentService)
         {
             _parentService = parentService;
         }
 
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginParentRequest request)
         {
             if (!ModelState.IsValid)
@@ -37,7 +37,7 @@ namespace Smmsbe.WebApi.Controllers
             });
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var getById = await _parentService.GetById(id);
@@ -51,7 +51,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }*/
 
-        [HttpPost("Add")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddAccount([FromBody] AddParentRequest request)
         {
             if (!ModelState.IsValid)
@@ -68,7 +68,7 @@ namespace Smmsbe.WebApi.Controllers
             });
         }
 
-        [HttpPut("Update")]
+        [HttpPut("update")]
         public async Task<IActionResult> UpdateAccount(UpdateParentRequest request)
         {
             if (!ModelState.IsValid)
@@ -80,7 +80,7 @@ namespace Smmsbe.WebApi.Controllers
         }
 
 
-        [HttpPost("Search")]
+        [HttpPost("search")]
         public async Task<IActionResult> Search(SearchParentRequest request)
         {
             var result = await _parentService.SearchParentAsync(request);

@@ -7,16 +7,16 @@ namespace Smmsbe.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class NurseController : ControllerBase
+    public class nurseController : ControllerBase
     {
         private readonly INurseService _nurseService;
 
-        public NurseController(INurseService nurseService)
+        public nurseController(INurseService nurseService)
         {
             _nurseService = nurseService;
         }
 
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginNurseRequest request)
         {
             if (!ModelState.IsValid)
@@ -36,7 +36,7 @@ namespace Smmsbe.WebApi.Controllers
             });
         }
 
-        [HttpGet("GetById")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var getById = await _nurseService.GetById(id);
@@ -50,7 +50,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }*/
 
-        [HttpPost("Add")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddAccount([FromBody] AddNurseRequest request)
         {
             if (!ModelState.IsValid)
@@ -67,7 +67,7 @@ namespace Smmsbe.WebApi.Controllers
             });
         }
 
-        [HttpPut("Update")]
+        [HttpPut("update")]
         public async Task<IActionResult> UpdateAccount(UpdateNurseRequest request)
         {
             if (!ModelState.IsValid)
@@ -79,7 +79,7 @@ namespace Smmsbe.WebApi.Controllers
         }
 
 
-        [HttpPost("Search")]
+        [HttpPost("search")]
         public async Task<IActionResult> Search(SearchNurseRequest request)
         {
             var result = await _nurseService.SearchNurseAsync(request);
