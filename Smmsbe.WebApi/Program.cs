@@ -67,6 +67,8 @@ builder.Services.AddScoped<IVaccinationResultRepository, VaccinationResultReposi
 builder.Services.AddScoped<IVaccinationResultService, VaccinationResultService>();
 builder.Services.AddScoped<IHealthCheckResultRepository, HealthCheckResultRepository>();
 builder.Services.AddScoped<IHealthCheckResultService, HealthCheckResultService>();
+builder.Services.AddScoped<IHealthCheckupScheduleRepository, HealthCheckupScheduleRepository>();
+builder.Services.AddScoped<IHealthCheckScheduleService, HealthCheckScheduleService>();
 builder.Services.AddScoped<IHealthProfileRepository, HealthProfileRepository>();
 builder.Services.AddScoped<IHealthProfileService, HealthProfileService>();
 
