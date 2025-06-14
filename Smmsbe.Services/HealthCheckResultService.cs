@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure.Core;
+using Microsoft.EntityFrameworkCore;
 using Smmsbe.Repositories;
 using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Interfaces;
+using Smmsbe.Services.Enum;
 using Smmsbe.Services.Exceptions;
 using Smmsbe.Services.Interfaces;
 using Smmsbe.Services.Models;
@@ -21,22 +23,43 @@ namespace Smmsbe.Services
             _healthCheckResultRepository = healthCheckResultRepository;
         }
 
-        public async Task<HealthCheckResult> GetById(int id)
+        /*public async Task<HealthCheckResult> GetById(int id)
         {
             var entity = await _healthCheckResultRepository.GetById(id);
             if (entity == null) throw AppExceptions.NotFoundId();
 
             return entity;
+        }*/
+
+        public async Task<HealthCheckResultResponse> GetById(int id)
+        {
+            var entity = await _healthCheckResultRepository.GetAll().FirstOrDefaultAsync(x => x.HealthCheckupRecordId == id);
+            if (entity == null) throw AppExceptions.NotFoundId();
+
+            return new HealthCheckResultResponse
+            {
+                HealthCheckScheduleId = entity.HealthCheckScheduleId,
+                NurseId = entity.NurseId,
+                NurseName = $"{entity.Nurse?.FullName}",
+                HealthProfileId = entity.HealthProfileId,
+                Status = ((ResultStatus)entity.Status).ToString(),
+                Height = entity.Height,
+                Weight = entity.Weight,
+                LeftVision = entity.LeftVision,
+                RightVision = entity.RightVision,
+                Result = entity.Result,
+                Note = entity.Note
+            };
         }
 
-        public async Task<HealthCheckResult> AddHealthCheckResultAsync(AddHealthCheckResultRequest request)
+        public async Task<HealthCheckResultResponse> AddHealthCheckResultAsync(AddHealthCheckResultRequest request)
         {
             var newHea = new HealthCheckResult
             {
                 HealthCheckScheduleId = request.HealthCheckScheduleId,
                 NurseId = request.NurseId,
                 HealthProfileId = request.HealthProfileId,
-                Status = request.Status,
+                Status = 1,
                 Height = request.Height,
                 Weight = request.Weight,
                 LeftVision = request.LeftVision,
@@ -45,7 +68,24 @@ namespace Smmsbe.Services
                 Note = request.Note
             };
 
-            return await _healthCheckResultRepository.Insert(newHea);
+
+            var addHea = await _healthCheckResultRepository.Insert(newHea);
+
+            return new HealthCheckResultResponse
+            {
+                HealthCheckupRecordId = addHea.HealthCheckupRecordId,
+                HealthCheckScheduleId = addHea.HealthCheckScheduleId,
+                NurseId = addHea.NurseId,
+                NurseName = $"{addHea.Nurse?.FullName}",
+                HealthProfileId = addHea.HealthProfileId,
+                Status = ((ResultStatus)addHea.Status).ToString(),
+                Height = addHea.Height,
+                Weight = addHea.Weight,
+                LeftVision = addHea.LeftVision,
+                RightVision = addHea.RightVision,
+                Result = addHea.Result,
+                Note = addHea.Note
+            };
         }
 
         public async Task<List<HealthCheckResultResponse>> SearchHealthCheckResultAsync(SearchHealthCheckResultRequest request)
@@ -62,8 +102,9 @@ namespace Smmsbe.Services
                 HealthCheckupRecordId = h.HealthCheckupRecordId,
                 HealthCheckScheduleId = h.HealthCheckScheduleId,
                 NurseId = h.NurseId,
+                NurseName = $"{h.Nurse.FullName}",
                 HealthProfileId = h.HealthProfileId,
-                Status = h.Status,
+                Status = ((ResultStatus)h.Status).ToString(),
                 Height = h.Height,
                 Weight = h.Weight,
                 LeftVision = h.LeftVision,
@@ -81,7 +122,6 @@ namespace Smmsbe.Services
             if (updateVaccinationSchedule == null) throw AppExceptions.NotFoundId();
 
             updateVaccinationSchedule.NurseId = request.NurseId;
-            updateVaccinationSchedule.Status = request.Status;
             updateVaccinationSchedule.Height = request.Height;
             updateVaccinationSchedule.Weight = request.Weight;
             updateVaccinationSchedule.LeftVision = request.LeftVision;

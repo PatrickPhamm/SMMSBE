@@ -9,13 +9,8 @@ namespace Smmsbe.Services.Models
     public class UpdateVaccinationResultRequest
     {
         public int VaccinationResultId { get; set; }
-
         public int? NurseId { get; set; }
-
-        public bool? Status { get; set; }
-
         public int? DoseNumber { get; set; }
-
         public string Note { get; set; }
     }
 }

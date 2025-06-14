@@ -10,8 +10,10 @@ namespace Smmsbe.Services.Interfaces
 {
     public interface IVaccinationResultService
     {
-        Task<VaccinationResult> GetById(int id);
-        Task<VaccinationResult> AddVaccinationResultAsync(AddVaccinationResultRequest request);
+        //Task<VaccinationResult> GetById(int id);
+        Task<VaccinationResultResponse> GetById(int id);
+        //Task<VaccinationResult> AddVaccinationResultAsync(AddVaccinationResultRequest request);
+        Task<VaccinationResultResponse> AddVaccinationResultAsync(AddVaccinationResultRequest request);
         Task<List<VaccinationResultResponse>> SearchVaccinationResultAsync(SearchVaccinationResultRequest request);
         Task<VaccinationResult> UpdateVaccinationResultAsync(UpdateVaccinationResultRequest request);
         Task<bool> DeleteVaccinationResultAsync(int id);

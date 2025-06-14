@@ -10,8 +10,8 @@ namespace Smmsbe.Services.Interfaces
 {
     public interface IHealthCheckResultService
     {
-        Task<HealthCheckResult> GetById(int id);
-        Task<HealthCheckResult> AddHealthCheckResultAsync(AddHealthCheckResultRequest request);
+        Task<HealthCheckResultResponse> GetById(int id);
+        Task<HealthCheckResultResponse> AddHealthCheckResultAsync(AddHealthCheckResultRequest request);
         Task<List<HealthCheckResultResponse>> SearchHealthCheckResultAsync(SearchHealthCheckResultRequest request);
         Task<HealthCheckResult> UpdateHealthCheckResultAsync(UpdateHealthCheckResultRequest request);
         Task<bool> DeleteHealthCheckResultAsync(int id);

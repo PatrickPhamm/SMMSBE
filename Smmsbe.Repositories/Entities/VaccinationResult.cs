@@ -16,7 +16,7 @@ public partial class VaccinationResult : IEntityBase
 
     public int? NurseId { get; set; }
 
-    public bool? Status { get; set; }
+    public int? Status { get; set; }
 
     public int? DoseNumber { get; set; }
 

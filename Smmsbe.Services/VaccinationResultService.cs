@@ -2,6 +2,7 @@
 using Smmsbe.Repositories;
 using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Interfaces;
+using Smmsbe.Services.Enum;
 using Smmsbe.Services.Exceptions;
 using Smmsbe.Services.Interfaces;
 using Smmsbe.Services.Models;
@@ -16,15 +17,33 @@ namespace Smmsbe.Services
             _vaccinationResultRepository = vaccinationResultRepository;
         }
 
-        public async Task<VaccinationResult> GetById(int id)
+        /*public async Task<VaccinationResult> GetById(int id)
         {
             var entity = await _vaccinationResultRepository.GetById(id);
             if (entity == null) throw AppExceptions.NotFoundId();
 
             return entity;
+        }*/
+
+        public async Task<VaccinationResultResponse> GetById(int id)
+        {
+            var entity = await _vaccinationResultRepository.GetAll().FirstOrDefaultAsync(x => x.VaccinationResultId == id);
+            if (entity == null) throw AppExceptions.NotFoundId();
+
+            return new VaccinationResultResponse
+            {
+                VaccinationResultId = entity.VaccinationResultId,
+                VaccinationScheduleId = entity.VaccinationScheduleId,
+                HealthProfileId = entity.HealthProfileId,
+                NurseId = entity.NurseId,
+                NurseName = $"{entity.Nurse?.FullName}",
+                Status = ((ResultStatus)entity.Status).ToString(),
+                DoseNumber = entity.DoseNumber,
+                Note = entity.Note
+            };
         }
 
-        public async Task<VaccinationResult> AddVaccinationResultAsync(AddVaccinationResultRequest request)
+        /*public async Task<VaccinationResult> AddVaccinationResultAsync(AddVaccinationResultRequest request)
         {
             var newVac = new VaccinationResult
             {
@@ -37,6 +56,33 @@ namespace Smmsbe.Services
             };
 
             return await _vaccinationResultRepository.Insert(newVac);
+        }*/
+
+        public async Task<VaccinationResultResponse> AddVaccinationResultAsync(AddVaccinationResultRequest request)
+        {
+            var vac = new VaccinationResult
+            {
+                VaccinationScheduleId = request.VaccinationScheduleId,
+                HealthProfileId = request.HealthProfileId,
+                NurseId = request.NurseId,
+                Status = 1,
+                DoseNumber = request.DoseNumber,
+                Note = request.Note
+            };
+
+            var addVac = await _vaccinationResultRepository.Insert(vac);
+
+            return new VaccinationResultResponse
+            {
+                VaccinationResultId = addVac.VaccinationResultId,
+                VaccinationScheduleId = addVac.VaccinationScheduleId,
+                HealthProfileId = addVac.HealthProfileId,
+                NurseId = addVac.NurseId,
+                NurseName = $"{addVac.Nurse?.FullName}",
+                Status = ((ResultStatus)addVac.Status).ToString(),
+                DoseNumber = addVac.DoseNumber,
+                Note = addVac.Note
+            };
         }
 
         public async Task<List<VaccinationResultResponse>> SearchVaccinationResultAsync(SearchVaccinationResultRequest request)
@@ -54,7 +100,8 @@ namespace Smmsbe.Services
                 VaccinationScheduleId = h.VaccinationScheduleId,
                 HealthProfileId = h.HealthProfileId,
                 NurseId = h.NurseId,
-                Status = h.Status,
+                NurseName = $"{h.Nurse.FullName}",
+                Status = ((ResultStatus)h.Status).ToString(),
                 DoseNumber = h.DoseNumber,
                 Note = h.Note
             }).ToListAsync();
@@ -68,7 +115,6 @@ namespace Smmsbe.Services
             if (updateVaccinationSchedule == null) throw AppExceptions.NotFoundId();
 
             updateVaccinationSchedule.NurseId = request.NurseId;
-            updateVaccinationSchedule.Status = request.Status;
             updateVaccinationSchedule.DoseNumber = request.DoseNumber;
             updateVaccinationSchedule.Note = request.Note;
 
