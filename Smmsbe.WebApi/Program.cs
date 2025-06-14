@@ -70,6 +70,7 @@ builder.Services.AddScoped<IHealthCheckResultService, HealthCheckResultService>(
 builder.Services.AddScoped<IHealthProfileRepository, HealthProfileRepository>();
 builder.Services.AddScoped<IHealthProfileService, HealthProfileService>();
 
+builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 
 // Add CORS
