@@ -25,7 +25,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(entity);
         }
 
-        [HttpPost("Add")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddForm([FromBody] AddFormRequest request)
         {
             var entity = await _formService.AddFormAsync(request);
@@ -33,7 +33,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(entity);
         }
 
-        [HttpPut("Update")]
+        [HttpPut("update")]
         public async Task<IActionResult> UpdateForm(UpdateFormRequest request)
         {
             if (!ModelState.IsValid)
@@ -44,7 +44,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(entity);
         }
 
-        [HttpPost("Search")]
+        [HttpPost("search")]
         public async Task<IActionResult> Search(SearchFormRequest request)
         {
             var result = await _formService.SearchFormAsync(request);

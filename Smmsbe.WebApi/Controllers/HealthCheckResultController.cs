@@ -23,7 +23,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(getById);
         }
 
-        [HttpPost("addHealthCheckResult")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddHealthCheckResult(AddHealthCheckResultRequest request)
         {
             var addHealthCheckResult = await _healthCheckResultService.AddHealthCheckResultAsync(request);
@@ -38,7 +38,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut("updateHealthCheckResult")]
+        [HttpPut("update")]
         public async Task<IActionResult> UpdateHealthCheckResult(UpdateHealthCheckResultRequest request)
         {
             if (!ModelState.IsValid)

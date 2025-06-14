@@ -29,7 +29,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(getById);
         }
 
-        [HttpPost("addBlog")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddBlog(AddBlogRequest request)
         {
             var addBlog = await _blogService.AddBlogAsync(request);
@@ -44,7 +44,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut("updateBlog")]
+        [HttpPut("update")]
         public async Task<IActionResult> UpdateBlog(UpdateBlogRequest request)
         {
             if (!ModelState.IsValid)

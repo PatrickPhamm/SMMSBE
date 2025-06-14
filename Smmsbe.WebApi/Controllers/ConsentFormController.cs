@@ -23,7 +23,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(getById);
         }
 
-        [HttpPost("addConsentForm")]
+        [HttpPost("create")]
         public async Task<IActionResult> AddConsentForm(AddConsentFormRequest request)
         {
             var addConsentForm = await _consentFormService.AddConsentFormAsync(request);
@@ -38,7 +38,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut("updateConsentForm")]
+        [HttpPut("update")]
         public async Task<IActionResult> UpdateConsentForm(UpdateConsentFormRequest request)
         {
             if (!ModelState.IsValid)
@@ -48,18 +48,18 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(updateConsentForm);
         }
 
-        [HttpPost("accept/{consentFormId}")]
-        public async Task<IActionResult> Approve(int consentFormId)
+        [HttpPost("accept/{id}")]
+        public async Task<IActionResult> Approve(int id)
         {
-            var result = await _consentFormService.AcceptConsentForm(consentFormId);
+            var result = await _consentFormService.AcceptConsentForm(id);
 
             return Ok(result);
         }
 
-        [HttpPost("reject/{consentFormId}")]
-        public async Task<IActionResult> Reject(int consentFormId)
+        [HttpPost("reject/{id}")]
+        public async Task<IActionResult> Reject(int id)
         {
-            var result = await _consentFormService.RejectConsentForm(consentFormId);
+            var result = await _consentFormService.RejectConsentForm(id);
 
             return Ok(result);
         }

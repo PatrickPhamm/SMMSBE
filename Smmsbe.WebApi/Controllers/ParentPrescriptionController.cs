@@ -30,7 +30,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(getById);
         }
 
-        [HttpPost("addParentPrescription")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddParentPrescription(AddParentPrescriptionRequest request)
         {
             var addParentPrescription = await _parentPrescriptionService.AddParentPrescriptionAsync(request);
@@ -45,7 +45,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut("updateParentPrescription")]
+        [HttpPut("update")]
         public async Task<IActionResult> UpdateParentPrescription(UpdateParentPrescriptionRequest request)
         {
             if (!ModelState.IsValid)

@@ -23,7 +23,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(getById);
         }
 
-        [HttpPost("addVaccinationResult")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddVaccinationResult(AddVaccinationResultRequest request)
         {
             var addVaccinationResult = await _vaccinationResultService.AddVaccinationResultAsync(request);
@@ -38,7 +38,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut("updateVaccinationResult")]
+        [HttpPut("update")]
         public async Task<IActionResult> UpdateVaccinationResult(UpdateVaccinationResultRequest request)
         {
             if (!ModelState.IsValid)

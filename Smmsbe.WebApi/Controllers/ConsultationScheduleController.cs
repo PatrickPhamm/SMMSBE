@@ -23,7 +23,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(getById);
         }
 
-        [HttpPost("createConsultationSchedule")]
+        [HttpPost("create")]
         public async Task<IActionResult> AddConsultationSchedule(AddConsultationScheduleRequest request)
         {
             var addConsultationSchedule = await _consultationScheduleService.AddConsultationScheduleAsync(request);
@@ -38,7 +38,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut("updateConsultationSchedule")]
+        [HttpPut("update")]
         public async Task<IActionResult> UpdateConsultationSchedule(UpdateConsultationScheduleRequest request)
         {
             if (!ModelState.IsValid)
@@ -48,18 +48,18 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(updateConsultationSchedule);
         }
 
-        [HttpPost("accept/{consultationId}")]
-        public async Task<IActionResult> Approve(int consultationId)
+        [HttpPost("accept/{id}")]
+        public async Task<IActionResult> Approve(int id)
         {
-            var result = await _consultationScheduleService.AcceptConsultation(consultationId);
+            var result = await _consultationScheduleService.AcceptConsultation(id);
 
             return Ok(result);
         }
 
-        [HttpPost("reject/{consultationId}")]
-        public async Task<IActionResult> Reject(int consultationId)
+        [HttpPost("reject/{id}")]
+        public async Task<IActionResult> Reject(int id)
         {
-            var result = await _consultationScheduleService.RejectConsultation(consultationId);
+            var result = await _consultationScheduleService.RejectConsultation(id);
 
             return Ok(result);
         }

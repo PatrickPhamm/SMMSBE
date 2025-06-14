@@ -23,7 +23,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(getById);
         }
 
-        [HttpPost("addConsultationForm")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddConsultationForm(AddConsultationFormRequest request)
         {
             var addConsultationForm = await _consultationFormService.AddConsultationFormAsync(request);
@@ -38,7 +38,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut("updateConsultationForm")]
+        [HttpPut("update")]
         public async Task<IActionResult> UpdateConsultationForm(UpdateConsultationFormRequest request)
         {
             if (!ModelState.IsValid)

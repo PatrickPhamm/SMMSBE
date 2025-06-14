@@ -23,7 +23,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(getById);
         }
 
-        [HttpPost("addMedicalEvent")]
+        [HttpPost("add")]
         public async Task<IActionResult> AddMedicalEvent(AddMedicalEventRequest request)
         {
             var addMedicalEvent = await _medicalEventService.AddMedicalEventAsync(request);
@@ -38,7 +38,7 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(result);
         }
 
-        [HttpPut("updateMedicalEvent")]
+        [HttpPut("update")]
         public async Task<IActionResult> UpdateMedicalEvent(UpdateMedicalEventRequest request)
         {
             if (!ModelState.IsValid)
