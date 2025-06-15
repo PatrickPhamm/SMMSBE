@@ -60,13 +60,24 @@ namespace Smmsbe.Services
         public async Task<List<ConsentFormResponse>> GetConsentFormByParent(int id)
         {
             return await _consentFormRepository.GetAll()
+                                    .Include (x => x.Form)
                                     .Where(x => x.ParentId == id)
                                     .Select(x => new ConsentFormResponse 
                                     {
                                         ConsentFormId = x.ConsentFormId,
                                         ParentId = x.ParentId,
                                         ConfirmDate = x.ConfirmDate,
-                                        Status = ((ConsentFormStatus)x.Status).ToString()
+                                        Status = ((ConsentFormStatus)x.Status).ToString(),
+                                        Form = new FormResponse
+                                        {
+                                            FormId = x.Form.FormId,
+                                            Title = x.Form.Title,
+                                            ClassName = x.Form.ClassName,
+                                            Content = x.Form.Content,
+                                            SentDate = x.Form.SentDate,
+                                            CreatedAt = x.Form.CreatedAt,
+                                            Type = ((FormType)x.Form.Type).ToString()
+                                        }
                                     }).ToListAsync();
         }
 
