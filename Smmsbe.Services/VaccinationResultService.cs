@@ -17,6 +17,7 @@ namespace Smmsbe.Services
             _vaccinationResultRepository = vaccinationResultRepository;
         }
 
+        #region getId v1
         /*public async Task<VaccinationResult> GetById(int id)
         {
             var entity = await _vaccinationResultRepository.GetById(id);
@@ -24,10 +25,13 @@ namespace Smmsbe.Services
 
             return entity;
         }*/
+        #endregion
 
         public async Task<VaccinationResultResponse> GetById(int id)
         {
-            var entity = await _vaccinationResultRepository.GetAll().FirstOrDefaultAsync(x => x.VaccinationResultId == id);
+            var entity = await _vaccinationResultRepository.GetAll()
+                .Include(x => x.Nurse)
+                .FirstOrDefaultAsync(x => x.VaccinationResultId == id);
             if (entity == null) throw AppExceptions.NotFoundId();
 
             return new VaccinationResultResponse
@@ -43,6 +47,7 @@ namespace Smmsbe.Services
             };
         }
 
+        #region AddVac v1
         /*public async Task<VaccinationResult> AddVaccinationResultAsync(AddVaccinationResultRequest request)
         {
             var newVac = new VaccinationResult
@@ -57,6 +62,7 @@ namespace Smmsbe.Services
 
             return await _vaccinationResultRepository.Insert(newVac);
         }*/
+        #endregion
 
         public async Task<VaccinationResultResponse> AddVaccinationResultAsync(AddVaccinationResultRequest request)
         {
@@ -71,6 +77,10 @@ namespace Smmsbe.Services
             };
 
             var addVac = await _vaccinationResultRepository.Insert(vac);
+
+            var entityWithNu = await _vaccinationResultRepository.GetAll()
+                .Include(x => x.Nurse)
+                .FirstOrDefaultAsync(x => x.VaccinationResultId == addVac.VaccinationResultId);
 
             return new VaccinationResultResponse
             {
@@ -136,6 +146,18 @@ namespace Smmsbe.Services
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task<bool> CompleteVaccinationResultAsync(int id)
+        {
+            var consultation = await _vaccinationResultRepository.GetById(id);
+            if (consultation == null) return false;
+
+            consultation.Status = (int)ResultStatus.Completed;
+
+            await _vaccinationResultRepository.Update(consultation);
+
+            return true;
         }
     }
 }

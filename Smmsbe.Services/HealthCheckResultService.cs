@@ -1,17 +1,10 @@
-﻿using Azure.Core;
-using Microsoft.EntityFrameworkCore;
-using Smmsbe.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
 using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Interfaces;
 using Smmsbe.Services.Enum;
 using Smmsbe.Services.Exceptions;
 using Smmsbe.Services.Interfaces;
 using Smmsbe.Services.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Smmsbe.Services
 {
@@ -23,6 +16,7 @@ namespace Smmsbe.Services
             _healthCheckResultRepository = healthCheckResultRepository;
         }
 
+        #region getId v1
         /*public async Task<HealthCheckResult> GetById(int id)
         {
             var entity = await _healthCheckResultRepository.GetById(id);
@@ -30,17 +24,20 @@ namespace Smmsbe.Services
 
             return entity;
         }*/
+        #endregion
 
         public async Task<HealthCheckResultResponse> GetById(int id)
         {
-            var entity = await _healthCheckResultRepository.GetAll().FirstOrDefaultAsync(x => x.HealthCheckupRecordId == id);
+            var entity = await _healthCheckResultRepository.GetAll()
+                .Include(x => x.Nurse)
+                .FirstOrDefaultAsync(x => x.HealthCheckupRecordId == id);
             if (entity == null) throw AppExceptions.NotFoundId();
 
             return new HealthCheckResultResponse
             {
                 HealthCheckScheduleId = entity.HealthCheckScheduleId,
                 NurseId = entity.NurseId,
-                NurseName = $"{entity.Nurse?.FullName}",
+                NurseName = $"{entity.Nurse.FullName}",
                 HealthProfileId = entity.HealthProfileId,
                 Status = ((ResultStatus)entity.Status).ToString(),
                 Height = entity.Height,
@@ -68,8 +65,11 @@ namespace Smmsbe.Services
                 Note = request.Note
             };
 
-
             var addHea = await _healthCheckResultRepository.Insert(newHea);
+
+            var entityWithNurse = await _healthCheckResultRepository.GetAll()
+                .Include(x => x.Nurse)
+                .FirstOrDefaultAsync(x => x.HealthCheckupRecordId == addHea.HealthCheckupRecordId);
 
             return new HealthCheckResultResponse
             {
@@ -147,6 +147,18 @@ namespace Smmsbe.Services
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task<bool> CompleteCheckResultAsync(int id)
+        {
+            var checkRe = await _healthCheckResultRepository.GetById(id);
+            if (checkRe == null) return false;
+
+            checkRe.Status = (int)ResultStatus.Completed;
+
+            await _healthCheckResultRepository.Update(checkRe);
+
+            return true;
         }
     }
 }

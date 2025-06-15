@@ -17,5 +17,6 @@ namespace Smmsbe.Services.Interfaces
         Task<List<VaccinationResultResponse>> SearchVaccinationResultAsync(SearchVaccinationResultRequest request);
         Task<VaccinationResult> UpdateVaccinationResultAsync(UpdateVaccinationResultRequest request);
         Task<bool> DeleteVaccinationResultAsync(int id);
+        Task<bool> CompleteVaccinationResultAsync(int id);
     }
 }

@@ -54,5 +54,13 @@ namespace Smmsbe.WebApi.Controllers
             var deleteVaccinationResult = await _vaccinationResultService.DeleteVaccinationResultAsync(id);
             return Ok();
         }
+
+        [HttpPost("complete/{id}")]
+        public async Task<IActionResult> Approve(int id)
+        {
+            var result = await _vaccinationResultService.CompleteVaccinationResultAsync(id);
+
+            return Ok(result);
+        }
     }
 }

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Smmsbe.Services;
+﻿using Microsoft.AspNetCore.Mvc;
 using Smmsbe.Services.Interfaces;
 using Smmsbe.Services.Models;
 
@@ -53,6 +51,14 @@ namespace Smmsbe.WebApi.Controllers
         {
             var deleteHealthCheckResult = await _healthCheckResultService.DeleteHealthCheckResultAsync(id);
             return Ok();
+        }
+
+        [HttpPost("complete/{id}")]
+        public async Task<IActionResult> Approve(int id)
+        {
+            var result = await _healthCheckResultService.CompleteCheckResultAsync(id);
+
+            return Ok(result);
         }
     }
 }
