@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Smmsbe.Repositories;
 using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Interfaces;
+using Smmsbe.Services.Enum;
 using Smmsbe.Services.Exceptions;
 using Smmsbe.Services.Interfaces;
 using Smmsbe.Services.Models;
@@ -11,10 +13,15 @@ namespace Smmsbe.Services
     public class NurseService : INurseService
     {
         private readonly INurseRepository _nurseRepository;
+        private readonly IVaccinationResultRepository _vaccinationResultRepository;
+        private readonly IHealthCheckResultRepository _healthCheckResultRepository;
         private readonly IHashHelper _hashHelper;
-        public NurseService(INurseRepository nurseRepository, IHashHelper hashHelper)
+        public NurseService(INurseRepository nurseRepository, IVaccinationResultRepository vaccinationResultRepository
+                , IHealthCheckResultRepository healthCheckResultRepository, IHashHelper hashHelper)
         {
             _nurseRepository = nurseRepository;
+            _vaccinationResultRepository = vaccinationResultRepository;
+            _healthCheckResultRepository = healthCheckResultRepository;
             _hashHelper = hashHelper;
         }
 
@@ -25,6 +32,7 @@ namespace Smmsbe.Services
             return nurse;
         }
 
+        #region getAll
         /*public async Task<List<NurseResponse>> GetAllAsync()
         {
             var nurses = await _nurseRepository.GetAll()
@@ -40,6 +48,7 @@ namespace Smmsbe.Services
 
             return nurses;
         }*/
+        #endregion
 
         public async Task<Nurse> AddNurseAsync(AddNurseRequest request)
         {
@@ -125,6 +134,50 @@ namespace Smmsbe.Services
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task<List<VaccinationResultResponse>> GetVaccinationResults(int id)
+        {
+            var getVac = await _vaccinationResultRepository.GetAll()
+                                                .Where(x => x.NurseId == id)
+                                                .Select(x => new VaccinationResultResponse
+                                                {
+                                                    VaccinationResultId = x.VaccinationResultId,
+                                                    VaccinationScheduleId = x.VaccinationScheduleId,
+                                                    HealthProfileId = x.HealthProfileId,
+                                                    NurseId = x.NurseId,
+                                                    NurseName = $"{x.Nurse.FullName}",
+                                                    Status = ((ResultStatus)x.Status).ToString(),
+                                                    DoseNumber = x.DoseNumber,
+                                                    Note = x.Note
+
+                                                })
+                                                .ToListAsync();
+            return getVac;
+        }
+
+        public async Task<List<HealthCheckResultResponse>> GetHealthCheckResults(int id)
+        {
+            var getHea = await _healthCheckResultRepository.GetAll()
+                                                .Where(x => x.NurseId == id)
+                                                .Select(x => new HealthCheckResultResponse
+                                                {
+                                                    HealthCheckupRecordId = x.HealthCheckupRecordId,
+                                                    HealthCheckScheduleId = x.HealthCheckScheduleId,
+                                                    HealthProfileId = x.HealthProfileId,
+                                                    NurseId = x.NurseId,
+                                                    NurseName = $"{x.Nurse.FullName}",
+                                                    Status = ((ResultStatus)x.Status).ToString(),
+                                                    Height = x.Height,
+                                                    Weight = x.Weight,
+                                                    LeftVision = x.LeftVision,
+                                                    RightVision = x.RightVision,
+                                                    Result = x.Result,
+                                                    Note = x.Note
+
+                                                })
+                                                .ToListAsync();
+            return getHea;
         }
     }
 }

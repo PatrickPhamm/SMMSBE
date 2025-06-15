@@ -43,12 +43,14 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(getById);
         }
 
+        #region getAll
         /*[HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
             var result = await _nurseService.GetAllAsync();
             return Ok(result);
         }*/
+        #endregion
 
         [HttpPost("add")]
         public async Task<IActionResult> AddAccount([FromBody] AddNurseRequest request)
@@ -93,6 +95,20 @@ namespace Smmsbe.WebApi.Controllers
             var result = await _nurseService.DeleteNurseAsync(id);
 
             return Ok();
+        }
+
+        [HttpGet("{id}/vaccineResults")]
+        public async Task<IActionResult> GetVaccineResults(int id)
+        {
+            var result = await _nurseService.GetVaccinationResults(id);
+            return Ok(result);
+        }
+
+        [HttpGet("{id}/healthCheckResults")]
+        public async Task<IActionResult> GetHealthCheckResults(int id)
+        {
+            var result = await _nurseService.GetHealthCheckResults(id);
+            return Ok(result);
         }
     }
 }

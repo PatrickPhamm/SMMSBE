@@ -57,6 +57,19 @@ namespace Smmsbe.Services
             return entity;
         }
 
+        public async Task<List<ConsentFormResponse>> GetConsentFormByParent(int id)
+        {
+            return await _consentFormRepository.GetAll()
+                                    .Where(x => x.ParentId == id)
+                                    .Select(x => new ConsentFormResponse 
+                                    {
+                                        ConsentFormId = x.ConsentFormId,
+                                        ParentId = x.ParentId,
+                                        ConfirmDate = x.ConfirmDate,
+                                        Status = ((ConsentFormStatus)x.Status).ToString()
+                                    }).ToListAsync();
+        }
+
         public async Task<ConsentForm> AddConsentFormAsync(AddConsentFormRequest request)
         {
             var newConsent = new ConsentForm()
@@ -161,7 +174,5 @@ namespace Smmsbe.Services
                 throw new Exception(ex.Message);
             }
         }
-
-        
     }
 }
