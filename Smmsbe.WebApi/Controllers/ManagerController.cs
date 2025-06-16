@@ -45,10 +45,14 @@ namespace Smmsbe.WebApi.Controllers
 
             return Ok(new
             {
-                Id = acc?.ManagerId,
-                acc?.Email,
-                Role = "manager",
-                AccessToken = AccessTokenGenerator.GenerateExpiringAccessToken(DateTime.Now.ToVNTime().AddDays(1))
+                Success = true,
+                User = new
+                {
+                    Id = acc?.ManagerId,
+                    acc?.Email,
+                    Role = "manager",
+                    AccessToken = AccessTokenGenerator.GenerateExpiringAccessToken(DateTime.Now.ToVNTime().AddDays(1))
+                }
             });
         }
 
