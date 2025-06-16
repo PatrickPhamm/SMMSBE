@@ -18,7 +18,8 @@ namespace Smmsbe.WebApi.Controllers
             _managerService = managerService;   
         }
 
-       /* [HttpPost("Register")]
+        #region register
+        /* [HttpPost("Register")]
         public async Task<IActionResult> RegisterAccount([FromBody] RegisterManagerRequest request)
         {
             if (!ModelState.IsValid)
@@ -34,6 +35,7 @@ namespace Smmsbe.WebApi.Controllers
                 PhoneNumber = account.PhoneNumber
             });
         }*/
+        #endregion
 
         [HttpPost("authorize")]
         public async Task<IActionResult> Authorize([FromBody] LoginManagerRequest request)
