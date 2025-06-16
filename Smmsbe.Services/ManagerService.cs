@@ -20,6 +20,7 @@ namespace Smmsbe.Services
             _hashHelper = hashHelper;
         }
 
+        #region register
         /*public async Task<Manager> RegisterManagerAsync(RegisterManagerRequest request)
         {
 
@@ -34,6 +35,7 @@ namespace Smmsbe.Services
             var mana =  await _managerRepository.Insert(newAcc);
             return mana;
         }*/
+        #endregion
 
         public async Task<Manager> GetById(int id)
         {

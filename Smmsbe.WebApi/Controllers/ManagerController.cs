@@ -48,7 +48,7 @@ namespace Smmsbe.WebApi.Controllers
                 Id = acc?.ManagerId,
                 acc?.Email,
                 Role = "manager",
-                AccessToken = AccessTokenGenerator.GenerateExpiringAccessToken(DateTime.Now.ToVNTime().AddDays(1)),
+                AccessToken = AccessTokenGenerator.GenerateExpiringAccessToken(DateTime.Now.ToVNTime().AddDays(1))
             });
         }
 

@@ -2,7 +2,9 @@
 using Smmsbe.Repositories;
 using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Interfaces;
+using Smmsbe.Services.Common;
 using Smmsbe.Services.Exceptions;
+using Smmsbe.Services.Helpers;
 using Smmsbe.Services.Interfaces;
 using Smmsbe.Services.Models;
 using System;
@@ -57,6 +59,7 @@ namespace Smmsbe.Services
             // Check if email already exists
             var exstingAcc = await _parentRepository.GetAll().FirstOrDefaultAsync(x => x.Email == request.Email);
             if (exstingAcc != null) throw AppExceptions.BadRequestEmailIsExists();
+
 
             var newParentAcc = new Parent
             {

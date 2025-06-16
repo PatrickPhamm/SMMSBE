@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Smmsbe.Services;
+using Smmsbe.Services.Helpers;
 using Smmsbe.Services.Interfaces;
 using Smmsbe.Services.Models;
+using Smmsbe.WebApi.Helpers;
 
 namespace Smmsbe.WebApi.Controllers
 {
@@ -32,7 +34,8 @@ namespace Smmsbe.WebApi.Controllers
                 {
                     Id = acc.ParentId,
                     acc.Email,
-                    acc.FullName
+                    acc.FullName,
+                    AccessToken = AccessTokenGenerator.GenerateExpiringAccessToken(DateTime.Now.ToVNTime().AddDays(1))
                 }
             });
         }
