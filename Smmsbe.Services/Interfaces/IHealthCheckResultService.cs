@@ -7,6 +7,7 @@ namespace Smmsbe.Services.Interfaces
     {
         Task<HealthCheckResultResponse> GetById(int id);
         Task<HealthCheckResultResponse> AddHealthCheckResultAsync(AddHealthCheckResultRequest request);
+        Task<List<HealthCheckResultResponse>> GetResultsBySchedule(int scheduleId);
         Task<List<HealthCheckResultResponse>> SearchHealthCheckResultAsync(SearchHealthCheckResultRequest request);
         Task<HealthCheckResult> UpdateHealthCheckResultAsync(UpdateHealthCheckResultRequest request);
         Task<bool> DeleteHealthCheckResultAsync(int id);

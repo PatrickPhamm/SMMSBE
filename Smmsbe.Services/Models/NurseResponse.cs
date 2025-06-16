@@ -9,13 +9,8 @@ namespace Smmsbe.Services.Models
     public class NurseResponse
     {
         public int NurseId { get; set; }
-
         public string FullName { get; set; }
-
         public string Username { get; set; }
-
         public string Email { get; set; }
-
-        
     }
 }

@@ -9,11 +9,8 @@ namespace Smmsbe.Services.Models
     public class UpdateConsentFormRequest
     {
         public int ConsentFormId { get; set; }
-
         public int? FormId { get; set; }
-
         public int? ParentId { get; set; }
-
         public int? Status { get; set; }
     }
 }

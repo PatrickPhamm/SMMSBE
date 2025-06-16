@@ -9,15 +9,10 @@ namespace Smmsbe.Services.Models
     public class ConsultationScheduleResponse
     {
         public int ConsultationScheduleId { get; set; }
-
         public int? ConsultationFormId { get; set; }
-
         public int? NurseId { get; set; }
-
         public string? Status { get; set; }
-
         public string Location { get; set; }
-
         public DateTime? ConsultDate { get; set; }
     }
 }

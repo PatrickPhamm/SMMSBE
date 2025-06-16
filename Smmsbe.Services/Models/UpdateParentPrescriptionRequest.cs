@@ -9,11 +9,8 @@ namespace Smmsbe.Services.Models
     public class UpdateParentPrescriptionRequest
     {
         public int PrescriptionId { get; set; }
-
         public string Schedule { get; set; }
-
         public string ParentNote { get; set; }
-
         public string PrescriptionFile { get; set; }
     }
 }

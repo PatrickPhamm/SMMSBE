@@ -10,9 +10,7 @@ namespace Smmsbe.Services.Models
     {
 
         public int? StudentId { get; set; }
-
         public string BloodType { get; set; }
-
         public string Allergies { get; set; }
     }
 }

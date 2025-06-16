@@ -9,11 +9,8 @@ namespace Smmsbe.Services.Models
     public class UpdateConsultationScheduleRequest
     {
         public int ConsultationScheduleId { get; set; }
-
         public int? NurseId { get; set; }
-
         public string Location { get; set; }
-
         public DateTime? ConsultDate { get; set; }
     }
 }

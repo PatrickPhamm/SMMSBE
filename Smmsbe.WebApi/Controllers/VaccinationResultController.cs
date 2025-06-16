@@ -23,6 +23,13 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(getById);
         }
 
+        [HttpGet("getResultsBySchedule{scheduleId}")]
+        public async Task<IActionResult> GetResultsBySchedule(int scheduleId)
+        {
+            var getId = await _vaccinationResultService.GetResultsBySchedule(scheduleId);
+            return Ok(getId);
+        }
+
         [HttpPost("add")]
         public async Task<IActionResult> AddVaccinationResult(AddVaccinationResultRequest request)
         {

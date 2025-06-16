@@ -47,6 +47,23 @@ namespace Smmsbe.Services
             };
         }
 
+        public async Task<List<VaccinationResultResponse>> GetResultsBySchedule(int scheduleId)
+        {
+            return await _vaccinationResultRepository.GetAll()
+                                        .Where(x => x.VaccinationScheduleId == scheduleId)
+                                        .Select(x => new VaccinationResultResponse
+                                        {
+                                            VaccinationResultId = x.VaccinationResultId,
+                                            VaccinationScheduleId = x.VaccinationScheduleId,
+                                            HealthProfileId = x.HealthProfileId,
+                                            NurseId = x.NurseId,
+                                            NurseName = "",
+                                            Status = ((ResultStatus)x.Status).ToString(),
+                                            DoseNumber = x.DoseNumber,
+                                            Note = x.Note
+                                        }).ToListAsync();
+        }
+
         #region AddVac v1
         /*public async Task<VaccinationResult> AddVaccinationResultAsync(AddVaccinationResultRequest request)
         {

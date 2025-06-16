@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Smmsbe.Repositories;
 using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Interfaces;
 using Smmsbe.Services.Enum;
@@ -47,6 +48,27 @@ namespace Smmsbe.Services
                 Result = entity.Result,
                 Note = entity.Note
             };
+        }
+
+        public async Task<List<HealthCheckResultResponse>> GetResultsBySchedule(int scheduleId)
+        {
+            return await _healthCheckResultRepository.GetAll()
+                                        .Where(x => x.HealthCheckScheduleId == scheduleId)
+                                        .Select(x => new HealthCheckResultResponse
+                                        {
+                                            HealthCheckupRecordId = x.HealthCheckupRecordId,
+                                            HealthCheckScheduleId = x.HealthCheckScheduleId,
+                                            HealthProfileId = x.HealthProfileId,
+                                            NurseId = x.NurseId,
+                                            NurseName = "",
+                                            Status = ((ResultStatus)x.Status).ToString(),
+                                            Height = x.Height,
+                                            Weight = x.Weight,
+                                            LeftVision = x.LeftVision,
+                                            RightVision = x.RightVision,
+                                            Result = x.Result,
+                                            Note = x.Note
+                                        }).ToListAsync();
         }
 
         public async Task<HealthCheckResultResponse> AddHealthCheckResultAsync(AddHealthCheckResultRequest request)

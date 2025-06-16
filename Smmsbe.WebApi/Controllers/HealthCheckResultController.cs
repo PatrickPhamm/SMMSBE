@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Smmsbe.Services;
 using Smmsbe.Services.Interfaces;
 using Smmsbe.Services.Models;
 
@@ -19,6 +20,13 @@ namespace Smmsbe.WebApi.Controllers
         {
             var getById = await _healthCheckResultService.GetById(id);
             return Ok(getById);
+        }
+
+        [HttpGet("getResultsBySchedule{scheduleId}")]
+        public async Task<IActionResult> GetResultsBySchedule(int scheduleId)
+        {
+            var getId = await _healthCheckResultService.GetResultsBySchedule(scheduleId);
+            return Ok(getId);
         }
 
         [HttpPost("add")]
