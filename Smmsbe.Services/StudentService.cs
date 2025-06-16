@@ -125,12 +125,16 @@ namespace Smmsbe.Services
             var Students = await query.Select(n => new StudentResponse
             {
                 StudentId = n.StudentId,
-                ParentId = n.ParentId,
                 FullName = n.FullName,
                 ClassName = n.ClassName,
                 DateOfBirth = n.DateOfBirth,
                 Gender = n.Gender,  
-                StudentNumber = n.StudentNumber
+                StudentNumber = n.StudentNumber,
+                Parent = new ParentResponse
+                {
+                    ParentId = n.Parent.ParentId,
+                    FullName = n.Parent.FullName
+                }
             }).ToListAsync();
 
             return Students;

@@ -9,7 +9,6 @@ namespace Smmsbe.Services.Models
     public class StudentResponse
     {
         public int StudentId { get; set; }
-        //public int? ParentId { get; set; }
         public string FullName { get; set; }
         public DateOnly? DateOfBirth { get; set; }
         public string ClassName { get; set; }
