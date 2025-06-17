@@ -2,6 +2,7 @@
 using Smmsbe.Repositories;
 using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Interfaces;
+using Smmsbe.Services.Enum;
 using Smmsbe.Services.Exceptions;
 using Smmsbe.Services.Interfaces;
 using Smmsbe.Services.Models;
@@ -55,6 +56,21 @@ namespace Smmsbe.Services
             if (student == null) throw AppExceptions.NotFoundId();
 
             return student;
+        }
+
+        public async Task<List<StudentResponse>> GetStudentByParent(int parentId)
+        {
+            return await _studentRepository.GetAll()
+                                        .Where(x => x.Parent.ParentId == parentId)
+                                        .Select(x => new StudentResponse
+                                        {
+                                            StudentId = x.StudentId,
+                                            FullName = x.FullName,
+                                            DateOfBirth = x.DateOfBirth,
+                                            ClassName = x.ClassName,
+                                            Gender = x.Gender,
+                                            StudentNumber = x.StudentNumber
+                                        }).ToListAsync();
         }
 
         public async Task<Student> AddStudentAsync(AddStudentRequest request)

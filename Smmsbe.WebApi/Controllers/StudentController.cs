@@ -48,6 +48,13 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(getById);
         }
 
+        [HttpGet("getStudentByParent{parentId}")]
+        public async Task<IActionResult> GetResultsBySchedule(int parentId)
+        {
+            var getId = await _studentService.GetStudentByParent(parentId);
+            return Ok(getId);
+        }
+
         /*[HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
