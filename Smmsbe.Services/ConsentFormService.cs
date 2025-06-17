@@ -7,6 +7,7 @@ using Smmsbe.Services.Exceptions;
 using Smmsbe.Services.Helpers;
 using Smmsbe.Services.Interfaces;
 using Smmsbe.Services.Models;
+using System.Linq;
 
 namespace Smmsbe.Services
 {
@@ -57,10 +58,11 @@ namespace Smmsbe.Services
             return entity;
         }
 
-        public async Task<List<ConsentFormResponse>> GetConsentFormByParent(int id)
+        public async Task<List<ConsentFormResponse>> GetConsentFormForParent(int id)
         {
             return await _consentFormRepository.GetAll()
                                     .Include (x => x.Form)
+                                    .OrderByDescending(x => x.Form.SentDate)
                                     .Where(x => x.ParentId == id)
                                     .Select(x => new ConsentFormResponse 
                                     {
@@ -106,6 +108,7 @@ namespace Smmsbe.Services
         public async Task<List<ConsentFormResponse>> SearchConsentFormAsync(SearchConsentFormRequest request)
         {
             var query = _consentFormRepository.GetAll();
+                            //.OrderByDescending(x => x.Form.SentDate).AsQueryable();
 
             if (!string.IsNullOrEmpty(request.Keyword))
                 query = query.Where(

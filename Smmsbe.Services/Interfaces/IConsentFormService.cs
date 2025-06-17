@@ -12,7 +12,7 @@ namespace Smmsbe.Services.Interfaces
     {
         Task<ConsentForm> GetById(int id);
         Task<ConsentFormResponse> GetByIdAsync(int id);
-        Task<List<ConsentFormResponse>> GetConsentFormByParent(int id);
+        Task<List<ConsentFormResponse>> GetConsentFormForParent(int id);
         Task<ConsentForm> AddConsentFormAsync(AddConsentFormRequest request);
         Task<List<ConsentFormResponse>> SearchConsentFormAsync(SearchConsentFormRequest request);
         Task<ConsentForm> UpdateConsentFormAsync(UpdateConsentFormRequest request);
