@@ -39,7 +39,6 @@ namespace Smmsbe.Services
                                                         {
                                                             ConsentFormId = x.ConsentFormId,
                                                             ParentId = x.ParentId,
-                                                            ConfirmDate = x.ConfirmDate,
                                                             Status = ((ConsentFormStatus)x.Status).ToString(),
                                                             Form = new FormResponse
                                                             {
@@ -68,7 +67,6 @@ namespace Smmsbe.Services
                                     {
                                         ConsentFormId = x.ConsentFormId,
                                         ParentId = x.ParentId,
-                                        ConfirmDate = x.ConfirmDate,
                                         Status = ((ConsentFormStatus)x.Status).ToString(),
                                         Form = new FormResponse
                                         {
@@ -89,7 +87,6 @@ namespace Smmsbe.Services
             {
                 FormId = request.FormId,
                 ParentId = request.ParentId,
-                ConfirmDate = DateTime.Now.ToVNTime(),
                 Status = (int)ConsentFormStatus.Pending
             };
 
@@ -100,7 +97,6 @@ namespace Smmsbe.Services
             return new ConsentFormResponse
             {
                 ParentId = newConsent.ParentId,
-                ConfirmDate = newConsent.ConfirmDate,
                 Status = (int)ConsentFormStatus.Pending
             };*/
         }
@@ -119,7 +115,6 @@ namespace Smmsbe.Services
             {
                 ConsentFormId = x.ConsentFormId, 
                 ParentId = x.ParentId,
-                ConfirmDate = x.ConfirmDate,
                 Status = ((ConsentFormStatus)x.Status).ToString(),
                 Form = new FormResponse
                 {
@@ -143,10 +138,15 @@ namespace Smmsbe.Services
 
             updateConsentForm.FormId = request.FormId;
             updateConsentForm.ParentId = request.ParentId;
-            updateConsentForm.Status = request.Status;
 
             await _consentFormRepository.Update(updateConsentForm);
-            return updateConsentForm;
+            return new ConsentForm
+            {
+                ConsentFormId = updateConsentForm.ConsentFormId,
+                FormId = updateConsentForm.FormId,
+                ParentId = updateConsentForm.ParentId,
+                Status = (int)(ConsentFormStatus)updateConsentForm.Status
+            };
         }
 
         public async Task<bool> AcceptConsentForm(int consentFormId)
