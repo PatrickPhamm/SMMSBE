@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿ using Microsoft.EntityFrameworkCore;
 using Smmsbe.Repositories;
 using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Interfaces;
@@ -136,10 +136,10 @@ namespace Smmsbe.Services
             }
         }
 
-        public async Task<List<VaccinationResultResponse>> GetVaccinationResults(int id)
+        public async Task<List<VaccinationResultResponse>> GetVaccinationResults(int nurseId)
         {
             var getVac = await _vaccinationResultRepository.GetAll()
-                                                .Where(x => x.NurseId == id)
+                                                .Where(x => x.NurseId == nurseId)
                                                 .Select(x => new VaccinationResultResponse
                                                 {
                                                     VaccinationResultId = x.VaccinationResultId,
@@ -150,7 +150,6 @@ namespace Smmsbe.Services
                                                     Status = ((ResultStatus)x.Status).ToString(),
                                                     DoseNumber = x.DoseNumber,
                                                     Note = x.Note
-
                                                 })
                                                 .ToListAsync();
             return getVac;

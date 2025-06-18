@@ -112,7 +112,5 @@ namespace Smmsbe.Services
             // Assuming _appSettings.ApplicationUrl is the base URL of your application
             return $"{_appSettings.ApplicationUrl}/{ImageFolder}/{thumbnail}";
         }
-
-
     }
 }

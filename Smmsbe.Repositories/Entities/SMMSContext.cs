@@ -71,8 +71,6 @@ public partial class SMMSContext : DbContext
 
             entity.ToTable("ConsentForm");
 
-            entity.Property(e => e.ConfirmDate).HasColumnType("datetime");
-
             entity.HasOne(d => d.Form).WithMany(p => p.ConsentForms)
                 .HasForeignKey(d => d.FormId)
                 .HasConstraintName("FK_ConsentForm_Form");

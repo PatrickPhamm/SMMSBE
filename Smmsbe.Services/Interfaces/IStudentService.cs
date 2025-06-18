@@ -6,7 +6,6 @@ namespace Smmsbe.Services.Interfaces
     public interface IStudentService
     {
         Task<Student> GetById(int id);
-
         Task<StudentResponse> GetByIdAsync(int id);
         Task<List<StudentResponse>> GetStudentByParent(int parentId);
         Task<Student> AuthorizeAsync(string studentNumber, string password);
