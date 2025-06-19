@@ -57,6 +57,37 @@ namespace Smmsbe.Services
             return entity;
         }
 
+        public async Task<List<MedicationResponse>> GetMedicalByParent(int parentId)
+        {
+            var entity = await _medicationRepository.GetAll()
+                                                        .Include(x => x.Prescription)
+                                                        .Include(x => x.Prescription.Parent)
+                                                        .Where(x => x.Prescription.ParentId == parentId)
+                                                        .Select(x => new MedicationResponse
+                                                        {
+                                                            MedicationId = x.MedicationId,
+                                                            StudentId = x.StudentId,
+                                                            MedicationName = x.MedicationName,
+                                                            Dosage = x.Dosage,
+                                                            Quantity = x.Quantity,
+                                                            RemainingQuantity = x.RemainingQuantity,
+                                                            Prescription = new ParentPrescriptionResponse
+                                                            {
+                                                                PrescriptionId = x.Prescription.PrescriptionId,
+                                                                NurseId = x.Prescription.NurseId,
+                                                                ParentId = x.Prescription.ParentId,
+                                                                SubmittedDate = x.Prescription.SubmittedDate,
+                                                                Schedule = x.Prescription.Schedule,
+                                                                ParentNote = x.Prescription.ParentNote,
+                                                                PrescriptionFile = x.Prescription.PrescriptionFile
+                                                            },
+                                                        }).ToListAsync();
+
+            if (entity == null) throw AppExceptions.NotFoundId();
+
+            return entity;
+        }
+
         public async Task<Medication> AddMedicationAsync(AddMedicationRequest request)
         {
             var newMedication = new Medication()
@@ -132,5 +163,7 @@ namespace Smmsbe.Services
                 throw new Exception(ex.Message);
             }
         }
+
+       
     }
 }

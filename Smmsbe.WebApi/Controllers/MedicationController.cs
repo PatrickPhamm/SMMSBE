@@ -24,6 +24,14 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(getById);
         }
 
+        [HttpGet("getMedicalByParent")]
+        public async Task<IActionResult> GetMedicalByParent(int parentId)
+        {
+            var list = await _medicationService.GetMedicalByParent(parentId);
+
+            return Ok(list);
+        }
+
         [HttpPost("add")]
         public async Task<IActionResult> AddMedication(AddMedicationRequest request)
         {

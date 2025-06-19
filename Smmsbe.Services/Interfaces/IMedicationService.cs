@@ -11,15 +11,11 @@ namespace Smmsbe.Services.Interfaces
     public interface IMedicationService
     {
         Task<Medication> GetById(int id);
-
         Task<MedicationResponse> GetByIdAsync(int id);
-
+        Task<List<MedicationResponse>> GetMedicalByParent(int parentId);
         Task<Medication> AddMedicationAsync(AddMedicationRequest request);
-
         Task<List<MedicationResponse>> SearchMedicationAsync(SearchMedicationRequest request);
-
         Task<Medication> UpdateMedicationAsync(UpdateMedicationRequest request);
-
         Task<bool> DeleteMedicationAsync(int id);
     }
 }
