@@ -24,10 +24,10 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(getById);
         }
 
-        [HttpGet("getMedicalByParent")]
-        public async Task<IActionResult> GetMedicalByParent(int parentId)
+        [HttpGet("getMedicalByPrescription")]
+        public async Task<IActionResult> GetMedicalByParent(int prescriptionId)
         {
-            var list = await _medicationService.GetMedicalByParent(parentId);
+            var list = await _medicationService.GetMedicalByPrescription(prescriptionId);
 
             return Ok(list);
         }

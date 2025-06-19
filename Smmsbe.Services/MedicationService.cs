@@ -57,12 +57,11 @@ namespace Smmsbe.Services
             return entity;
         }
 
-        public async Task<List<MedicationResponse>> GetMedicalByParent(int parentId)
+        public async Task<List<MedicationResponse>> GetMedicalByPrescription(int prescriptionId)
         {
             var entity = await _medicationRepository.GetAll()
                                                         .Include(x => x.Prescription)
-                                                        .Include(x => x.Prescription.Parent)
-                                                        .Where(x => x.Prescription.ParentId == parentId)
+                                                        .Where(x => x.PrescriptionId == prescriptionId)
                                                         .Select(x => new MedicationResponse
                                                         {
                                                             MedicationId = x.MedicationId,

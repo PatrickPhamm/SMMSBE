@@ -30,6 +30,14 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(getById);
         }
 
+        [HttpGet("getPrescriptionByParent")]
+        public async Task<IActionResult> GetMedicalByParent(int parentId)
+        {
+            var list = await _parentPrescriptionService.GetPrescriptionByParent(parentId);
+
+            return Ok(list);
+        }
+
         [HttpPost("add")]
         public async Task<IActionResult> AddParentPrescription(AddParentPrescriptionRequest request)
         {

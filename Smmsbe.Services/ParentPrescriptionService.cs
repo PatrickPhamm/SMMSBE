@@ -12,17 +12,48 @@ namespace Smmsbe.Services
     public class ParentPrescriptionService : IParentPrescriptionService
     {
         private readonly IParentPrescriptionRepository _parentPrescriptionRepository;
+        private readonly IParentRepository _parentRepository;
         private readonly AppSettings _appSettings;
 
-        public ParentPrescriptionService(IParentPrescriptionRepository parentPrescriptionRepository, AppSettings appSettings)
+        public ParentPrescriptionService(IParentPrescriptionRepository parentPrescriptionRepository
+            , AppSettings appSettings, IParentRepository parentRepository)
         {
             _parentPrescriptionRepository = parentPrescriptionRepository;
             _appSettings = appSettings;
+            _parentRepository = parentRepository;
         }
 
         public async Task<ParentPrescription> GetById(int id)
         {
             var entity = await _parentPrescriptionRepository.GetById(id);
+            if (entity == null) throw AppExceptions.NotFoundId();
+
+            return entity;
+        }
+
+        public async Task<List<ParentPrescriptionResponse>> GetPrescriptionByParent(int parentId)
+        {
+            var entity = await _parentPrescriptionRepository.GetAll()
+                                        .Include(x => x.Parent)      
+                                        .Where(x => x.ParentId == parentId)
+                                        .Select(x => new ParentPrescriptionResponse
+                                        {
+                                            PrescriptionId = x.PrescriptionId,
+                                            NurseId = x.NurseId,
+                                            ParentNote = x.ParentNote,
+                                            Schedule = x.Schedule,
+                                            SubmittedDate = x.SubmittedDate,
+                                            PrescriptionFile = x.PrescriptionFile,
+                                            Parent = new ParentResponse
+                                            {
+                                                ParentId = x.Parent.ParentId,
+                                                FullName = x.Parent.FullName,
+                                                PhoneNumber = x.Parent.PhoneNumber,
+                                                Email = x.Parent.Email,
+                                                Address = x.Parent.Address
+                                            },
+                                        }).ToListAsync();
+
             if (entity == null) throw AppExceptions.NotFoundId();
 
             return entity;
