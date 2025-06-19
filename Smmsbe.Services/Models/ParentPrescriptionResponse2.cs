@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Smmsbe.Services.Models
 {
-    public class ParentPrescriptionResponse
+    public class ParentPrescriptionResponse2
     {
         public int PrescriptionId { get; set; }
         public int? NurseId { get; set; }
-        public int? ParentId { get; set; }
         public DateOnly? SubmittedDate { get; set; }
         public string Schedule { get; set; }
         public string ParentNote { get; set; }
         public string PrescriptionFile { get; set; }
+        public ParentResponse Parent { get; set; }
     }
 }
