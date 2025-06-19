@@ -1,9 +1,5 @@
-﻿using Smmsbe.Services.Enum;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Smmsbe.Repositories.Entities;
+using Smmsbe.Services.Enum;
 
 namespace Smmsbe.Services.Models
 {
@@ -16,5 +12,7 @@ namespace Smmsbe.Services.Models
         public DateTime? SentDate { get; set; }
         public DateTime? CreatedAt { get; set; }
         public FormType Type { get; set; }
+
+        public List<int> ParentIds { get; set; } = new List<int>(); // Danh sách ParentId để tạo ConsentForm
     }
 }

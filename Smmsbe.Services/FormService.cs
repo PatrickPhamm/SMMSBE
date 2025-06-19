@@ -13,10 +13,16 @@ namespace Smmsbe.Services
     public class FormService : IFormService
     {
         private readonly IFormRepository _formRepository;
+        private readonly IConsentFormRepository _consentFormRepository;
+        private readonly IParentRepository _parentRepository;
 
-        public FormService(IFormRepository formRepository)
+        public FormService(IFormRepository formRepository
+            , IConsentFormRepository consentFormRepository
+            , IParentRepository parentRepository)
         {
             _formRepository = formRepository;
+            _consentFormRepository = consentFormRepository;
+            _parentRepository = parentRepository;
         }
 
         public async Task<FormResponse> GetById(int id)
@@ -36,7 +42,8 @@ namespace Smmsbe.Services
             };
         }
 
-        public async Task<FormResponse> AddFormAsync(AddFormRequest request)
+        //Tạo Form riêng
+        /*public async Task<FormResponse> AddFormAsync(AddFormRequest request)
         {
             var newForm = new Form
             {
@@ -60,6 +67,69 @@ namespace Smmsbe.Services
                 CreatedAt = newForm.CreatedAt,
                 Type = ((FormType)newForm.Type).ToString()
             };
+        }*/
+
+        //Tạo Form mới thì ConsentForm sẽ được tạo tự động tạo ra cùng lúc
+        public async Task<FormResponseAdded> AddFormAsync(AddFormRequest request)
+        {
+            // Kiểm tra tất cả ParentId có tồn tại không
+            foreach (var parentId in request.ParentIds)
+            {
+                var parentExists = await _parentRepository.ParentIdExsistAsync(parentId);
+                if (!parentExists)
+                {
+                    throw new ArgumentException($"Parent with ID {parentId} does not exist.");
+                }
+            }
+
+            // Tạo Form mới
+            var newForm = new Form
+            {
+                ClassName = request.ClassName,
+                Title = request.Title,
+                Content = request.Content,
+                SentDate = request.SentDate,
+                CreatedAt = request.CreatedAt ?? DateTime.Now,
+                Type = (int)request.Type
+            };
+
+            var createdForm = await _formRepository.Insert(newForm);
+
+            // Tạo ConsentForm cho mỗi ParentId
+            var consentForms = new List<ConsentForm>();
+            foreach (var parentId in request.ParentIds)
+            {
+                var consentForm = new ConsentForm
+                {
+                    FormId = createdForm.FormId,
+                    ParentId = parentId,
+                    Status = (int)ConsentFormStatus.Pending // Mặc định là Pending
+                };
+
+                var createdConsentForm = await _consentFormRepository.Insert(consentForm);
+                consentForms.Add(createdConsentForm);
+            }
+
+            // Trả về FormResponse với thông tin ConsentForm
+            var response = new FormResponseAdded
+            {
+                FormId = createdForm.FormId,
+                Title = createdForm.Title,
+                ClassName = createdForm.ClassName,
+                Content = createdForm.Content,
+                SentDate = createdForm.SentDate,
+                CreatedAt = createdForm.CreatedAt,
+                Type = ((FormType)createdForm.Type).ToString(),
+                ConsentForms = consentForms.Select(cf => new ConsentFormResponse
+                {
+                    ConsentFormId = cf.ConsentFormId,
+                    ParentId = cf.ParentId,
+                    Status = ((ConsentFormStatus)cf.Status).ToString(),
+                    Form = null // Tránh circular reference, chỉ trả về thông tin Form ở level cao nhất
+                }).ToList()
+            };
+
+            return response;
         }
 
         public async Task<FormResponse> UpdateFormAsync(UpdateFormRequest request)
@@ -126,7 +196,5 @@ namespace Smmsbe.Services
                 throw new Exception(ex.Message);
             }
         }
-
-        
     }
 }

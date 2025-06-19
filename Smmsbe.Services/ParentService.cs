@@ -73,6 +73,27 @@ namespace Smmsbe.Services
             return await _parentRepository.Insert(newParentAcc);
         }
 
+        //Authorize dành cho đăng nhập bằng mail
+        #region
+        /*public async Task<Parent> AuthorizeAsync(string email, string password)
+        {
+            *//*if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                throw AppExceptions.NotFoundAccount();*//*
+
+            var accPar = await _parentRepository.GetAll().SingleOrDefaultAsync(x => x.Email == email);
+
+            if (accPar == null) throw AppExceptions.NotFoundAccount();
+
+            if (accPar.IsActive == false) throw AppExceptions.AccountNotActivated();
+
+            var passwordHash = _hashHelper.HashPassword(password);
+
+            if (accPar.PasswordHash != passwordHash) throw AppExceptions.NotFoundAccount();
+
+            return accPar;
+        }*/
+        #endregion
+
         public async Task<Parent> AuthorizeAsync(string email, string password)
         {
             /*if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))

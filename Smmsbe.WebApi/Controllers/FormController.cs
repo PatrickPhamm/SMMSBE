@@ -28,9 +28,19 @@ namespace Smmsbe.WebApi.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> AddForm([FromBody] AddFormRequest request)
         {
-            var entity = await _formService.AddFormAsync(request);
-
-            return Ok(entity);
+            try
+            {
+                var entity = await _formService.AddFormAsync(request);
+                return Ok(entity);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occurred while creating the form.");
+            }
         }
 
         [HttpPut("update")]
