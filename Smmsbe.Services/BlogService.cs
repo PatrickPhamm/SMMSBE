@@ -36,7 +36,8 @@ namespace Smmsbe.Services
                 Title = request.Title,
                 Content = request.Content,
                 DatePosted = request.DatePosted,
-                Thumbnail = request.Thumbnail
+                Thumbnail = request.Thumbnail,
+                Category = request.Category
             };
 
             var added = await _blogRepository.Insert(newBlog);
@@ -47,7 +48,8 @@ namespace Smmsbe.Services
                 Title = added.Title,
                 Content = added.Content,
                 DatePosted = added.DatePosted,
-                Thumbnail = GetBlogImageUrl(added.Thumbnail)
+                Thumbnail = GetBlogImageUrl(added.Thumbnail),
+                Category = added.Category
             };
         }
 
@@ -67,7 +69,8 @@ namespace Smmsbe.Services
                 Title = n.Title,
                 Content = n.Content,
                 DatePosted = n.DatePosted,
-                Thumbnail = n.Thumbnail
+                Thumbnail = n.Thumbnail,
+                Category = n.Category
             }).ToListAsync();
 
             return Blogs;
@@ -83,6 +86,7 @@ namespace Smmsbe.Services
             updateBlog.Content = request.Content;
             updateBlog.DatePosted = request.DatePosted;
             updateBlog.Thumbnail = request.Thumbnail;
+            updateBlog.Category = request.Category;
 
             await _blogRepository.Update(updateBlog);
 
@@ -91,7 +95,8 @@ namespace Smmsbe.Services
                 Title = updateBlog.Title,
                 Content = updateBlog.Content,
                 DatePosted = updateBlog.DatePosted,
-                Thumbnail = GetBlogImageUrl(updateBlog.Thumbnail)
+                Thumbnail = GetBlogImageUrl(updateBlog.Thumbnail),
+                Category = updateBlog.Category
             };
         }
 
@@ -128,7 +133,5 @@ namespace Smmsbe.Services
             // Assuming _appSettings.ApplicationUrl is the base URL of your application
             return $"{_appSettings.ApplicationUrl}/{ImageFolder}/{thumbnail}";
         }
-
-        
     }
 }
