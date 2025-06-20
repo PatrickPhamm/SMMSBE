@@ -16,6 +16,8 @@ public partial class ConsultationForm : IEntityBase
 
     public string Content { get; set; }
 
+    public int? Status { get; set; }
+
     public virtual ICollection<ConsultationSchedule> ConsultationSchedules { get; set; } = new List<ConsultationSchedule>();
 
     public virtual Parent Parent { get; set; }

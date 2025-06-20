@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Smmsbe.Services.Enum
 {
-    public enum ConsultationScheduleStatus
+    public enum ConsultationFormStatus
     {
         Pending = 1,
         Accepted = 2,

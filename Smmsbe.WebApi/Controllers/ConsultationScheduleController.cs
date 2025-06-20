@@ -48,22 +48,6 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(updateConsultationSchedule);
         }
 
-        [HttpPost("accept/{id}")]
-        public async Task<IActionResult> Approve(int id)
-        {
-            var result = await _consultationScheduleService.AcceptConsultation(id);
-
-            return Ok(result);
-        }
-
-        [HttpPost("reject/{id}")]
-        public async Task<IActionResult> Reject(int id)
-        {
-            var result = await _consultationScheduleService.RejectConsultation(id);
-
-            return Ok(result);
-        }
-
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteConsultationSchedule(int id)
         {

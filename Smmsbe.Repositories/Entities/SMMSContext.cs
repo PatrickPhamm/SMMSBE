@@ -103,7 +103,6 @@ public partial class SMMSContext : DbContext
 
             entity.Property(e => e.ConsultDate).HasColumnType("datetime");
             entity.Property(e => e.Location).HasMaxLength(250);
-            entity.Property(e => e.Status).HasDefaultValue(0);
 
             entity.HasOne(d => d.ConsultationForm).WithMany(p => p.ConsultationSchedules)
                 .HasForeignKey(d => d.ConsultationFormId)

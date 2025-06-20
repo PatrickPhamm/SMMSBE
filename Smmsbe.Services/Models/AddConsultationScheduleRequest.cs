@@ -10,8 +10,6 @@ namespace Smmsbe.Services.Models
     {
         public int? ConsultationFormId { get; set; }
         public int? NurseId { get; set; }
-
-        //public int? Status { get; set; }
         public string Location { get; set; }
         public DateTime? ConsultDate { get; set; }
     }

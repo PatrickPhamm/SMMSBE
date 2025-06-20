@@ -12,5 +12,6 @@ namespace Smmsbe.Services.Models
         public int? ParentId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
+        public string? Status { get; set; }
     }
 }

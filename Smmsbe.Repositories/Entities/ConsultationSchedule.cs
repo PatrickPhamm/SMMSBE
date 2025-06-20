@@ -14,8 +14,6 @@ public partial class ConsultationSchedule : IEntityBase
 
     public int? NurseId { get; set; }
 
-    public int? Status { get; set; }
-
     public string Location { get; set; }
 
     public DateTime? ConsultDate { get; set; }

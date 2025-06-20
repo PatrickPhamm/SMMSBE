@@ -32,7 +32,8 @@ namespace Smmsbe.Services
             {
                 ParentId = request.ParentId,
                 Title = request.Title,
-                Content = request.Content
+                Content = request.Content,
+                Status = (int)ConsultationFormStatus.Pending
             };
 
             return await _consultationFormRepository.Insert(newCon);
@@ -65,7 +66,8 @@ namespace Smmsbe.Services
                 ConsultationFormId = x.ConsultationFormId,
                 ParentId = x.ParentId,
                 Title = x.Title,
-                Content = x.Content
+                Content = x.Content,
+                Status = ((ConsultationFormStatus)x.Status).ToString()
             }).ToListAsync();
 
             return searchCo;
@@ -87,6 +89,29 @@ namespace Smmsbe.Services
             }
         }
 
-        
+
+        public async Task<bool> AcceptConsultation(int consultationId)
+        {
+            var consultation = await _consultationFormRepository.GetById(consultationId);
+            if (consultation == null) return false;
+
+            consultation.Status = (int)ConsultationFormStatus.Accepted;
+
+            await _consultationFormRepository.Update(consultation);
+
+            return true;
+        }
+
+        public async Task<bool> RejectConsultation(int consultationId)
+        {
+            var consultation = await _consultationFormRepository.GetById(consultationId);
+            if (consultation == null) return false;
+
+            consultation.Status = (int)ConsultationFormStatus.Rejected;
+
+            await _consultationFormRepository.Update(consultation);
+
+            return true;
+        }
     }
 }

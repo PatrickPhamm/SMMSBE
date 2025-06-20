@@ -54,5 +54,21 @@ namespace Smmsbe.WebApi.Controllers
             var deleteConsultationForm = await _consultationFormService.DeleteConsultationFormAsync(id);
             return Ok();
         }
+
+        [HttpPost("accept/{id}")]
+        public async Task<IActionResult> Approve(int id)
+        {
+            var result = await _consultationFormService.AcceptConsultation(id);
+
+            return Ok(result);
+        }
+
+        [HttpPost("reject/{id}")]
+        public async Task<IActionResult> Reject(int id)
+        {
+            var result = await _consultationFormService.RejectConsultation(id);
+
+            return Ok(result);
+        }
     }
 }

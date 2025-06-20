@@ -15,5 +15,7 @@ namespace Smmsbe.Services.Interfaces
         Task<List<ConsultationFormResponse>> SearchConsultationFormAsync(SearchConsultationFormRequest request);
         Task<ConsultationForm> UpdateConsultationFormAsync(UpdateConsultationFormRequest request);
         Task<bool> DeleteConsultationFormAsync(int id);
+        Task<bool> AcceptConsultation(int consultationId);
+        Task<bool> RejectConsultation(int consultationId);
     }
 }

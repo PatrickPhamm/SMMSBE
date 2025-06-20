@@ -36,7 +36,6 @@ namespace Smmsbe.Services
                                                                         NurseId = x.NurseId,
                                                                         ConsultDate = x.ConsultDate,
                                                                         Location = x.Location,
-                                                                        Status = ((ConsultationScheduleStatus)x.Status).ToString()
                                                                     }).FirstOrDefaultAsync();
 
             if (entity == null) throw AppExceptions.NotFoundId();
@@ -49,7 +48,6 @@ namespace Smmsbe.Services
             {
                 ConsultationFormId = request.ConsultationFormId,
                 NurseId = request.NurseId,
-                Status = (int)ConsultationScheduleStatus.Pending,
                 Location = request.Location,
                 ConsultDate = request.ConsultDate
             };
@@ -71,7 +69,6 @@ namespace Smmsbe.Services
                 ConsultationScheduleId = x.ConsultationScheduleId,
                 ConsultationFormId = x.ConsultationFormId,
                 NurseId = x.NurseId,
-                Status = ((ConsultationScheduleStatus)x.Status).ToString(),
                 Location = x.Location,
                 ConsultDate = x.ConsultDate
             }).ToListAsync();
@@ -91,30 +88,6 @@ namespace Smmsbe.Services
 
             await _consultationScheduleRepository.Update(updateConsentForm);
             return updateConsentForm;
-        }
-
-        public async Task<bool> AcceptConsultation(int consultationId)
-        {
-            var consultation = await _consultationScheduleRepository.GetById(consultationId);
-            if (consultation == null) return false;
-
-            consultation.Status = (int)ConsultationScheduleStatus.Accepted;
-
-            await _consultationScheduleRepository.Update(consultation);
-
-            return true;
-        }
-
-        public async Task<bool> RejectConsultation(int consultationId)
-        {
-            var consultation = await _consultationScheduleRepository.GetById(consultationId);
-            if (consultation == null) return false;
-
-            consultation.Status = (int)ConsultationScheduleStatus.Rejected;
-
-            await _consultationScheduleRepository.Update(consultation);
-
-            return true;
         }
 
         public async Task<bool> DeleteConsultationScheduleAsync(int id)

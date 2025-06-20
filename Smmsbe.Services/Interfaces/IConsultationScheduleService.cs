@@ -10,8 +10,6 @@ namespace Smmsbe.Services.Interfaces
         Task<ConsultationSchedule> AddConsultationScheduleAsync(AddConsultationScheduleRequest request);
         Task<List<ConsultationScheduleResponse>> SearchConsultationScheduleAsync(SearchConsultationScheduleRequest request);
         Task<ConsultationSchedule> UpdateConsultationScheduleAsync(UpdateConsultationScheduleRequest request);
-        Task<bool> AcceptConsultation(int consultationId);
-        Task<bool> RejectConsultation(int consultationId);
         Task<bool> DeleteConsultationScheduleAsync(int id);
     }
 }
