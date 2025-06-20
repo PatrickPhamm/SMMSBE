@@ -11,8 +11,9 @@ namespace Smmsbe.Services.Interfaces
     public interface IConsultationFormService
     {
         Task<ConsultationForm> GetById(int id);
+        Task<ConsultationFormResponse> GetByIdAsync(int id);
         Task<ConsultationForm> AddConsultationFormAsync(AddConsultationFormRequest request);
-        Task<List<ConsultationFormResponse>> SearchConsultationFormAsync(SearchConsultationFormRequest request);
+        Task<List<SearchConsultationFormResponse>> SearchConsultationFormAsync(SearchConsultationFormRequest request);
         Task<ConsultationForm> UpdateConsultationFormAsync(UpdateConsultationFormRequest request);
         Task<bool> DeleteConsultationFormAsync(int id);
         Task<bool> AcceptConsultation(int consultationId);

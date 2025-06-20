@@ -19,7 +19,7 @@ namespace Smmsbe.WebApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var getById = await _consultationFormService.GetById(id);
+            var getById = await _consultationFormService.GetByIdAsync(id);
             return Ok(getById);
         }
 

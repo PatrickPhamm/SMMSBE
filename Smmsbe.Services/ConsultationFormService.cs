@@ -26,6 +26,21 @@ namespace Smmsbe.Services
             return entity;
         }
 
+        public async Task<ConsultationFormResponse> GetByIdAsync(int id)
+        {
+            var entity = await _consultationFormRepository.GetById(id);
+            if (entity == null) throw AppExceptions.NotFoundId();
+
+            return new ConsultationFormResponse
+            {
+                ConsultationFormId = entity.ConsultationFormId,
+                ParentId = entity.ParentId,
+                Title = entity.Title,
+                Content = entity.Content,
+                Status = ((ConsultationFormStatus)entity.Status).ToString()
+            };
+        }
+
         public async Task<ConsultationForm> AddConsultationFormAsync(AddConsultationFormRequest request)
         {
             var newCon = new ConsultationForm
@@ -52,7 +67,7 @@ namespace Smmsbe.Services
             return updateConsentForm;
         }
 
-        public async Task<List<ConsultationFormResponse>> SearchConsultationFormAsync(SearchConsultationFormRequest request)
+        public async Task<List<SearchConsultationFormResponse>> SearchConsultationFormAsync(SearchConsultationFormRequest request)
         {
             var query = _consultationFormRepository.GetAll();
 
@@ -61,7 +76,7 @@ namespace Smmsbe.Services
                             s => s.ConsultationFormId.ToString().Contains(request.Keyword) ||
                             (!string.IsNullOrEmpty(s.Title.ToString()) && s.Title.ToString().Contains(request.Keyword)));
 
-            var searchCo = await query.Select(x => new ConsultationFormResponse
+            var searchCo = await query.Select(x => new SearchConsultationFormResponse
             {
                 ConsultationFormId = x.ConsultationFormId,
                 ParentId = x.ParentId,
