@@ -32,7 +32,6 @@ namespace Smmsbe.Services
                                                                     .Select(x => new ConsultationScheduleResponse
                                                                     {
                                                                         ConsultationScheduleId = x.ConsultationScheduleId,
-                                                                        ConsultationFormId = x.ConsultationFormId,
                                                                         NurseId = x.NurseId,
                                                                         ConsultDate = x.ConsultDate,
                                                                         Location = x.Location,
@@ -46,7 +45,6 @@ namespace Smmsbe.Services
         {
             var newCon = new ConsultationSchedule
             {
-                ConsultationFormId = request.ConsultationFormId,
                 NurseId = request.NurseId,
                 Location = request.Location,
                 ConsultDate = request.ConsultDate
@@ -61,13 +59,12 @@ namespace Smmsbe.Services
 
             if (!string.IsNullOrEmpty(request.Keyword))
                 query = query.Where(
-                            s => s.ConsultationFormId.ToString().Contains(request.Keyword) ||
+                            s => s.ConsultationScheduleId.ToString().Contains(request.Keyword) ||
                             (!string.IsNullOrEmpty(s.Location.ToString()) && s.Location.ToString().Contains(request.Keyword)));
 
             var searchCo = await query.Select(x => new ConsultationScheduleResponse
             {
                 ConsultationScheduleId = x.ConsultationScheduleId,
-                ConsultationFormId = x.ConsultationFormId,
                 NurseId = x.NurseId,
                 Location = x.Location,
                 ConsultDate = x.ConsultDate

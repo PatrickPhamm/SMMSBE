@@ -34,6 +34,7 @@ namespace Smmsbe.Services
             return new ConsultationFormResponse
             {
                 ConsultationFormId = entity.ConsultationFormId,
+                ConsultationScheduleId = entity.ConsultationScheduleId,
                 ParentId = entity.ParentId,
                 Title = entity.Title,
                 Content = entity.Content,
@@ -45,6 +46,7 @@ namespace Smmsbe.Services
         {
             var newCon = new ConsultationForm
             {
+                ConsultationScheduleId = request.ConsultationScheduleId,
                 ParentId = request.ParentId,
                 Title = request.Title,
                 Content = request.Content,
@@ -59,6 +61,7 @@ namespace Smmsbe.Services
             var updateConsentForm = await _consultationFormRepository.GetById(request.ConsultationFormId);
             if (updateConsentForm == null) throw AppExceptions.NotFoundId();
 
+            updateConsentForm.ConsultationScheduleId = request.ConsultationScheduleId;
             updateConsentForm.ParentId = request.ParentId;
             updateConsentForm.Title = request.Title;
             updateConsentForm.Content = request.Content;
@@ -79,6 +82,7 @@ namespace Smmsbe.Services
             var searchCo = await query.Select(x => new SearchConsultationFormResponse
             {
                 ConsultationFormId = x.ConsultationFormId,
+                ConsultationScheduleId = x.ConsultationScheduleId,
                 ParentId = x.ParentId,
                 Title = x.Title,
                 Content = x.Content,
@@ -103,7 +107,6 @@ namespace Smmsbe.Services
                 throw new Exception(ex.Message);
             }
         }
-
 
         public async Task<bool> AcceptConsultation(int consultationId)
         {

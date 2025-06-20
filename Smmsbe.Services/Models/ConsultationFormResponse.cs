@@ -9,6 +9,7 @@ namespace Smmsbe.Services.Models
     public class ConsultationFormResponse
     {
         public int ConsultationFormId { get; set; }
+        public int? ConsultationScheduleId { get; set; }
         public int? ParentId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }

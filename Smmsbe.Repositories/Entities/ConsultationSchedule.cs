@@ -10,15 +10,13 @@ public partial class ConsultationSchedule : IEntityBase
 {
     public int ConsultationScheduleId { get; set; }
 
-    public int? ConsultationFormId { get; set; }
-
     public int? NurseId { get; set; }
 
     public string Location { get; set; }
 
     public DateTime? ConsultDate { get; set; }
 
-    public virtual ConsultationForm ConsultationForm { get; set; }
+    public virtual ICollection<ConsultationForm> ConsultationForms { get; set; } = new List<ConsultationForm>();
 
     public virtual Nurse Nurse { get; set; }
 }

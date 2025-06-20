@@ -10,6 +10,8 @@ public partial class ConsultationForm : IEntityBase
 {
     public int ConsultationFormId { get; set; }
 
+    public int? ConsultationScheduleId { get; set; }
+
     public int? ParentId { get; set; }
 
     public string Title { get; set; }
@@ -18,7 +20,7 @@ public partial class ConsultationForm : IEntityBase
 
     public int? Status { get; set; }
 
-    public virtual ICollection<ConsultationSchedule> ConsultationSchedules { get; set; } = new List<ConsultationSchedule>();
+    public virtual ConsultationSchedule ConsultationSchedule { get; set; }
 
     public virtual Parent Parent { get; set; }
 }

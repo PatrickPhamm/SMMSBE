@@ -90,6 +90,10 @@ public partial class SMMSContext : DbContext
             entity.Property(e => e.Content).HasMaxLength(250);
             entity.Property(e => e.Title).HasMaxLength(200);
 
+            entity.HasOne(d => d.ConsultationSchedule).WithMany(p => p.ConsultationForms)
+                .HasForeignKey(d => d.ConsultationScheduleId)
+                .HasConstraintName("FK_ConsultationForm_ConsultationSchedule");
+
             entity.HasOne(d => d.Parent).WithMany(p => p.ConsultationForms)
                 .HasForeignKey(d => d.ParentId)
                 .HasConstraintName("FK__Consultat__Paren__6EF57B66");
@@ -103,10 +107,6 @@ public partial class SMMSContext : DbContext
 
             entity.Property(e => e.ConsultDate).HasColumnType("datetime");
             entity.Property(e => e.Location).HasMaxLength(250);
-
-            entity.HasOne(d => d.ConsultationForm).WithMany(p => p.ConsultationSchedules)
-                .HasForeignKey(d => d.ConsultationFormId)
-                .HasConstraintName("FK__Consultat__Consu__6FE99F9F");
 
             entity.HasOne(d => d.Nurse).WithMany(p => p.ConsultationSchedules)
                 .HasForeignKey(d => d.NurseId)
