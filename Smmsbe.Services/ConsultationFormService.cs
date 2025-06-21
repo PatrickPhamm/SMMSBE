@@ -12,10 +12,16 @@ namespace Smmsbe.Services
     public class ConsultationFormService : IConsultationFormService
     {
         private readonly IConsultationFormRepository _consultationFormRepository;
+        private readonly IConsultationScheduleRepository _consultationScheduleRepository;
+        private readonly IParentRepository _parentRepository;
 
-        public ConsultationFormService(IConsultationFormRepository consultationFormRepository)
+        public ConsultationFormService(IConsultationFormRepository consultationFormRepository
+                    , IConsultationScheduleRepository consultationScheduleRepository
+                    , IParentRepository parentRepository)
         {
             _consultationFormRepository = consultationFormRepository;
+            _consultationScheduleRepository = consultationScheduleRepository;
+            _parentRepository = parentRepository;
         }
 
         public async Task<ConsultationForm> GetById(int id)
@@ -40,6 +46,29 @@ namespace Smmsbe.Services
                 Content = entity.Content,
                 Status = ((ConsultationFormStatus)entity.Status).ToString()
             };
+        }
+
+        public async Task<List<GetConsultationFormByParentResponse>> GetByParent(int parentId)
+        {
+            return await _consultationFormRepository.GetAll()
+                .Include(x => x.Parent)
+                .Include(x => x.ConsultationSchedule)
+                .Where(x => x.ParentId == parentId)
+                .Select(x => new GetConsultationFormByParentResponse
+                {
+                    ConsultationFormId = x.ConsultationFormId,
+                    ParentId = x.ParentId,
+                    Title = x.Title,
+                    Content = x.Content,
+                    Status = ((ConsultationFormStatus)x.Status).ToString(),
+                    ConsultationSchedule = new ConsultationScheduleResponse
+                    {
+                        ConsultationScheduleId = x.ConsultationSchedule.ConsultationScheduleId,
+                        NurseId = x.ConsultationSchedule.NurseId,
+                        Location = x.ConsultationSchedule.Location,
+                        ConsultDate = x.ConsultationSchedule.ConsultDate
+                    }
+                }).ToListAsync();
         }
 
         public async Task<ConsultationForm> AddConsultationFormAsync(AddConsultationFormRequest request)

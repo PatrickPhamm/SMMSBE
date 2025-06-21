@@ -23,6 +23,14 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(getById);
         }
 
+        [HttpGet("getByParent")]
+        public async Task<IActionResult> GetByParent(int parentId)
+        {
+            var list = await _consultationFormService.GetByParent(parentId);
+
+            return Ok(list);
+        }
+
         [HttpPost("add")]
         public async Task<IActionResult> AddConsultationForm(AddConsultationFormRequest request)
         {

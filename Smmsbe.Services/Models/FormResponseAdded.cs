@@ -12,6 +12,6 @@ namespace Smmsbe.Services.Models
         public DateTime? SentDate { get; set; }
         public DateTime? CreatedAt { get; set; }
         public string Type { get; set; }
-        public List<ConsentFormResponse> ConsentForms { get; set; } = new List<ConsentFormResponse>();
+        public List<AddConsentFormResponse> ConsentForms { get; set; } = new List<AddConsentFormResponse>();
     }
 }

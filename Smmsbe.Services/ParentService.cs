@@ -1,17 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Smmsbe.Repositories;
 using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Interfaces;
-using Smmsbe.Services.Common;
 using Smmsbe.Services.Exceptions;
-using Smmsbe.Services.Helpers;
 using Smmsbe.Services.Interfaces;
 using Smmsbe.Services.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Smmsbe.Services
 {
@@ -50,6 +42,31 @@ namespace Smmsbe.Services
 
             return parents;
         }*/
+
+        public async Task<List<StudentResponse>> GetParentFromStudent(int studentId)
+        {
+            var students = await _studentRepository.GetAll()
+                                                     .Where(x => x.StudentId == studentId)
+                                                     .Select(x => new StudentResponse
+                                                     {
+                                                         StudentId = studentId,
+                                                         FullName = x.FullName,
+                                                         DateOfBirth = x.DateOfBirth,
+                                                         ClassName = x.ClassName,
+                                                         Gender = x.Gender,
+                                                         StudentNumber = x.StudentNumber,
+                                                         Parent = new ParentResponse
+                                                         {
+                                                             ParentId = x.Parent.ParentId,
+                                                             FullName = x.Parent.FullName,
+                                                             PhoneNumber = x.Parent.PhoneNumber,
+                                                             Email = x.Parent.Email,
+                                                             Address = x.Parent.Address
+                                                         }
+                                                     }).ToListAsync();
+
+            return students;
+        }
 
         public async Task<Parent> AddParentAsync(AddParentRequest request)
         {

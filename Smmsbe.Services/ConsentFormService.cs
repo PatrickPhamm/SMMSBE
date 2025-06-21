@@ -57,7 +57,7 @@ namespace Smmsbe.Services
             return entity;
         }
 
-        public async Task<List<ConsentFormResponse>> GetConsentFormForParent(int id)
+        public async Task<List<ConsentFormResponse>> GetConsentFormByParent(int id)
         {
             return await _consentFormRepository.GetAll()
                                     .Include (x => x.Form)

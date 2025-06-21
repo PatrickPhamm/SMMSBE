@@ -42,7 +42,7 @@ namespace Smmsbe.Services
             };
         }
 
-        //Tạo Form riêng
+        #region Tạo Form riêng
         /*public async Task<FormResponse> AddFormAsync(AddFormRequest request)
         {
             var newForm = new Form
@@ -68,6 +68,7 @@ namespace Smmsbe.Services
                 Type = ((FormType)newForm.Type).ToString()
             };
         }*/
+        #endregion
 
         //Tạo Form mới thì ConsentForm sẽ được tạo tự động tạo ra cùng lúc
         public async Task<FormResponseAdded> AddFormAsync(AddFormRequest request)
@@ -78,7 +79,7 @@ namespace Smmsbe.Services
                 var parentExists = await _parentRepository.ParentIdExsistAsync(parentId);
                 if (!parentExists)
                 {
-                    throw new ArgumentException($"Parent with ID {parentId} does not exist.");
+                    throw AppExceptions.NotFoundId();
                 }
             }
 
@@ -103,7 +104,7 @@ namespace Smmsbe.Services
                 {
                     FormId = createdForm.FormId,
                     ParentId = parentId,
-                    Status = (int)ConsentFormStatus.Pending // Mặc định là Pending
+                    Status = (int)ConsentFormStatus.Pending 
                 };
 
                 var createdConsentForm = await _consentFormRepository.Insert(consentForm);
@@ -120,12 +121,11 @@ namespace Smmsbe.Services
                 SentDate = createdForm.SentDate,
                 CreatedAt = createdForm.CreatedAt,
                 Type = ((FormType)createdForm.Type).ToString(),
-                ConsentForms = consentForms.Select(cf => new ConsentFormResponse
+                ConsentForms = consentForms.Select(cf => new AddConsentFormResponse
                 {
                     ConsentFormId = cf.ConsentFormId,
                     ParentId = cf.ParentId,
-                    Status = ((ConsentFormStatus)cf.Status).ToString(),
-                    Form = null // Tránh circular reference, chỉ trả về thông tin Form ở level cao nhất
+                    Status = ((ConsentFormStatus)cf.Status).ToString()
                 }).ToList()
             };
 

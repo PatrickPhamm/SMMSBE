@@ -23,10 +23,10 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(getById);
         }
 
-        [HttpGet("getConsentFormForParent")]
+        [HttpGet("getConsentFormByParent")]
         public async Task<IActionResult> GetConsentFormByParent(int parentId)
         {
-            var list = await _consentFormService.GetConsentFormForParent(parentId);
+            var list = await _consentFormService.GetConsentFormByParent(parentId);
 
             return Ok(list);
         }

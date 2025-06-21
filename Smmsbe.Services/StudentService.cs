@@ -69,7 +69,15 @@ namespace Smmsbe.Services
                                             DateOfBirth = x.DateOfBirth,
                                             ClassName = x.ClassName,
                                             Gender = x.Gender,
-                                            StudentNumber = x.StudentNumber
+                                            StudentNumber = x.StudentNumber,
+                                            Parent = new ParentResponse
+                                            {
+                                                ParentId = x.Parent.ParentId,
+                                                FullName = x.Parent.FullName,
+                                                PhoneNumber = x.Parent.PhoneNumber,
+                                                Email = x.Parent.Email,
+                                                Address = x.Parent.Address
+                                            }
                                         }).ToListAsync();
         }
 
@@ -149,7 +157,10 @@ namespace Smmsbe.Services
                 Parent = new ParentResponse
                 {
                     ParentId = n.Parent.ParentId,
-                    FullName = n.Parent.FullName
+                    FullName = n.Parent.FullName,
+                    PhoneNumber = n.Parent.PhoneNumber,
+                    Email = n.Parent.Email,
+                    Address = n.Parent.Address
                 }
             }).ToListAsync();
 

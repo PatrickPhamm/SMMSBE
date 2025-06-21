@@ -12,6 +12,7 @@ namespace Smmsbe.Services.Interfaces
     {
         Task<ConsultationForm> GetById(int id);
         Task<ConsultationFormResponse> GetByIdAsync(int id);
+        Task<List<GetConsultationFormByParentResponse>> GetByParent(int parentId);
         Task<ConsultationForm> AddConsultationFormAsync(AddConsultationFormRequest request);
         Task<List<SearchConsultationFormResponse>> SearchConsultationFormAsync(SearchConsultationFormRequest request);
         Task<ConsultationForm> UpdateConsultationFormAsync(UpdateConsultationFormRequest request);

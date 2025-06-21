@@ -12,6 +12,9 @@ namespace Smmsbe.Services
     public class ConsultationScheduleService : IConsultationScheduleService
     {
         private readonly IConsultationScheduleRepository _consultationScheduleRepository;
+        private readonly IConsultationFormRepository _consultationFormRepository;
+        private readonly IParentRepository _parentRepository;
+
         public ConsultationScheduleService(IConsultationScheduleRepository consultationScheduleRepository)
         {
             _consultationScheduleRepository = consultationScheduleRepository;
