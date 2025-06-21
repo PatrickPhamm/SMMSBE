@@ -29,6 +29,13 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(getId);
         }
 
+        [HttpGet("getResultsByProfile{profileId}")]
+        public async Task<IActionResult> GetResultsByProfile(int profileId)
+        {
+            var getId = await _healthCheckResultService.GetResultsByHealthProfile(profileId);
+            return Ok(getId);
+        }
+
         [HttpPost("add")]
         public async Task<IActionResult> AddHealthCheckResult(AddHealthCheckResultRequest request)
         {

@@ -71,6 +71,33 @@ namespace Smmsbe.Services
                                         }).ToListAsync();
         }
 
+        public async Task<List<GetHealthCheckResultByProfileResponse>> GetResultsByHealthProfile(int profileId)
+        {
+            return await _healthCheckResultRepository.GetAll()
+                                        .Where(x => x.HealthProfileId == profileId)
+                                        .Select(x => new GetHealthCheckResultByProfileResponse
+                                        {
+                                            HealthCheckupRecordId = x.HealthCheckupRecordId,
+                                            HealthCheckScheduleId = x.HealthCheckScheduleId,
+                                            NurseId = x.NurseId,
+                                            NurseName = "",
+                                            Status = ((ResultStatus)x.Status).ToString(),
+                                            Height = x.Height,
+                                            Weight = x.Weight,
+                                            LeftVision = x.LeftVision,
+                                            RightVision = x.RightVision,
+                                            Result = x.Result,
+                                            Note = x.Note,
+                                            HealthProfile = new HealthProfileResponse 
+                                            { 
+                                                HealthProfileId = x.HealthProfile.HealthProfileId,
+                                                StudentId = x.HealthProfile.StudentId,
+                                                Allergies = x.HealthProfile.Allergies,
+                                                BloodType = x.HealthProfile.BloodType
+                                            }
+                                        }).ToListAsync();
+        }
+
         public async Task<HealthCheckResultResponse> AddHealthCheckResultAsync(AddHealthCheckResultRequest request)
         {
             var newHea = new HealthCheckResult

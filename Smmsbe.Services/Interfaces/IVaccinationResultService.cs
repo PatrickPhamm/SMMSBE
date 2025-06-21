@@ -13,6 +13,7 @@ namespace Smmsbe.Services.Interfaces
         //Task<VaccinationResult> GetById(int id);
         Task<VaccinationResultResponse> GetById(int id);
         Task<List<VaccinationResultResponse>> GetResultsBySchedule(int scheduleId);
+        Task<List<GetVaccinationResultByProfileResponse>> GetResultsByHealthProfile(int profileId);
         //Task<VaccinationResult> AddVaccinationResultAsync(AddVaccinationResultRequest request);
         Task<VaccinationResultResponse> AddVaccinationResultAsync(AddVaccinationResultRequest request);
         Task<List<VaccinationResultResponse>> SearchVaccinationResultAsync(SearchVaccinationResultRequest request);

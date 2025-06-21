@@ -30,6 +30,13 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(getId);
         }
 
+        [HttpGet("getResultsByProfile{profileId}")]
+        public async Task<IActionResult> GetResultsByProfile(int profileId)
+        {
+            var getId = await _vaccinationResultService.GetResultsByHealthProfile(profileId);
+            return Ok(getId);
+        }
+
         [HttpPost("add")]
         public async Task<IActionResult> AddVaccinationResult(AddVaccinationResultRequest request)
         {
