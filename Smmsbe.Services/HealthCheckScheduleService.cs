@@ -13,10 +13,13 @@ namespace Smmsbe.Services
     public class HealthCheckScheduleService : IHealthCheckScheduleService
     {
         private readonly IHealthCheckupScheduleRepository _healthCheckupScheduleRepository;
+        private readonly IFormRepository _formRepository;
 
-        public HealthCheckScheduleService(IHealthCheckupScheduleRepository healthCheckupScheduleRepository)
+        public HealthCheckScheduleService(IHealthCheckupScheduleRepository healthCheckupScheduleRepository
+            , IFormRepository formRepository) 
         {
             _healthCheckupScheduleRepository = healthCheckupScheduleRepository;
+            _formRepository = formRepository;
         }
 
         public async Task<HealthCheckSchedule> GetById(int id)
@@ -25,6 +28,32 @@ namespace Smmsbe.Services
             if (entity == null) throw AppExceptions.NotFoundId();
 
             return entity;
+        }
+
+        public async Task<List<GetHealthCheckScheduleByFormResponse>> GetByForm(int formId)
+        {
+            var getByFrom = await _healthCheckupScheduleRepository.GetAll()
+                .Where(s => s.FormId == formId)
+                .Select(s => new GetHealthCheckScheduleByFormResponse
+                {
+                    HealthCheckScheduleId = s.HealthCheckScheduleId,
+                    ManagerId = s.ManagerId,
+                    Name = s.Name,
+                    CheckDate = s.CheckDate,
+                    Location = s.Location,
+                    Note = s.Note,
+                    Form = new FormResponse
+                    {
+                        FormId = s.Form.FormId,
+                        Title = s.Form.Title,
+                        ClassName = s.Form.ClassName,
+                        SentDate = s.Form.SentDate,
+                        Content = s.Form.Content,
+                        Type = ((FormType)s.Form.Type).ToString()
+                    }
+                }).ToListAsync();
+
+            return getByFrom;
         }
 
         public async Task<HealthCheckSchedule> AddHealthCheckScheduleAsync(AddHealthCheckScheduleRequest request)

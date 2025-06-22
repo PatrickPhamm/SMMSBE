@@ -23,6 +23,13 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(getById);
         }
 
+        [HttpGet("getByForm{formId}")]
+        public async Task<IActionResult> GetByFrom(int formId)
+        {
+            var getById = await _healthCheckScheduleService.GetByForm(formId);
+            return Ok(getById);
+        }
+
         [HttpPost("create")]
         public async Task<IActionResult> AddHealthCheckSchedule(AddHealthCheckScheduleRequest request)
         {

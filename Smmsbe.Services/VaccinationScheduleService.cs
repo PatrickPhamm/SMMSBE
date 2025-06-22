@@ -3,6 +3,7 @@ using Microsoft.SqlServer.Server;
 using Smmsbe.Repositories;
 using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Interfaces;
+using Smmsbe.Services.Enum;
 using Smmsbe.Services.Exceptions;
 using Smmsbe.Services.Interfaces;
 using Smmsbe.Services.Models;
@@ -12,10 +13,13 @@ namespace Smmsbe.Services
     public class VaccinationScheduleService : IVaccinationScheduleService
     {
         private readonly IVaccinationScheduleRepository _vaccinationScheduleRepository;
+        private readonly IFormRepository _formRepository;
 
-        public VaccinationScheduleService(IVaccinationScheduleRepository vaccinationScheduleRepository)
+        public VaccinationScheduleService(IVaccinationScheduleRepository vaccinationScheduleRepository
+            , IFormRepository formRepository)
         {
             _vaccinationScheduleRepository = vaccinationScheduleRepository;
+            _formRepository = formRepository;
         }
 
         public async Task<VaccinationSchedule> GetById(int id)
@@ -24,6 +28,32 @@ namespace Smmsbe.Services
             if (entity == null) throw AppExceptions.NotFoundId();
 
             return entity;
+        }
+
+        public async Task<List<GetVaccinationScheduleByFormResponse>> GetByForm(int formId)
+        {
+            var getByForm = await _vaccinationScheduleRepository.GetAll()
+                .Where(s => s.FormId == formId)
+                .Select(s => new GetVaccinationScheduleByFormResponse
+                {
+                    VaccinationScheduleId = s.VaccinationScheduleId,
+                    ManagerId = s.ManagerId,
+                    Name = s.Name,
+                    ScheduleDate = s.ScheduleDate,
+                    Location = s.Location,
+                    Note = s.Note,
+                    Form = new FormResponse
+                    {
+                        FormId = s.Form.FormId,
+                        Title = s.Form.Title,
+                        ClassName = s.Form.ClassName,
+                        SentDate = s.Form.SentDate,
+                        Content = s.Form.Content,
+                        Type = ((FormType)s.Form.Type).ToString()
+                    }
+                }).ToListAsync();
+
+            return getByForm;
         }
 
         public async Task<VaccinationSchedule> AddVaccinationScheduleAsync(AddVaccinationScheduleRequest request)
