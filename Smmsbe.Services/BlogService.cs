@@ -60,7 +60,8 @@ namespace Smmsbe.Services
             if (!string.IsNullOrEmpty(request.Keyword))
                 query = query.Where(
                             s => s.BlogId.ToString().Contains(request.Keyword) ||
-                            (!string.IsNullOrEmpty(s.Title) && s.Title.Contains(request.Keyword)));
+                            (!string.IsNullOrEmpty(s.Title) && s.Title.Contains(request.Keyword)) ||
+                            (!string.IsNullOrEmpty(s.Category) && s.Category.Contains(request.Keyword)));
 
             var Blogs = await query.Select(n => new BlogResponse
             {

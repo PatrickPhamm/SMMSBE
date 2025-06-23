@@ -149,10 +149,26 @@ namespace Smmsbe.Services
             };
         }
 
+        public async Task<bool> DeleteConsentFormAsync(int id)
+        {
+            try
+            {
+                var deleted = await _consentFormRepository.GetById(id);
+                if (deleted == null) throw AppExceptions.NotFoundId();
+
+                await _consentFormRepository.Delete(id);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<bool> AcceptConsentForm(int consentFormId)
         {
             var consent = await _consentFormRepository.GetById(consentFormId);
-            if(consent == null) return false;
+            if (consent == null) return false;
 
             consent.Status = (int)ConsentFormStatus.Accepted;
 
@@ -171,22 +187,6 @@ namespace Smmsbe.Services
             await _consentFormRepository.Update(consent);
 
             return true;
-        }
-
-        public async Task<bool> DeleteConsentFormAsync(int id)
-        {
-            try
-            {
-                var deleted = await _consentFormRepository.GetById(id);
-                if (deleted == null) throw AppExceptions.NotFoundId();
-
-                await _consentFormRepository.Delete(id);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
         }
     }
 }
