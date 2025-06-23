@@ -30,7 +30,7 @@ namespace Smmsbe.Services
             return entity;
         }
 
-        public async Task<MedicalEventResponse> GetMedicalByStudent(int studentId)
+        public async Task<List<MedicalEventResponse>> GetMedicalByStudent(int studentId)
         {
             var entity = await _medicalEventRepository.GetAll()
                                             .Include(x => x.Student)
@@ -45,7 +45,7 @@ namespace Smmsbe.Services
                                                 Symptoms = x.Symptoms,
                                                 ActionTaken = x.ActionTaken,
                                                 Note = x.Note
-                                            }).FirstOrDefaultAsync();
+                                            }).ToListAsync();
 
             if (entity == null) throw AppExceptions.NotFoundId();
             return entity;
