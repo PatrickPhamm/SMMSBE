@@ -1,10 +1,5 @@
 ﻿using Smmsbe.Repositories.Entities;
 using Smmsbe.Services.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Smmsbe.Services.Interfaces
 {
@@ -12,7 +7,8 @@ namespace Smmsbe.Services.Interfaces
     {
         Task<ConsentForm> GetById(int id);
         Task<ConsentFormResponse> GetByIdAsync(int id);
-        Task<List<ConsentFormResponse>> GetConsentFormByParent(int id);
+        Task<List<ConsentFormResponse>> GetConsentFormByParent(int parentId);
+        Task<List<ConsentFormByStudentResponse>> GetAcceptedByStudent(GetConsentFromRequest request);
         Task<ConsentForm> AddConsentFormAsync(AddConsentFormRequest request);
         Task<List<ConsentFormResponse>> SearchConsentFormAsync(SearchConsentFormRequest request);
         Task<ConsentForm> UpdateConsentFormAsync(UpdateConsentFormRequest request);

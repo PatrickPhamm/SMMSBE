@@ -52,5 +52,10 @@ namespace Smmsbe.Services.Exceptions
         {
             return new NotFoundException("MSG08", "Đơn đã được từ chối.");
         }
+
+        public static AppException AccountNotActivated()
+        {
+            return new BadRequestException("MSG09", "Tài khoản chưa được kích hoạt.");
+        }
     }
 }

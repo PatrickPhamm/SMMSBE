@@ -1,6 +1,5 @@
 ﻿using Smmsbe.Repositories.Entities;
 
-
 namespace Smmsbe.Services.Models
 {
     public class FormResponseAdded

@@ -2,11 +2,6 @@
 using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Infrastructure;
 using Smmsbe.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Smmsbe.Repositories
 {

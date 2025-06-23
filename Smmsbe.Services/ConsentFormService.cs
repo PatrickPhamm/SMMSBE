@@ -57,16 +57,45 @@ namespace Smmsbe.Services
             return entity;
         }
 
-        public async Task<List<ConsentFormResponse>> GetConsentFormByParent(int id)
+        public async Task<List<ConsentFormResponse>> GetConsentFormByParent(int parentId)
         {
             return await _consentFormRepository.GetAll()
                                     .Include (x => x.Form)
                                     .OrderByDescending(x => x.Form.SentDate)
-                                    .Where(x => x.ParentId == id)
+                                    .Where(x => x.ParentId == parentId)
                                     .Select(x => new ConsentFormResponse 
                                     {
                                         ConsentFormId = x.ConsentFormId,
                                         ParentId = x.ParentId,
+                                        Status = ((ConsentFormStatus)x.Status).ToString(),
+                                        Form = new FormResponse
+                                        {
+                                            FormId = x.Form.FormId,
+                                            Title = x.Form.Title,
+                                            ClassName = x.Form.ClassName,
+                                            Content = x.Form.Content,
+                                            SentDate = x.Form.SentDate,
+                                            CreatedAt = x.Form.CreatedAt,
+                                            Type = ((FormType)x.Form.Type).ToString()
+                                        }
+                                    }).ToListAsync();
+        }
+
+        public async Task<List<ConsentFormByStudentResponse>> GetAcceptedByStudent(GetConsentFromRequest request)
+        {
+            // Cách 1: Thông qua Student để lấy ParentId, sau đó lấy ConsentForm
+            return await _consentFormRepository.GetAll()
+                                    .Include(x => x.Form)
+                                    .Include(x => x.Parent)
+                                    .ThenInclude(p => p.Students)
+                                    .Where(x => x.Parent.Students.Any(s => s.StudentId == request.StudentId)
+                                           && x.Status == (int)ConsentFormStatus.Accepted)
+                                    .OrderByDescending(x => x.Form.SentDate)
+                                    .Select(x => new ConsentFormByStudentResponse
+                                    {
+                                        ConsentFormId = x.ConsentFormId,
+                                        ParentId = x.ParentId,
+                                        StudentId = request.StudentId,
                                         Status = ((ConsentFormStatus)x.Status).ToString(),
                                         Form = new FormResponse
                                         {

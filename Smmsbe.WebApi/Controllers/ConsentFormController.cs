@@ -31,6 +31,17 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(list);
         }
 
+        [HttpGet("getAcceptedConForms")]
+        public async Task<IActionResult> GetAcceptedConForms(int studentId)
+        {
+            var result = await _consentFormService.GetAcceptedByStudent(new GetConsentFromRequest
+            {
+                StudentId = studentId
+            });
+
+            return Ok(result);
+        }
+
         [HttpPost("create")]
         public async Task<IActionResult> AddConsentForm(AddConsentFormRequest request)
         {
