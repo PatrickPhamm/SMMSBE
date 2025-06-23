@@ -12,11 +12,11 @@ namespace Smmsbe.Services.Interfaces
     {
         Task<Blog> GetById(int id);
 
-        Task<Blog> AddBlogAsync(AddBlogRequest request);
+        Task<BlogResponse> AddBlogAsync(AddBlogRequest request);
 
         Task<List<BlogResponse>> SearchBlogAsync(SearchBlogRequest request);
 
-        Task<Blog> UpdateBlogAsync(UpdateBlogRequest request);
+        Task<BlogResponse> UpdateBlogAsync(UpdateBlogRequest request);
 
         Task<bool> DeleteBlogAsync(int id);
 

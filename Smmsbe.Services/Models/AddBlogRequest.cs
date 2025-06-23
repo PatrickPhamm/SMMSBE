@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Smmsbe.Services.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,6 @@ namespace Smmsbe.Services.Models
         public string Content { get; set; }
         public DateOnly? DatePosted { get; set; }
         public string Thumbnail { get; set; }
-        public string Category { get; set; }
+        public BlogCategoryType Category { get; set; }
     }
 }

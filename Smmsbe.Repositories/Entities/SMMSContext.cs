@@ -57,7 +57,6 @@ public partial class SMMSContext : DbContext
 
             entity.ToTable("Blog");
 
-            entity.Property(e => e.Category).HasMaxLength(32);
             entity.Property(e => e.Thumbnail).HasMaxLength(200);
             entity.Property(e => e.Title).HasMaxLength(200);
 

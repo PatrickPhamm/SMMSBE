@@ -20,7 +20,7 @@ public partial class Blog : IEntityBase
 
     public string Thumbnail { get; set; }
 
-    public string Category { get; set; }
+    public int? Category { get; set; }
 
     public virtual Manager Manager { get; set; }
 }

@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Smmsbe.Repositories;
 using Smmsbe.Repositories.Entities;
 using Smmsbe.Repositories.Interfaces;
 using Smmsbe.Services.Common;
+using Smmsbe.Services.Enum;
 using Smmsbe.Services.Exceptions;
 using Smmsbe.Services.Interfaces;
 using Smmsbe.Services.Models;
@@ -28,7 +30,7 @@ namespace Smmsbe.Services
             return entity;
         }
 
-        public async Task<Blog> AddBlogAsync(AddBlogRequest request)
+        public async Task<BlogResponse> AddBlogAsync(AddBlogRequest request)
         {
             var newBlog = new Blog
             {
@@ -37,19 +39,19 @@ namespace Smmsbe.Services
                 Content = request.Content,
                 DatePosted = request.DatePosted,
                 Thumbnail = request.Thumbnail,
-                Category = request.Category
+                Category = (int)request.Category
             };
 
             var added = await _blogRepository.Insert(newBlog);
 
-            return new Blog
+            return new BlogResponse
             {
                 ManagerId = added.ManagerId,
                 Title = added.Title,
                 Content = added.Content,
                 DatePosted = added.DatePosted,
                 Thumbnail = GetBlogImageUrl(added.Thumbnail),
-                Category = added.Category
+                Category = ((BlogCategoryType)added.Category).ToString()
             };
         }
 
@@ -61,7 +63,7 @@ namespace Smmsbe.Services
                 query = query.Where(
                             s => s.BlogId.ToString().Contains(request.Keyword) ||
                             (!string.IsNullOrEmpty(s.Title) && s.Title.Contains(request.Keyword)) ||
-                            (!string.IsNullOrEmpty(s.Category) && s.Category.Contains(request.Keyword)));
+                            (!string.IsNullOrEmpty(((BlogCategoryType)s.Category).ToString()) && ((BlogCategoryType)s.Category).ToString().Contains(request.Keyword)));
 
             var Blogs = await query.Select(n => new BlogResponse
             {
@@ -71,13 +73,13 @@ namespace Smmsbe.Services
                 Content = n.Content,
                 DatePosted = n.DatePosted,
                 Thumbnail = n.Thumbnail,
-                Category = n.Category
+                Category = ((BlogCategoryType)n.Category).ToString()
             }).ToListAsync();
 
             return Blogs;
         }
 
-        public async Task<Blog> UpdateBlogAsync(UpdateBlogRequest request)
+        public async Task<BlogResponse> UpdateBlogAsync(UpdateBlogRequest request)
         {
             var updateBlog = await _blogRepository.GetById(request.BlogId);
             if (updateBlog == null) throw AppExceptions.NotFoundId();
@@ -87,17 +89,16 @@ namespace Smmsbe.Services
             updateBlog.Content = request.Content;
             updateBlog.DatePosted = request.DatePosted;
             updateBlog.Thumbnail = request.Thumbnail;
-            updateBlog.Category = request.Category;
 
             await _blogRepository.Update(updateBlog);
 
-            return new Blog
+            return new BlogResponse
             {
                 Title = updateBlog.Title,
                 Content = updateBlog.Content,
                 DatePosted = updateBlog.DatePosted,
                 Thumbnail = GetBlogImageUrl(updateBlog.Thumbnail),
-                Category = updateBlog.Category
+                Category = ((BlogCategoryType)updateBlog.Category).ToString()
             };
         }
 
