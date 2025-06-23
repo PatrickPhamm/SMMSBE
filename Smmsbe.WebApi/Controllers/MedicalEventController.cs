@@ -23,6 +23,13 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(getById);
         }
 
+        [HttpGet("getMedicalByStudent")]
+        public async Task<IActionResult> GetByStudent(int studentId)
+        {
+            var getById = await _medicalEventService.GetMedicalByStudent(studentId);
+            return Ok(getById);
+        }
+
         [HttpPost("add")]
         public async Task<IActionResult> AddMedicalEvent(AddMedicalEventRequest request)
         {

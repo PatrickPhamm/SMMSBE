@@ -11,7 +11,7 @@ namespace Smmsbe.Services.Interfaces
     public interface IMedicalEventService
     {
         Task<MedicalEvent> GetById(int id);
-
+        Task<MedicalEventResponse> GetMedicalByStudent(int studentId);
         Task<MedicalEvent> AddMedicalEventAsync(AddMedicalEventRequest request);
 
         Task<List<MedicalEventResponse>> SearchMedicalEventAsync(SearchMedicalEventRequest request);

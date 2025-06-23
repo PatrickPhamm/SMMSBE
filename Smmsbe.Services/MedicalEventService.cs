@@ -30,6 +30,27 @@ namespace Smmsbe.Services
             return entity;
         }
 
+        public async Task<MedicalEventResponse> GetMedicalByStudent(int studentId)
+        {
+            var entity = await _medicalEventRepository.GetAll()
+                                            .Include(x => x.Student)
+                                            .Where(x => x.StudentId == studentId)
+                                            .Select(x => new MedicalEventResponse
+                                            {
+                                                EventId = x.EventId,
+                                                StudentId = x.StudentId,
+                                                NurseId = x.NurseId,
+                                                EventName = x.EventName,
+                                                EventDate = x.EventDate,
+                                                Symptoms = x.Symptoms,
+                                                ActionTaken = x.ActionTaken,
+                                                Note = x.Note
+                                            }).FirstOrDefaultAsync();
+
+            if (entity == null) throw AppExceptions.NotFoundId();
+            return entity;
+        }
+
         public async Task<MedicalEvent> AddMedicalEventAsync(AddMedicalEventRequest request)
         {
             var added = new MedicalEvent
