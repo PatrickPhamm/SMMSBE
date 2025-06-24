@@ -14,10 +14,13 @@ namespace Smmsbe.Services
         private readonly IConsultationScheduleRepository _consultationScheduleRepository;
         private readonly IConsultationFormRepository _consultationFormRepository;
         private readonly IParentRepository _parentRepository;
+        private readonly IStudentRepository _studentRepository;
 
-        public ConsultationScheduleService(IConsultationScheduleRepository consultationScheduleRepository)
+        public ConsultationScheduleService(IConsultationScheduleRepository consultationScheduleRepository
+            , IStudentRepository studentRepository)
         {
             _consultationScheduleRepository = consultationScheduleRepository;
+            _studentRepository = studentRepository;
         }
 
         public async Task<ConsultationSchedule> GetById(int id)
@@ -36,6 +39,7 @@ namespace Smmsbe.Services
                                                                     {
                                                                         ConsultationScheduleId = x.ConsultationScheduleId,
                                                                         NurseId = x.NurseId,
+                                                                        StudentId = x.StudentId,
                                                                         ConsultDate = x.ConsultDate,
                                                                         Location = x.Location,
                                                                     }).FirstOrDefaultAsync();
@@ -44,11 +48,35 @@ namespace Smmsbe.Services
             return entity;
         }
 
+        public async Task<List<ConsultationScheduleByStudentResponse>> GetByStudent(int studentId)
+        {
+            return await _consultationScheduleRepository.GetAll()
+                .Where(x => x.StudentId == studentId)
+                .Select(x => new ConsultationScheduleByStudentResponse
+                {
+                    ConsultationScheduleId = x.ConsultationScheduleId,
+                    NurseId = x.NurseId,
+                    Location = x.Location,
+                    ConsultDate = x.ConsultDate,
+                    Student = new StudentResponse
+                    {
+                        StudentId = x.Student.StudentId,
+                        FullName = x.Student.FullName,
+                        ClassName = x.Student.ClassName,
+                        DateOfBirth = x.Student.DateOfBirth,    
+                        Gender = x.Student.Gender,
+                        StudentNumber = x.Student.StudentNumber,
+                        Parent = null
+                    }
+                }).ToListAsync();
+        }
+
         public async Task<ConsultationSchedule> AddConsultationScheduleAsync(AddConsultationScheduleRequest request)
         {
             var newCon = new ConsultationSchedule
             {
                 NurseId = request.NurseId,
+                StudentId = request.StudentId,
                 Location = request.Location,
                 ConsultDate = request.ConsultDate
             };
@@ -69,6 +97,7 @@ namespace Smmsbe.Services
             {
                 ConsultationScheduleId = x.ConsultationScheduleId,
                 NurseId = x.NurseId,
+                StudentId = x.StudentId,
                 Location = x.Location,
                 ConsultDate = x.ConsultDate
             }).ToListAsync();
@@ -83,6 +112,7 @@ namespace Smmsbe.Services
 
             updateConsentForm.ConsultationScheduleId = request.ConsultationScheduleId;
             updateConsentForm.NurseId = request.NurseId;
+            updateConsentForm.StudentId = request.StudentId;
             updateConsentForm.Location = request.Location;
             updateConsentForm.ConsultDate = request.ConsultDate;
 

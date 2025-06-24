@@ -13,6 +13,7 @@ namespace Smmsbe.Services.Interfaces
         Task<Medication> GetById(int id);
         Task<MedicationResponse> GetByIdAsync(int id);
         Task<List<MedicationResponse>> GetMedicalByPrescription(int prescriptionId);
+        Task<List<MedicationByStudentResponse>> GetMedicalByStudent(int studentId);
         Task<Medication> AddMedicationAsync(AddMedicationRequest request);
         Task<List<MedicationResponse>> SearchMedicationAsync(SearchMedicationRequest request);
         Task<Medication> UpdateMedicationAsync(UpdateMedicationRequest request);

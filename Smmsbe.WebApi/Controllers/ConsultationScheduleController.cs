@@ -23,6 +23,13 @@ namespace Smmsbe.WebApi.Controllers
             return Ok(getById);
         }
 
+        [HttpGet("getByStudent")]
+        public async Task<IActionResult> GetByStudent(int studentId)
+        {
+            var getById = await _consultationScheduleService.GetByStudent(studentId);
+            return Ok(getById);
+        }
+
         [HttpPost("create")]
         public async Task<IActionResult> AddConsultationSchedule(AddConsultationScheduleRequest request)
         {

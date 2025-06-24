@@ -12,6 +12,8 @@ public partial class ConsultationSchedule : IEntityBase
 
     public int? NurseId { get; set; }
 
+    public int? StudentId { get; set; }
+
     public string Location { get; set; }
 
     public DateTime? ConsultDate { get; set; }
@@ -19,4 +21,6 @@ public partial class ConsultationSchedule : IEntityBase
     public virtual ICollection<ConsultationForm> ConsultationForms { get; set; } = new List<ConsultationForm>();
 
     public virtual Nurse Nurse { get; set; }
+
+    public virtual Student Student { get; set; }
 }

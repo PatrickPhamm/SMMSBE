@@ -24,6 +24,8 @@ public partial class Student : IEntityBase
 
     public string PasswordHash { get; set; }
 
+    public virtual ICollection<ConsultationSchedule> ConsultationSchedules { get; set; } = new List<ConsultationSchedule>();
+
     public virtual ICollection<HealthProfile> HealthProfiles { get; set; } = new List<HealthProfile>();
 
     public virtual ICollection<MedicalEvent> MedicalEvents { get; set; } = new List<MedicalEvent>();

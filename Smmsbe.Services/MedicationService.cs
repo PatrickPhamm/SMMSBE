@@ -87,6 +87,31 @@ namespace Smmsbe.Services
             return entity;
         }
 
+        public async Task<List<MedicationByStudentResponse>> GetMedicalByStudent(int studentId)
+        {
+            return await _medicationRepository.GetAll()
+                .Include(x => x.Prescription)
+                .Where(x => x.StudentId == studentId)
+                .Select(x => new MedicationByStudentResponse
+                {
+                    MedicationId = x.MedicationId,
+                    MedicationName = x.MedicationName,
+                    Dosage = x.Dosage,
+                    Quantity = x.Quantity,
+                    RemainingQuantity = x.RemainingQuantity,
+                    Student = new StudentResponse
+                    {
+                        StudentId = x.Student.StudentId,
+                        FullName = x.Student.FullName,
+                        ClassName = x.Student.ClassName,
+                        DateOfBirth = x.Student.DateOfBirth,
+                        Gender = x.Student.Gender,
+                        StudentNumber = x.Student.StudentNumber,
+                        Parent = null
+                    }
+                }).ToListAsync();
+        }
+
         public async Task<Medication> AddMedicationAsync(AddMedicationRequest request)
         {
             var newMedication = new Medication()
@@ -163,6 +188,6 @@ namespace Smmsbe.Services
             }
         }
 
-       
+        
     }
 }
